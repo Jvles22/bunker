@@ -10,7 +10,10 @@
   <node pkg="bunker_traversability"
         type="adaptive_obstacle_filter_node"
         name="adaptive_obstacle_filter"
-        output="screen"/>
+        output="screen">
+    <rosparam file="$(find bunker_traversability)/config/adaptive_filter.yaml"
+              command="load"/>
+  </node>
 
   <!-- Carte d'élévation (consomme /velodyne_points directement) -->
   <node pkg="bunker_traversability"

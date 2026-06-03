@@ -11,25 +11,17 @@ PLUGINLIB_EXPORT_CLASS(bunker_traversability::TraversabilityLayer, costmap_2d::L
 
 namespace bunker_traversability {
 
-// ── Static cost table ──────────────────────────────────────────────────────
-// Each entry: (max_slope_deg, cost).  Evaluated in order — first match wins.
-// Slopes below the first threshold are treated as "transparent" (NO_INFORMATION).
-static const std::vector<std::pair<double, uint8_t>> SLOPE_COST_TABLE = {
-    { 10.0,  10},   //  5°–10°  : très légère pente, coût symbolique
-    { 20.0,  30},   // 10°–20°  : pente modérée
-    { 30.0,  50},   // 20°–30°  : pente forte, préférer un détour
-    { 35.0, 120},   // 30°–35°  : pente extrême, traversable mais coûteux
-    // > 35° → LETHAL (géré séparément)
-};
-
 // ── Constructor ────────────────────────────────────────────────────────────
+// Default slope_cost_table matches costmap_common_params.yaml — used as
+// fallback if the param server has no slope_cost_table entry.
 TraversabilityLayer::TraversabilityLayer()
     : map_received_(false),
-      lethal_slope_deg_(35.0),
+      lethal_slope_deg_(25.0),
       min_slope_deg_(5.0),
       update_radius_(8.0),
       min_hits_(3.0f),
-      preserve_lethal_(true) {}
+      preserve_lethal_(true),
+      slope_cost_table_({{10.0, 10}, {20.0, 30}, {30.0, 50}, {35.0, 120}}) {}
 
 // ── onInitialize ──────────────────────────────────────────────────────────
 void TraversabilityLayer::onInitialize() {
@@ -37,15 +29,39 @@ void TraversabilityLayer::onInitialize() {
 
     nh.param("elevation_topic",  elevation_topic_,
              std::string("/bunker/elevation_map"));
-    nh.param("lethal_slope_deg", lethal_slope_deg_, 35.0);
+    nh.param("lethal_slope_deg", lethal_slope_deg_, 25.0);
     nh.param("min_slope_deg",    min_slope_deg_,     5.0);
 
     double min_hits_d = 3.0;
-    nh.param("min_hits",        min_hits_d,         5.0);
+    nh.param("min_hits",        min_hits_d,         3.0);
     min_hits_ = static_cast<float>(min_hits_d);
 
     nh.param("preserve_lethal", preserve_lethal_,   true);
-    nh.param("update_radius",   update_radius_,    12.0);
+    nh.param("update_radius",   update_radius_,     8.0);
+
+    // Load slope_cost_table from param server (set in costmap_common_params.yaml).
+    // Format: list of [max_slope_deg, cost] pairs.
+    XmlRpc::XmlRpcValue table_param;
+    if (nh.getParam("slope_cost_table", table_param) &&
+        table_param.getType() == XmlRpc::XmlRpcValue::TypeArray &&
+        table_param.size() > 0)
+    {
+        slope_cost_table_.clear();
+        for (int i = 0; i < table_param.size(); ++i) {
+            XmlRpc::XmlRpcValue& entry = table_param[i];
+            if (entry.getType() == XmlRpc::XmlRpcValue::TypeArray && entry.size() == 2) {
+                const double  slope = static_cast<double>(entry[0]);
+                const uint8_t cost  = static_cast<uint8_t>(static_cast<int>(entry[1]));
+                slope_cost_table_.emplace_back(slope, cost);
+            }
+        }
+        ROS_INFO("[TraversabilityLayer] Loaded %zu slope_cost_table entries from params.",
+                 slope_cost_table_.size());
+    }
+    else
+    {
+        ROS_WARN("[TraversabilityLayer] slope_cost_table not found — using built-in defaults.");
+    }
 
     matchSize();   // resize internal costmap to match parent
 
@@ -147,19 +163,20 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
 uint8_t TraversabilityLayer::slopeToCost(double slope_deg) const {
     if (slope_deg >= lethal_slope_deg_)
         return costmap_2d::LETHAL_OBSTACLE;
-    for (const auto& entry : SLOPE_COST_TABLE) {
+    for (const auto& entry : slope_cost_table_) {
         if (slope_deg <= entry.first)
             return entry.second;
     }
-    // Fallback for slopes between last table entry and lethal threshold
-    return 120;
+    // Fallback: slope is above last table entry but below lethal — use last cost.
+    return slope_cost_table_.empty() ? costmap_2d::LETHAL_OBSTACLE
+                                     : slope_cost_table_.back().second;
 }
 
 // ── updateBounds ──────────────────────────────────────────────────────────
 //
 // Previously, this function expanded the update region to the full elevation
-// map (70×70 m), forcing updateCosts() to iterate ~217K cells at every
-// costmap cycle. Now it limits the update region to update_radius_ around
+// map, forcing updateCosts() to iterate the entire map at every costmap cycle.
+// Now it limits the update region to update_radius_ around
 // the robot, typically reducing the evaluated area by 4–10×.
 //
 void TraversabilityLayer::updateBounds(double rx, double ry,

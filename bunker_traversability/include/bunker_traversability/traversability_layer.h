@@ -6,6 +6,8 @@
 #include <grid_map_msgs/GridMap.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <mutex>
+#include <vector>
+#include <utility>
 
 namespace bunker_traversability {
 
@@ -24,13 +26,13 @@ namespace bunker_traversability {
  *   - Overwrites only cells where slope >= min_slope_deg (default 5°),
  *     correcting false-positive obstacle markings on traversable ramps.
  *
- * Cost table (configurable via ROS params):
- *   slope <  5°  →  NO_INFORMATION  (transparent)
- *   slope  5–10° →  10
- *   slope 10–20° →  30
- *   slope 20–30° →  80
- *   slope 30–35° →  120
- *   slope > 35°  →  LETHAL_OBSTACLE (254)
+ * Cost table (slope_cost_table in costmap_common_params.yaml):
+ *   slope <  min_slope_deg  →  NO_INFORMATION  (transparent)
+ *   slope  5°–10° →  10
+ *   slope 10°–20° →  30
+ *   slope 20°–30° →  50
+ *   slope 30°–35° →  120
+ *   slope >= lethal_slope_deg  →  LETHAL_OBSTACLE (254)
  */
 class TraversabilityLayer : public costmap_2d::CostmapLayer {
 public:
@@ -57,13 +59,15 @@ private:
     bool map_received_;
     mutable std::mutex map_mutex_;
 
-    // Parameters (loaded in onInitialize)
+    // Parameters (loaded in onInitialize from costmap_common_params.yaml)
     std::string elevation_topic_;
     double lethal_slope_deg_;
     double min_slope_deg_;
     double update_radius_;   // max distance from robot for costmap updates (m)
     float  min_hits_;        // minimum hit count before a cell's elevation is trusted
     bool   preserve_lethal_; // if true, never downgrade a LETHAL cell from ObstacleLayer
+    // Each entry: (max_slope_deg, cost). Loaded from slope_cost_table param.
+    std::vector<std::pair<double, uint8_t>> slope_cost_table_;
 };
 
 }  // namespace bunker_traversability

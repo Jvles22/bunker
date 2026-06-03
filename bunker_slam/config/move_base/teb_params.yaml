@@ -1,6 +1,7 @@
 TebLocalPlannerROS:
   max_vel_x: 0.7
-  max_vel_x_backwards: 0.2        # était 0.1 — autoriser plus de recul
+  max_vel_x_backwards: 0.2        # doit être > penalty_epsilon
+  penalty_epsilon: 0.04            # < 0.05 (valeur mini utilisée par param_tuner.py)
   max_vel_theta: 1.0
   acc_lim_x: 0.5
   acc_lim_theta: 0.5

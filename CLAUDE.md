@@ -277,16 +277,15 @@ DWA Planner → commandes de vitesse
 
 **`TraversabilityLayer`** (plugin costmap_2d, C++)
 - Hérite de `costmap_2d::CostmapLayer` (fournit `updateWithOverwrite`)
-- Table de coûts pente → coût costmap (`min_slope_deg: 8.0°` après Piste 2) :
+- Table de coûts pente → coût costmap (`min_slope_deg: 5.0°`, `lethal_slope_deg: 25.0°`) :
 
 | Pente | Coût | Comportement planificateur |
 |---|---|---|
-| < 8° | NO_INFORMATION (transparent) | Conserve les marquages d'obstacles plats (arbres) |
-| 8°–10° | 10 | Légère pénalité |
-| 10°–20° | 30 | Pénalité modérée |
-| 20°–30° | 80 | Forte préférence pour un détour |
-| 30°–35° | 120 | Passage possible mais très coûteux |
-| > 35° | 254 (létal) | Interdit |
+| < 5° | NO_INFORMATION (transparent) | Conserve les marquages d'obstacles plats (arbres) |
+| 5°–10° | 10 | Légère pénalité |
+| 10°–20° | 50 | Pénalité modérée, détour préférable |
+| 20°–25° | 90 | Forte pénalité, juste sous le seuil létal |
+| ≥ 25° | 254 (létal) | Interdit |
 
 - Ordre dans la costmap : `obstacle_layer` → **`traversability_layer`** → `inflation_layer`
 - Les cellules de rampe (pente ≥ 8°) sont **corrigées** : le faux positif

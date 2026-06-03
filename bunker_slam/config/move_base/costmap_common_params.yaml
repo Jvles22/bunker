@@ -23,6 +23,13 @@ traversability_layer:
   min_hits: 3.0
   preserve_lethal: true
   update_radius: 8.0
+  # Chaque entrée : [seuil_max_deg, coût].  Évalué dans l'ordre — premier match gagne.
+  # Les pentes < min_slope_deg (5°) restent transparentes (NO_INFORMATION).
+  slope_cost_table:
+    - [10.0,  10]   #  5°–10° : légère pente, coût symbolique
+    - [20.0,  50]   # 10°–20° : pente modérée, détour préférable
+    - [25.0,  90]   # 20°–25° : pente forte, juste sous le seuil létal
+    # ≥ lethal_slope_deg (25°) → LETHAL_OBSTACLE automatique
 
 inflation_layer:
   enabled: true

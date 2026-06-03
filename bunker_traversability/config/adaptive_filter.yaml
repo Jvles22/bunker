@@ -1,0 +1,10 @@
+# Paramètres du nœud adaptive_obstacle_filter_node (C++)
+# Filtre les points LiDAR en conservant uniquement ceux dans la fenêtre
+# [robot_z + min_rel_height, robot_z + max_rel_height] pour éviter que
+# la surface des rampes soit détectée comme obstacle.
+
+min_rel_height: 0.03   # m au-dessus du sol du robot (élimine les rebonds sol)
+max_rel_height: 1.55   # m au-dessus du sol du robot (élimine la canopée)
+
+map_frame:   "map"
+robot_frame: "base_footprint"
