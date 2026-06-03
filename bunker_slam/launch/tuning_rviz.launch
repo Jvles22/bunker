@@ -1,0 +1,10 @@
+<launch>
+  <!-- ============================================================
+       tuning_rviz.launch
+       RViz pour visualiser le tuning (optionnel, peut rester ouvert).
+       Usage :
+         roslaunch bunker_slam tuning_rviz.launch
+       ============================================================ -->
+
+  <include file="$(find bunker_slam)/launch/rviz.launch"/>
+</launch>

@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!--
+  Macro xacro — Intel RealSense D435 pour Gazebo classic (Gazebo 11 / ROS Noetic)
+  ================================================================================
+  Plugin utilisé : libgazebo_ros_openni_kinect.so  (part of gazebo_plugins)
+  → Simule simultanément la caméra RGB et le capteur de profondeur.
+
+  Topics publiés :
+    /camera/color/image_raw          (sensor_msgs/Image)
+    /camera/color/camera_info        (sensor_msgs/CameraInfo)
+    /camera/depth/image_rect_raw     (sensor_msgs/Image, 32FC1 en mètres)
+    /camera/depth/camera_info        (sensor_msgs/CameraInfo)
+    /camera/depth/color/points       (sensor_msgs/PointCloud2, XYZRGB)
+
+  Frames TF créés :
+    camera_link                      → point de montage (solidaire du robot)
+    camera_color_optical_frame       → convention optique (z-avant, x-droite, y-bas)
+    camera_depth_optical_frame       → idem, offset minimal selon specs D435
+
+  Paramètres D435 simulés :
+    FOV depth       : 87° H × 58° V
+    FOV RGB         : 69° H × 42° V  (approximé par le capteur Gazebo depth)
+    Plage depth     : 0.105 m – 10.0 m
+    Résolution sim  : 640×480 @ 15 Hz  (réduit pour alléger le CPU en simulation)
+    Bruit gaussien  : σ = 0.005 m
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="realsense_d435" params="prefix:=camera parent *origin">
+
+    <!-- ================================================================ -->
+    <!--  DIMENSIONS PHYSIQUES D435                                        -->
+    <!--  90 mm (L) × 25 mm (H) × 25 mm (P)                              -->
+    <!-- ================================================================ -->
+    <xacro:property name="d435_length" value="0.090"/>
+    <xacro:property name="d435_height" value="0.025"/>
+    <xacro:property name="d435_depth"  value="0.025"/>
+    <xacro:property name="d435_mass"   value="0.072"/>
+
+    <!-- ================================================================ -->
+    <!--  LINK : camera_link  (point de montage)                          -->
+    <!-- ================================================================ -->
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <!-- Corps simplifié — boîte aux dimensions réelles du D435 -->
+          <box size="${d435_depth} ${d435_length} ${d435_height}"/>
+        </geometry>
+        <material name="d435_grey">
+          <color rgba="0.15 0.15 0.15 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${d435_depth} ${d435_length} ${d435_height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${d435_mass}"/>
+        <inertia
+          ixx="${d435_mass*(d435_length*d435_length + d435_height*d435_height)/12}"
+          iyy="${d435_mass*(d435_depth*d435_depth  + d435_height*d435_height)/12}"
+          izz="${d435_mass*(d435_depth*d435_depth  + d435_length*d435_length)/12}"
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!-- Joint : parent → camera_link -->
+    <joint name="${prefix}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child  link="${prefix}_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!-- ================================================================ -->
+    <!--  FRAME OPTIQUE — couleur                                         -->
+    <!--  Convention ROS optical : z-avant, x-droite, y-bas              -->
+    <!--  Rotation depuis camera_link (x-avant, y-gauche, z-haut) :      -->
+    <!--    rpy = -π/2  0  -π/2                                           -->
+    <!-- ================================================================ -->
+    <link name="${prefix}_color_optical_frame"/>
+    <joint name="${prefix}_color_optical_joint" type="fixed">
+      <parent link="${prefix}_link"/>
+      <child  link="${prefix}_color_optical_frame"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <!-- ================================================================ -->
+    <!--  FRAME OPTIQUE — profondeur                                      -->
+    <!--  Légèrement offset vers la droite par rapport au RGB sur le D435 -->
+    <!--  (0.015 m ≈ distance entre les capteurs IR et RGB)               -->
+    <!-- ================================================================ -->
+    <link name="${prefix}_depth_optical_frame"/>
+    <joint name="${prefix}_depth_optical_joint" type="fixed">
+      <parent link="${prefix}_link"/>
+      <child  link="${prefix}_depth_optical_frame"/>
+      <origin xyz="0 -0.015 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <!-- ================================================================ -->
+    <!--  PLUGIN GAZEBO — libgazebo_ros_openni_kinect.so                  -->
+    <!--  Simule RGB + Depth + PointCloud en un seul plugin               -->
+    <!-- ================================================================ -->
+    <gazebo reference="${prefix}_link">
+      <sensor type="depth" name="${prefix}_depth_sensor">
+        <update_rate>15.0</update_rate>
+        <camera name="${prefix}">
+
+          <!-- FOV profondeur D435 : 87° horizontal -->
+          <horizontal_fov>${87.0 * pi / 180.0}</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.105</near>   <!-- distance min D435 : 10.5 cm -->
+            <far>10.0</far>      <!-- distance max D435 : 10 m    -->
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.005</stddev>  <!-- bruit typique D435 en simulation -->
+          </noise>
+
+        </camera>
+
+        <plugin name="${prefix}_controller" filename="libgazebo_ros_openni_kinect.so">
+          <!-- Baseline entre les deux capteurs IR du D435 -->
+          <baseline>0.05</baseline>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>15.0</updateRate>
+          <cameraName>${prefix}</cameraName>
+
+          <!-- Topics RGB -->
+          <imageTopicName>/${prefix}/color/image_raw</imageTopicName>
+          <cameraInfoTopicName>/${prefix}/color/camera_info</cameraInfoTopicName>
+
+          <!-- Topics profondeur -->
+          <depthImageTopicName>/${prefix}/depth/image_rect_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>/${prefix}/depth/camera_info</depthImageCameraInfoTopicName>
+
+          <!-- PointCloud XYZRGB -->
+          <pointCloudTopicName>/${prefix}/depth/color/points</pointCloudTopicName>
+
+          <!-- Frame optique pour le header des messages -->
+          <frameName>${prefix}_color_optical_frame</frameName>
+
+          <!-- Plage du nuage de points -->
+          <pointCloudCutoff>0.105</pointCloudCutoff>
+          <pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+
+          <!-- Distorsion nulle (caméra simulée idéale) -->
+          <distortionK1>0</distortionK1>
+          <distortionK2>0</distortionK2>
+          <distortionK3>0</distortionK3>
+          <distortionT1>0</distortionT1>
+          <distortionT2>0</distortionT2>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
+          <focalLength>0</focalLength>
+          <hackBaseline>0</hackBaseline>
+        </plugin>
+
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

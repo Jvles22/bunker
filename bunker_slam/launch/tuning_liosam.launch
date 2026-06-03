@@ -1,0 +1,10 @@
+<launch>
+  <!-- ============================================================
+       tuning_liosam.launch
+       LIO-SAM seul — à lancer / redémarrer entre chaque batch de tuning.
+       Usage :
+         roslaunch bunker_slam tuning_liosam.launch
+       ============================================================ -->
+
+  <include file="$(find bunker_slam)/launch/lio_sam.launch"/>
+</launch>

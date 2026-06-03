@@ -1,0 +1,18 @@
+# Paramètres du nœud bunker_elevation_map_node
+# Publie /bunker/elevation_map (grid_map_msgs/GridMap, layer "elevation")
+
+map_frame:    "map"
+resolution:   0.15      # m/cell — aligné avec la global_costmap
+
+# Carte fixe couvrant le carré 25×25 m + les features extérieures
+map_length_x: 50.0      # m
+map_length_y: 50.0      # m
+center_x:     16      # centre du carré de navigation (m)
+center_y:     16
+
+# Filtrage vertical : ignore le sol et les points trop hauts (feuillage dense)
+min_height: 0.00        # m sous le plan de référence (tolérance terrain)
+max_height:  0.5       # m — captures troncs (0–1m) + sommet rampe 30° (~1.15m)
+                        #     exclut la canopée (démarre à ~1.5m dans cette map)
+
+publish_rate: 1.0       # Hz — suffit pour le costmap (update_freq = 1–2 Hz)

@@ -1,0 +1,20 @@
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_footprint
+  update_frequency: 1.0
+  publish_frequency: 0.5
+  static_map: false
+  rolling_window: false
+  # Zone de navigation 25×25 m (0,0)→(25,25), centre (12.5,12.5)
+  # Marge 7.5 m de chaque côté → emprise (−7.5,−7.5)→(32.5,32.5)
+  # Cellules : (40/0.15)² ≈ 71 111  (vs 1 000 000 avec 150×150 m)
+  width:    40.0
+  height:   40.0
+  resolution: 0.15
+  origin_x: -7.5   # 12.5 − 20.0
+  origin_y: -7.5
+  transform_tolerance: 1.0
+  plugins:
+    - {name: obstacle_layer,       type: "costmap_2d::ObstacleLayer"}
+    - {name: traversability_layer, type: "bunker_traversability::TraversabilityLayer"}
+    - {name: inflation_layer,      type: "costmap_2d::InflationLayer"}

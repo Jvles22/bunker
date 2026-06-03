@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+*.orig
+*Zone.Identifier
+*.bak
+*.save
+frames.gv
+frames.pdf

@@ -1,0 +1,29 @@
+<launch>
+  <arg name="model" default="$(find bunker_description)/urdf/bunker.urdf.xacro"/>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.1"/>
+
+  <!-- Charger le robot -->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+
+  <!-- Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find bunker_gazebo)/worlds/bunker_world.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+
+  <!-- Spawner -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model bunker -param robot_description -x $(arg x) -y $(arg y) -z $(arg z)"/>
+
+  <!-- State publishers -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+        type="robot_state_publisher"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher"/>
+
+</launch>

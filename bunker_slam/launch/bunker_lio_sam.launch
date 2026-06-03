@@ -1,0 +1,24 @@
+<launch>
+  <!-- Lance toute la simulation avec LIO-SAM -->
+  <!-- Usage : roslaunch bunker_slam bunker_lio_sam.launch -->
+
+  <arg name="algorithm" default="lio_sam"/>
+  <arg name="world"     default="$(find bunker_gazebo)/worlds/forest_50m.world"/>
+  <arg name="rviz"      default="true"/>
+
+  <!-- 1. Simulation Gazebo + robot -->
+  <include file="$(find bunker_slam)/launch/navigation.launch">
+    <arg name="world" value="$(arg world)"/>
+  </include>
+
+  <!-- 2. SLAM -->
+  <include file="$(find bunker_slam)/launch/slam.launch">
+    <arg name="algorithm" value="$(arg algorithm)"/>
+  </include>
+
+  <!-- 3. RViz -->
+  <group if="$(arg rviz)">
+    <include file="$(find bunker_slam)/launch/rviz.launch"/>
+  </group>
+
+</launch>

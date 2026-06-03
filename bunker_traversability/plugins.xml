@@ -1,0 +1,19 @@
+<class_libraries>
+  <library path="lib/libbunker_traversability">
+    <class type="bunker_traversability::TraversabilityLayer"
+           base_class_type="costmap_2d::Layer">
+      <description>
+        Costmap layer that encodes terrain traversability derived from an elevation map.
+        Slope angle per cell is mapped to a variable cost:
+          0–5°   : transparent (NO_INFORMATION — preserves flat-ground obstacle markings)
+          5–10°  : cost 10
+          10–20° : cost 30
+          20–30° : cost 80
+          30–35° : cost 120  (passable but expensive)
+          &gt;35° : LETHAL_OBSTACLE (254)
+        This layer runs AFTER ObstacleLayer so it can correct false-positive obstacle
+        markings caused by sloped terrain surfaces seen by the LiDAR.
+      </description>
+    </class>
+  </library>
+</class_libraries>

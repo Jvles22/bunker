@@ -1,0 +1,4334 @@
+<sdf version='1.7'>
+  <world name='slope_map_30d'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+
+    <model name='rampe_30d_est'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>25.0 12.5 0 0 -0 1.55</pose>
+    </model>
+    <model name='rampe_30d_nord'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>12.5 25.0 0 0 -0 0.0</pose>
+    </model>
+    <model name='rampe_30d_ouest'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>0.0 12.5 0 0 -0 1.55</pose>
+    </model>
+    <model name='rampe_30d_sud'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://rampe_30d/rampe_30d.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>12.5 0.0 0 0 -0 0.0</pose>
+    </model>
+    <model name='Oak tree'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>12.6205 9.34538 0 0 -0 0</pose>
+    </model>
+    <model name='Lamp Post'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://lamp_post/meshes/lamp_post.dae</uri>
+              <scale>3 3 3</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://lamp_post/meshes/lamp_post.dae</uri>
+              <scale>3 3 3</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>8.98014 4.35806 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>6.74015 8.49156 0 0 -0 0</pose>
+    </model>
+    <model name='tree'>
+      <static>1</static>
+      <link name='link'>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://tree/meshes/tree.stl</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://tree/meshes/tree.stl</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>7.02718 4.10247 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>5.40727 3.79596 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_0'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>5.12424 8.21272 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_1'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>9.4565 3.50069 0 0 -0 0</pose>
+    </model>
+    <model name='fence'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0.915 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.1 5 1.83</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.1 5 1.83</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://fence/materials/scripts</uri>
+              <uri>model://fence/materials/textures</uri>
+              <name>Fence/WoodBoarding</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-3.70667 6.00683 0 0 -0 0</pose>
+    </model>
+    <model name='euro_pallet'>
+      <link name='link'>
+        <pose>0 0 0 0 -0 0</pose>
+        <inertial>
+          <mass>20</mass>
+          <inertia>
+            <ixx>2.43</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.1</iyy>
+            <iyz>0</iyz>
+            <izz>3.47</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <collision name='collision'>
+          <pose>0 0 0.05 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>model://euro_pallet/meshes/pallet.dae</uri>
+              <scale>0.1 0.1 0.1</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <pose>0 0 0.05 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>model://euro_pallet/meshes/pallet.dae</uri>
+              <scale>0.1 0.1 0.1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>11.2925 7.20237 0 0 -0 0</pose>
+    </model>
+    <model name='fire_hydrant'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://fire_hydrant/meshes/fire_hydrant.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://fire_hydrant/meshes/fire_hydrant.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>5.67257 17.3773 0 0 -0 0</pose>
+    </model>
+    <model name='nist_fiducial_barrel'>
+      <static>1</static>
+      <link name='nist_fiducial_barrel_link'>
+        <pose>0 0 0 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://nist_fiducial_barrel/meshes/nist_fiducial_barrel.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://nist_fiducial_barrel/meshes/nist_fiducial_barrel.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>5.77569 13.7173 0 0 -0 0</pose>
+    </model>
+    <model name='Mailbox'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://mailbox/meshes/mailbox.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://mailbox/meshes/mailbox.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://mailbox/materials/scripts</uri>
+              <uri>model://mailbox/materials/textures</uri>
+              <name>Mailbox/Diffuse</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>7.73718 15.7552 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_2'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>9.92037 15.0667 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_0'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>12.4037 18.7686 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_0'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>16.9117 16.388 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_1'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>13.0994 13.5699 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_2'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>19.8027 31.0698 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_3'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>9.74223 29.5571 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_4'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>19.4214 12.9544 0 0 -0 0</pose>
+    </model>
+    <model name='Lamp Post_0'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://lamp_post/meshes/lamp_post.dae</uri>
+              <scale>3 3 3</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://lamp_post/meshes/lamp_post.dae</uri>
+              <scale>3 3 3</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>20.3653 20.2572 0 0 -0 0</pose>
+    </model>
+    <model name='pallet_box_mobile'>
+      <pose>31.6991 23.4246 0.01 0 -0 0</pose>
+      <self_collide>0</self_collide>
+      <link name='pallet_base'>
+        <pose>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0.4 0 -0 0</pose>
+          <mass>200</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='pallet_top_collision'>
+          <pose>0 0 0.125 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.22 0.8 0.04</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.4</mu>
+                <mu2>0.4</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='pallet_center_collision'>
+          <pose>0 0 0.055 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.22 0.1 0.1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='pallet_left_collision'>
+          <pose>0 -0.35 0.055 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.22 0.1 0.1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='pallet_right_collision'>
+          <pose>0 0.35 0.055 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.22 0.1 0.1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='boxes_collision'>
+          <pose>0 0 0.644 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.22 0.8 1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='pallet_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://pallet_box/meshes/boxes.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='boxes_visual'>
+          <pose>-0.053875 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://pallet_box/meshes/boxes.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+<static>0</static>
+    </model>
+    <model name='Oak tree_1'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>19.1451 7.12564 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_5'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>22.1573 17.6529 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_6'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>28.1574 31.4308 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_7'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-3.28067 16.9945 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_8'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>2.24078 29.8992 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_2'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-3.8436 27.7238 0 0 -0 0</pose>
+    </model>
+    <model name='telephone_pole'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision_pole'>
+          <pose>0 0 4.572 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.0779475</radius>
+              <length>9.144</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='collision_cross'>
+          <pose>0 -0.098806 8.04836 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>2.11606 0.041763 0.177806</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://telephone_pole/meshes/telephone_pole.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>14.0892 28.6209 0 0 -0 0</pose>
+    </model>
+    <model name='Mailbox_0'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://mailbox/meshes/mailbox.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://mailbox/meshes/mailbox.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://mailbox/materials/scripts</uri>
+              <uri>model://mailbox/materials/textures</uri>
+              <name>Mailbox/Diffuse</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>3.14709 5.58456 0 0 -0 0</pose>
+    </model>
+    <model name='Stop Sign'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://stop_sign/meshes/stop_sign.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://stop_sign/meshes/stop_sign.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://stop_sign/materials/scripts</uri>
+              <uri>model://stop_sign/materials/textures</uri>
+              <name>StopSign/Diffuse</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>14.279 4.15114 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_3'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>1.97705 -4.23524 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_3'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>10.4135 -7.71872 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_9'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>19.6988 -6.4156 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_4'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>20.8917 14.4071 0 0 -0 0</pose>
+    </model>
+    <model name='Construction Cone_5'>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>10 10 10</scale>
+              <uri>model://construction_cone/meshes/construction_cone.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>28.9076 5.71974 0 0 -0 0</pose>
+    </model>
+    <model name='fire_hydrant_0'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://fire_hydrant/meshes/fire_hydrant.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://fire_hydrant/meshes/fire_hydrant.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>28.6273 -0.122967 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_4'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>32.2152 17.7547 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_5'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>33.624 6.68828 0 0 -0 0</pose>
+    </model>
+    <model name='Pine Tree_10'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Pine Tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>31.4346 -3.23437 0 0 -0 0</pose>
+    </model>
+    <model name='fence_0'>
+      <static>1</static>
+      <link name='link'>
+        <pose>0 0 0.915 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.1 5 1.83</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.1 5 1.83</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://fence/materials/scripts</uri>
+              <uri>model://fence/materials/textures</uri>
+              <name>Fence/WoodBoarding</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>25.0734 -4.92723 0 0 -0 0</pose>
+    </model>
+
+    <!-- ============================================================ -->
+    <!-- Nouveaux objets pour LIO-SAM — ajoutés pour densifier les    -->
+    <!-- features aux coins et le long des couloirs.                  -->
+    <!-- Aucun objet n'est sur le chemin du robot (chemins x=0, y=25, -->
+    <!-- x=25, y=0) ni à moins de 3 m des arêtes du carré.           -->
+    <!-- ============================================================ -->
+
+    <!-- === Cluster spawn (0,0) — intérieur NE === -->
+    <model name='Pine Tree_11'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>3 3 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_6'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>6 6 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Cluster coin NW (0,25) — intérieur SE === -->
+    <model name='Pine Tree_12'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>4 21.5 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_7'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>5 21 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Bordure nord intérieure (y=22) — couverture LIO-SAM === -->
+    <model name='Pine Tree_13'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>10 22 0 0 -0 0</pose>
+    </model>
+
+    
+
+    <!-- === Cluster coin NE (25,25) — intérieur SW === -->
+    <model name='Pine Tree_14'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>17 22 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_9'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>17 19 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Bordure est intérieure (x=22) — couverture LIO-SAM === -->
+    
+
+    <model name='Pine Tree_15'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>22 11 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Cluster coin SE (25,0) — intérieur NW === -->
+    <model name='Pine Tree_16'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>22 4 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_11'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>20 3 0 0 -0 0</pose>
+    </model>
+
+    <model name='nist_fiducial_barrel_0'>
+      <static>1</static>
+      <link name='nist_fiducial_barrel_link'>
+        <pose>0 0 0 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://nist_fiducial_barrel/meshes/nist_fiducial_barrel.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://nist_fiducial_barrel/meshes/nist_fiducial_barrel.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>19 5 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Bordure sud intérieure (y=4) — couverture LIO-SAM === -->
+    <model name='Pine Tree_17'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Branch</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Branch</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Pine Tree/meshes/pine_tree.dae</uri>
+              <submesh><name>Bark</name></submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script>
+              <uri>model://Pine Tree/materials/scripts/</uri>
+              <uri>model://Pine Tree/materials/textures/</uri>
+              <name>PineTree/Bark</name>
+            </script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>17 4 0 0 -0 0</pose>
+    </model>
+
+    <!-- ============================================================ -->
+    <!-- Features extérieures au carré (-3,-3)/(27,27)               -->
+    <!-- pour améliorer la localisation LIO-SAM en périphérie.        -->
+    <!-- ============================================================ -->
+
+    <!-- === Côté Ouest (x = -7) === -->
+    <model name='Oak tree_12'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-7 0 0 0 -0 0</pose>
+    </model>
+
+    <model name='Pine Tree_18'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-7 8 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_13'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-7 15 0 0 -0 0</pose>
+    </model>
+
+    <model name='Pine Tree_19'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-7 23 0 0 -0 0</pose>
+    </model>
+
+
+
+    <!-- === Coin SW extérieur (-5, -5) === -->
+    <model name='Pine Tree_20'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-5 -5 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Côté Sud (y = -7) === -->
+    <model name='Oak tree_15'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>-2 -7 0 0 -0 0</pose>
+    </model>
+
+    <model name='Pine Tree_21'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>5 -7 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_16'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>15 -7 0 0 -0 0</pose>
+    </model>
+
+    <model name='Pine Tree_22'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>22 -7 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Coin SE extérieur (30, -6) === -->
+    <model name='Oak tree_17'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>30 -6 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Côté Est (x = 31-32) === -->
+    <model name='Pine Tree_23'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>32 1 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_18'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>31 11 0 0 -0 0</pose>
+    </model>
+
+    <!-- === Coin NE extérieur === -->
+    <model name='Pine Tree_24'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Pine Tree/meshes/pine_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 0.00490196 1</diffuse>
+            <script><uri>model://Pine Tree/materials/scripts/</uri><uri>model://Pine Tree/materials/textures/</uri><name>PineTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Pine Tree/materials/textures/branch_2_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>30 28 0 0 -0 0</pose>
+    </model>
+
+    <model name='Oak tree_19'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri></mesh></geometry>
+          <max_contacts>10</max_contacts>
+          <surface><contact><ode/></contact><bounce/><friction><torsional><ode/></torsional><ode/></friction></surface>
+        </collision>
+        <visual name='branch'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Branch</name></submesh></mesh></geometry>
+          <material>
+            <double_sided>1</double_sided><diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Branch</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry><mesh><uri>model://Oak tree/meshes/oak_tree.dae</uri><submesh><name>Bark</name></submesh></mesh></geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script><uri>model://Oak tree/materials/scripts/</uri><uri>model://Oak tree/materials/textures/</uri><name>OakTree/Bark</name></script>
+            <pbr><metal><albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map></metal></pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide><enable_wind>0</enable_wind><kinematic>0</kinematic>
+      </link>
+      <pose>32 30 0 0 -0 0</pose>
+    </model>
+
+    <state world_name='default'>
+      <sim_time>1415 92000000</sim_time>
+      <real_time>1467 531984914</real_time>
+      <wall_time>1775993145 804299277</wall_time>
+      <iterations>1415092</iterations>
+      <model name='Construction Cone'>
+        <pose>5.40727 3.79596 -0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>5.40727 3.79596 -0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 -0 -0.008512 -2.58585 1.13682 3.14159</acceleration>
+          <wrench>0 -0 -0.008512 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_0'>
+        <pose>5.12424 8.21272 -0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>5.12424 8.21272 -0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 -0 -0.008512 -2.58585 1.13682 3.14159</acceleration>
+          <wrench>0 -0 -0.008512 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_1'>
+        <pose>9.4565 3.50069 -1e-05 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>9.4565 3.50069 -1e-05 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_2'>
+        <pose>9.92037 15.0667 -0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>9.92037 15.0667 -0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 -0 -0.008512 -2.58585 1.13682 3.14159</acceleration>
+          <wrench>0 -0 -0.008512 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_3'>
+        <pose>1.97705 -4.23524 -1e-05 -1e-06 0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>1.97705 -4.23524 -1e-05 -1e-06 0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_4'>
+        <pose>20.8917 14.4071 -1e-05 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>20.8917 14.4071 -1e-05 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Construction Cone_5'>
+        <pose>28.9076 5.71974 -0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>28.9076 5.71974 -0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0 -1e-06 8.96898 -2.33467 -0.244067 -1e-06</acceleration>
+          <wrench>-0 -1e-06 8.96898 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Lamp Post'>
+        <pose>8.98014 4.35806 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>8.98014 4.35806 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Lamp Post_0'>
+        <pose>20.3653 20.2572 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>20.3653 20.2572 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Mailbox'>
+        <pose>7.73718 15.7552 -9e-06 -6e-06 -2e-06 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>7.73718 15.7552 -9e-06 -6e-06 -2e-06 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Mailbox_0'>
+        <pose>3.14709 5.58456 -9e-06 2e-06 -8e-06 -0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>3.14709 5.58456 -9e-06 2e-06 -8e-06 -0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree'>
+        <pose>12.6205 9.34538 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>12.6205 9.34538 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_0'>
+        <pose>12.4037 18.7686 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>12.4037 18.7686 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_1'>
+        <pose>19.1451 7.12564 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>19.1451 7.12564 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_2'>
+        <pose>-3.8436 27.7238 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-3.8436 27.7238 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_3'>
+        <pose>10.4135 -7.71872 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>10.4135 -7.71872 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_4'>
+        <pose>32.2152 17.7547 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>32.2152 17.7547 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_5'>
+        <pose>33.624 6.68828 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>33.624 6.68828 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree'>
+        <pose>6.74015 8.49156 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>6.74015 8.49156 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_0'>
+        <pose>16.9117 16.388 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>16.9117 16.388 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_1'>
+        <pose>13.0994 13.5699 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>13.0994 13.5699 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_10'>
+        <pose>31.4346 -3.23437 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>31.4346 -3.23437 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_2'>
+        <pose>19.8027 31.0698 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>19.8027 31.0698 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_3'>
+        <pose>9.74223 29.5571 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>9.74223 29.5571 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_4'>
+        <pose>19.4214 12.9544 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>19.4214 12.9544 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_5'>
+        <pose>22.1573 17.6529 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>22.1573 17.6529 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_6'>
+        <pose>28.1574 31.4308 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>28.1574 31.4308 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_7'>
+        <pose>-3.28067 16.9945 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-3.28067 16.9945 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_8'>
+        <pose>2.24078 29.8992 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>2.24078 29.8992 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Pine Tree_9'>
+        <pose>19.6988 -6.4156 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>19.6988 -6.4156 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Stop Sign'>
+        <pose>14.279 4.15114 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>14.279 4.15114 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='euro_pallet'>
+        <pose>11.2872 7.20652 0.071997 0 -1e-05 -0.013016</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>11.2872 7.20652 0.071997 0 -1e-05 -0.013016</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.09842 0.001255 -9.52338 -0.027153 -1.36742 -1.8e-05</acceleration>
+          <wrench>-1.96839 0.025103 -190.468 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='fence'>
+        <pose>-3.70667 6.00683 0 0 -0 0.55</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-3.70667 6.00683 0.915 0 -0 0.55</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='fence_0'>
+        <pose>25.0734 -4.92723 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>25.0734 -4.92723 0.915 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='fire_hydrant'>
+        <pose>5.67257 17.3773 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>5.67257 17.3773 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='fire_hydrant_0'>
+        <pose>28.6273 -0.122967 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>28.6273 -0.122967 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='nist_fiducial_barrel'>
+        <pose>5.77569 13.7173 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='nist_fiducial_barrel_link'>
+          <pose>5.77569 13.7173 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='pallet_box_mobile'>
+        <pose>31.6992 23.4242 -0.005007 1.2e-05 9e-06 0.000269</pose>
+        <scale>1 1 1</scale>
+        <link name='pallet_base'>
+          <pose>31.6992 23.4242 -0.005007 1.2e-05 9e-06 0.000269</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>1.03793 -0.329457 1.06312 -2.30907 0.513923 -3.14147</acceleration>
+          <wrench>207.587 -65.8914 212.624 0 -0 0</wrench>
+        </link>
+      </model>
+
+
+      <model name='rampe_30d_est'>
+        <pose>25.0 12.5 0 0 -0 1.55</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>25.0 12.5 0 0 -0 1.55</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='rampe_30d_nord'>
+        <pose>12.5 25.0 0 0 -0 0.0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>12.5 25.0 0 0 -0 0.0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='rampe_30d_ouest'>
+        <pose>0.0 12.5 0 0 -0 1.55</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0.0 12.5 0 0 -0 1.55</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='rampe_30d_sud'>
+        <pose>12.5 0.0 0 0 -0 0.0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>12.5 0.0 0 0 -0 0.0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='telephone_pole'>
+        <pose>14.0892 28.6209 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>14.0892 28.6209 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='tree'>
+        <pose>7.02718 4.10247 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>7.02718 4.10247 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>36.597 58.8421 23.0937 -0 0.459643 -2.01581</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

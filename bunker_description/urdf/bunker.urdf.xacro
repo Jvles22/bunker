@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<robot name="bunker" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:include filename="$(find bunker_description)/urdf/realsense_d435.urdf.xacro"/>
+
+  <xacro:arg name="gpu" default="false"/>
+  <xacro:property name="gpu" value="$(arg gpu)"/>
+
+  <xacro:property name="base_length" value="0.690"/>
+  <xacro:property name="base_width"  value="0.490"/>
+  <xacro:property name="base_height" value="0.235"/>
+  <xacro:property name="base_mass"   value="60.0"/>
+
+  <xacro:property name="wheel_radius" value="0.085"/>
+  <xacro:property name="wheel_width"  value="0.080"/>
+  <xacro:property name="wheel_mass"   value="2.0"/>
+  <xacro:property name="wheel_x"      value="0.200"/>
+  <xacro:property name="wheel_y"      value="0.295"/>
+
+  <!-- ======= BASE FOOTPRINT ======= -->
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child  link="base_link"/>
+    <origin xyz="0 0 ${base_height/2 + wheel_radius}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ======= CHÂSSIS PRINCIPAL ======= -->
+  <link name="base_link">
+    <!-- Visuel : mesh DAE coloré (uniquement pour le rendu) -->
+    <visual>
+      <!-- rpy="${pi/2} 0 0" : convertit Y_UP (export DAE) → Z_UP (ROS)
+           xyz Z=+0.008 : aligne le bas du mesh (Y_dae_min=-0.2106) avec le sol (Z=-0.2025 en base_link) -->
+      <origin xyz="-0.1 -0.05 0.008" rpy="${pi/2} 0 0"/>
+      <geometry>
+        <mesh filename="package://bunker_description/meshes/Bunker_colored_scaled.obj"/>
+      </geometry>
+    </visual>
+
+    <!-- Collision : boîte simple (inchangée) -->
+    <collision>
+      <geometry><box size="${base_length} ${base_width} ${base_height}"/></geometry>
+    </collision>
+
+    <!-- Inertie (inchangée) -->
+    <inertial>
+      <mass value="${base_mass}"/>
+      <inertia
+        ixx="${base_mass*(base_width*base_width+base_height*base_height)/12}"
+        iyy="${base_mass*(base_length*base_length+base_height*base_height)/12}"
+        izz="${base_mass*(base_length*base_length+base_width*base_width)/12}"
+        ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- ======= ROUES (collision + inertie nécessaires pour la physique) ======= -->
+  <xacro:macro name="wheel" params="name x_pos y_pos">
+    <link name="${name}_link">
+      <collision>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+        <origin rpy="${pi/2} 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="${wheel_mass}"/>
+        <inertia
+          ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}"
+          iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}"
+          izz="${wheel_mass*wheel_radius*wheel_radius/2}"
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+    <joint name="${name}_joint" type="continuous">
+      <parent link="base_link"/>
+      <child  link="${name}_link"/>
+      <origin xyz="${x_pos} ${y_pos} ${-base_height/2}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel name="front_left_wheel"  x_pos=" ${wheel_x}" y_pos=" ${wheel_y}"/>
+  <xacro:wheel name="front_right_wheel" x_pos=" ${wheel_x}" y_pos="-${wheel_y}"/>
+  <xacro:wheel name="rear_left_wheel"   x_pos="-${wheel_x}" y_pos=" ${wheel_y}"/>
+  <xacro:wheel name="rear_right_wheel"  x_pos="-${wheel_x}" y_pos="-${wheel_y}"/>
+
+  <!-- ======= VELODYNE ======= -->
+  <xacro:VLP-16
+    parent="base_link"
+    name="velodyne"
+    topic="/velodyne_points"
+    hz="10"
+    samples="1800"
+    gpu="${gpu}">
+    <origin xyz="0.1 0 ${base_height/2 + 0.05}" rpy="0 0 0"/>
+  </xacro:VLP-16>
+
+  <!-- ======= IMU ======= -->
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="imu_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>200</update_rate>
+      <visualize>false</visualize>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>/imu/data</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>200</updateRateHZ>
+        <gaussianNoise>0.01</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ======= CAMÉRA REALSENSE D435 ======= -->
+  <!--
+    Position calculée depuis base_link :
+      x = base_length/2 - 0.20 = 0.345 - 0.20 = 0.145 m  (20 cm du bout avant)
+      y = 0.0                                               (centrée en largeur)
+      z = 0.45 - (wheel_radius + base_height/2)
+        = 0.45 - (0.085 + 0.1175) = 0.2475 m              (45 cm du sol)
+  -->
+  <xacro:realsense_d435 prefix="camera" parent="base_link">
+    <origin xyz="0.145 0.0 0.2475" rpy="0 0 0"/>
+  </xacro:realsense_d435>
+
+  <!-- ======= PLUGIN SKID-STEER ======= -->
+  <gazebo>
+    <plugin name="skid_steer_drive" filename="libgazebo_ros_skid_steer_drive.so">
+      <updateRate>50</updateRate>
+      <robotNamespace>/</robotNamespace>
+      <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+      <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+      <leftRearJoint>rear_left_wheel_joint</leftRearJoint>
+      <rightRearJoint>rear_right_wheel_joint</rightRearJoint>
+      <wheelSeparation>${wheel_y * 2}</wheelSeparation>
+      <wheelDiameter>${wheel_radius * 2}</wheelDiameter>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <torque>20</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <broadcastTF>false</broadcastTF>
+      <covariance_x>0.0001</covariance_x>
+      <covariance_y>0.0001</covariance_y>
+      <covariance_yaw>0.01</covariance_yaw>
+    </plugin>
+  </gazebo>
+
+</robot>

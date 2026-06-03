@@ -1,0 +1,15 @@
+<launch>
+  <arg name="algorithm" default="lio_sam"/>
+  <!-- Pour FAST-LIO2 plus tard : roslaunch bunker_slam slam.launch algorithm:=fast_lio2 -->
+
+  <group if="$(eval arg('algorithm') == 'lio_sam')">
+    <include file="$(find bunker_slam)/launch/lio_sam.launch"/>
+  </group>
+
+  <!-- FAST-LIO2 — à décommenter quand disponible -->
+  <!--
+  <group if="$(eval arg('algorithm') == 'fast_lio2')">
+    <include file="$(find bunker_slam)/launch/fast_lio2.launch"/>
+  </group>
+  -->
+</launch>

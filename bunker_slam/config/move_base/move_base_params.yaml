@@ -1,0 +1,20 @@
+GlobalPlanner:
+  use_dijkstra: true       # Dijkstra : expansion monotone, pas de gradient descent instable
+  use_quadratic: false     # quadratic=true + cost_factor élevé → gradient descent instable ("Failed to get a plan from potential")
+  use_grid_path: false     # interpolation du chemin (moins en escalier)
+  old_navfn_behavior: false
+  cost_factor: 2.0         # amplification des coûts costmap
+  neutral_cost: 50         # coût de base par cellule parcourue (identique au défaut)
+  allow_unknown: true      # planifier à travers les zones NO_INFORMATION (rampes non encore scannées)
+
+controller_frequency: 5.0
+planner_patience: 5.0
+controller_patience: 15.0
+conservative_reset_dist: 3.0
+recovery_behavior_enabled: true
+clearing_rotation_allowed: true
+shutdown_costmaps: false
+oscillation_timeout: 10.0
+oscillation_distance: 0.2
+planner_frequency: 1.0
+max_planning_retries: 3

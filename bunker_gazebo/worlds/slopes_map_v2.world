@@ -1,0 +1,118 @@
+<sdf version='1.7'>
+  <world name='slopes_map_v2'>
+
+    <!-- ==================== Eclairage ==================== -->
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+
+    <!-- ==================== Physique ==================== -->
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+    <!-- ==================== Terrain principal ==================== -->
+    <!--
+      COLLISION : slopes_map_v2_collision.dae
+        Mesh ultra-simplifié (terrain + troncs seulement, Decimate 2-5%).
+        Export depuis Blender sans arbres haute-poly. Taille cible : < 50 Mo.
+        → À créer dans Blender et placer dans meshes/
+
+      VISUEL : slopes_forest_center_v2.dae
+        Mesh complet haute qualité (2 Go). Chargé UNIQUEMENT par le renderer,
+        pas par ODE → pas de risque OOM pour la physique.
+    -->
+    <model name='slopes_map_v2'>
+      <static>1</static>
+      <link name='link'>
+
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://slopes_map_v2/meshes/slopes_map_v2_collision.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e6</kp>
+                <kd>1.0</kd>
+                <max_vel>0.1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>20</max_contacts>
+        </collision>
+
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://slopes_map_v2/meshes/slopes_map_v2_collision.dae</uri>
+              <scale>1 1 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+
+    <!-- ==================== GUI ==================== -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-15 -15 25 0 0.8 0.785</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>

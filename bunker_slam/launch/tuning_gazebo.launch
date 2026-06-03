@@ -1,0 +1,51 @@
+<launch>
+  <!-- ============================================================
+       tuning_gazebo.launch
+       Gazebo pour le tuning TEB — GUI désactivé pour économiser la RAM.
+       Usage :
+         roslaunch bunker_slam tuning_gazebo.launch
+         roslaunch bunker_slam tuning_gazebo.launch world:=slopes_map
+       ============================================================ -->
+
+  <arg name="model" default="$(find bunker_description)/urdf/bunker.urdf.xacro"/>
+  <arg name="world" default="map_entrainement_lite_v2"
+       doc="Nom du world sans extension : map_entrainement_lite_v2 | slopes_map"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.2"/>
+
+  <!-- TF de secours odom→base_footprint avant démarrage LIO-SAM -->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+        name="odom_to_base_footprint_init"
+        args="0 0 0 0 0 0 odom base_footprint"/>
+
+  <!-- Description du robot -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(arg model)"/>
+
+  <!-- Chemin vers les modèles Gazebo -->
+  <env name="GAZEBO_MODEL_PATH"
+       value="$(find bunker_gazebo)/gazebo_models:$(optenv GAZEBO_MODEL_PATH)"/>
+
+  <!-- Gazebo — GUI désactivé -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"
+         value="$(find bunker_gazebo)/worlds/$(arg world).world"/>
+    <arg name="paused"       value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui"          value="true"/>   <!-- économise ~500 MB RAM -->
+    <arg name="headless"     value="true"/>
+    <arg name="verbose"      value="false"/>
+  </include>
+
+  <!-- Spawn du robot -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model bunker -param robot_description
+              -x $(arg x) -y $(arg y) -z $(arg z) -Y 0"/>
+
+  <!-- State publishers -->
+  <node name="robot_state_publisher"
+        pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <node name="joint_state_publisher"
+        pkg="joint_state_publisher"  type="joint_state_publisher"/>
+</launch>

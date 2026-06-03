@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="map_entrainement_lite">
+    <include><uri>model://ground_plane</uri></include>
+    <include><uri>model://sun</uri></include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_1</name>
+      <pose>14.65 2.98 0 0 0 1.538</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_2</name>
+      <pose>5.15 4.45 0 0 0 3.708</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_3</name>
+      <pose>3.1 4.28 0 0 0 3.174</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>large_rock_fall_4</name>
+      <pose>3.0 6.28 0 0 0 1.384</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_5</name>
+      <pose>13.7 17.88 0 0 0 4.765</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_6</name>
+      <pose>5.53 10.53 0 0 0 0.976</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_7</name>
+      <pose>20.69 8.9 0 0 0 2.386</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_8</name>
+      <pose>9.32 9.04 0 0 0 5.069</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>large_rock_fall_9</name>
+      <pose>16.36 12.69 0 0 0 0.495</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_10</name>
+      <pose>8.07 14.44 0 0 0 3.626</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_11</name>
+      <pose>6.83 8.0 0 0 0 5.371</pose>
+    </include>
+    <include>
+      <uri>model://Telephone pole</uri>
+      <name>telephone_pole_12</name>
+      <pose>18.96 9.72 0 0 0 3.992</pose>
+    </include>
+    <include>
+      <uri>model://NIST fiducial barrel</uri>
+      <name>nist_fiducial_barrel_13</name>
+      <pose>20.3 14.81 0 0 0 3.354</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_14</name>
+      <pose>7.15 11.28 0 0 0 6.214</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_15</name>
+      <pose>14.66 13.08 0 0 0 5.293</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_16</name>
+      <pose>17.24 6.85 0 0 0 5.056</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_17</name>
+      <pose>10.12 3.76 0 0 0 1.335</pose>
+    </include>
+    <include>
+      <uri>model://Telephone pole</uri>
+      <name>telephone_pole_18</name>
+      <pose>11.99 19.31 0 0 0 0.897</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_19</name>
+      <pose>5.15 16.65 0 0 0 4.691</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_20</name>
+      <pose>10.64 13.59 0 0 0 1.377</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_21</name>
+      <pose>21.45 12.18 0 0 0 4.746</pose>
+    </include>
+    <include>
+      <uri>model://NIST fiducial barrel</uri>
+      <name>nist_fiducial_barrel_22</name>
+      <pose>18.86 5.4 0 0 0 4.974</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_23</name>
+      <pose>9.75 21.43 0 0 0 6.098</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_24</name>
+      <pose>18.85 2.72 0 0 0 4.281</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_25</name>
+      <pose>12.7 7.57 0 0 0 0.701</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_26</name>
+      <pose>31.06 -9.85 0 0 0 6.103</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_27</name>
+      <pose>12.85 30.17 0 0 0 5.286</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_28</name>
+      <pose>-3.12 37.39 0 0 0 3.761</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_29</name>
+      <pose>29.25 31.81 0 0 0 1.504</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_30</name>
+      <pose>29.51 39.42 0 0 0 4.596</pose>
+    </include>
+    <include>
+      <uri>model://NIST fiducial barrel</uri>
+      <name>nist_fiducial_barrel_31</name>
+      <pose>34.01 -6.8 0 0 0 0.806</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>large_rock_fall_32</name>
+      <pose>41.31 -2.57 0 0 0 6.056</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_33</name>
+      <pose>22.08 33.39 0 0 0 2.751</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_34</name>
+      <pose>30.57 0.11 0 0 0 0.132</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_35</name>
+      <pose>16.48 29.08 0 0 0 1.438</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_36</name>
+      <pose>28.68 -9.57 0 0 0 1.749</pose>
+    </include>
+    <include>
+      <uri>model://Telephone pole</uri>
+      <name>telephone_pole_37</name>
+      <pose>31.79 -4.05 0 0 0 1.526</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_38</name>
+      <pose>39.5 -1.43 0 0 0 4.138</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_39</name>
+      <pose>-8.61 11.02 0 0 0 4.229</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_40</name>
+      <pose>-7.27 -5.63 0 0 0 1.562</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_41</name>
+      <pose>2.53 31.75 0 0 0 2.783</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_42</name>
+      <pose>-2.52 34.34 0 0 0 5.43</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>large_rock_fall_43</name>
+      <pose>-2.59 -9.99 0 0 0 1.665</pose>
+    </include>
+    <include>
+      <uri>model://Telephone pole</uri>
+      <name>telephone_pole_44</name>
+      <pose>32.71 21.35 0 0 0 0.972</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_45</name>
+      <pose>-10.26 -7.37 0 0 0 4.697</pose>
+    </include>
+    <include>
+      <uri>model://NIST fiducial barrel</uri>
+      <name>nist_fiducial_barrel_46</name>
+      <pose>-7.44 34.59 0 0 0 0.43</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_47</name>
+      <pose>20.38 -8.59 0 0 0 5.913</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_48</name>
+      <pose>8.87 -6.5 0 0 0 5.87</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_49</name>
+      <pose>20.14 32.46 0 0 0 2.486</pose>
+    </include>
+    <include>
+      <uri>model://euro_pallet</uri>
+      <name>euro_pallet_50</name>
+      <pose>-8.34 31.81 0 0 0 0.059</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_51</name>
+      <pose>-6.7 -8.72 0 0 0 0.832</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_tree_52</name>
+      <pose>-4.95 29.57 0 0 0 1.79</pose>
+    </include>
+    <include>
+      <uri>model://Construction_Barrel</uri>
+      <name>construction_barrel_53</name>
+      <pose>39.84 21.66 0 0 0 4.194</pose>
+    </include>
+    <include>
+      <uri>model://NIST fiducial barrel</uri>
+      <name>nist_fiducial_barrel_54</name>
+      <pose>-4.55 -5.34 0 0 0 1.661</pose>
+    </include>
+    <include>
+      <uri>model://lamp_post</uri>
+      <name>lamp_post_55</name>
+      <pose>23.41 -9.07 0 0 0 3.798</pose>
+    </include>
+  </world>
+</sdf>

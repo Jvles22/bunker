@@ -1,0 +1,1197 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="benchmark_map">
+    <include><uri>model://ground_plane</uri></include>
+    <include><uri>model://sun</uri></include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_1</name>
+      <pose>-19.248 -17.751 0 0 0 0.677</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_2</name>
+      <pose>17.252 -19.859 0 0 0 2.087</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_3</name>
+      <pose>15.140 -14.635 0 0 0 2.097</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_4</name>
+      <pose>-10.958 -21.428 0 0 0 0.550</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_5</name>
+      <pose>4.197 -18.495 0 0 0 2.817</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_6</name>
+      <pose>17.432 -17.511 0 0 0 4.964</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_7</name>
+      <pose>-20.587 17.679 0 0 0 1.667</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_8</name>
+      <pose>14.527 11.558 0 0 0 5.036</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_9</name>
+      <pose>-12.605 4.683 0 0 0 5.085</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_10</name>
+      <pose>11.579 0.548 0 0 0 4.011</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_11</name>
+      <pose>7.166 16.774 0 0 0 4.200</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_12</name>
+      <pose>-5.396 -20.131 0 0 0 1.140</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_13</name>
+      <pose>13.768 17.787 0 0 0 1.069</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_14</name>
+      <pose>-18.348 -1.859 0 0 0 2.112</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_15</name>
+      <pose>-13.370 -17.709 0 0 0 0.081</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_16</name>
+      <pose>17.594 5.968 0 0 0 6.057</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_17</name>
+      <pose>2 -5.31 0 0 0 1.116</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_18</name>
+      <pose>21.154 -2.387 0 0 0 0.277</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_19</name>
+      <pose>-15.707 -13.193 0 0 0 2.212</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_20</name>
+      <pose>-3.425 -16.829 0 0 0 2.231</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_21</name>
+      <pose>-21.132 1.539 0 0 0 4.362</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_22</name>
+      <pose>-4.119 20.870 0 0 0 2.969</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_23</name>
+      <pose>10.785 -7.102 0 0 0 4.016</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_24</name>
+      <pose>20.197 16.507 0 0 0 4.510</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_25</name>
+      <pose>7.699 -5.499 0 0 0 0.492</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_26</name>
+      <pose>-15.216 6.705 0 0 0 4.877</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_27</name>
+      <pose>20.422 0.735 0 0 0 5.041</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_28</name>
+      <pose>10.327 20.659 0 0 0 1.909</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_29</name>
+      <pose>12.518 -20.285 0 0 0 5.475</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_30</name>
+      <pose>-13.025 -12.922 0 0 0 5.597</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_31</name>
+      <pose>-13.151 2.779 0 0 0 1.992</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_32</name>
+      <pose>-6.831 1.620 0 0 0 5.083</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_33</name>
+      <pose>11.909 -10.455 0 0 0 3.631</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_34</name>
+      <pose>-11.862 0.054 0 0 0 3.988</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_35</name>
+      <pose>17.126 12.493 0 0 0 3.107</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_36</name>
+      <pose>8.419 -16.240 0 0 0 5.414</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_37</name>
+      <pose>-5.941 7.265 0 0 0 2.254</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_38</name>
+      <pose>10.910 13.781 0 0 0 6.140</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_39</name>
+      <pose>-18.815 -3.667 0 0 0 5.211</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_40</name>
+      <pose>-16.240 -10.087 0 0 0 2.025</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_41</name>
+      <pose>19.102 -19.281 0 0 0 0.675</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_42</name>
+      <pose>3.162 19.914 0 0 0 4.064</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_43</name>
+      <pose>8.190 0.043 0 0 0 1.728</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_44</name>
+      <pose>19.559 -13.665 0 0 0 4.148</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_45</name>
+      <pose>10.052 -0.975 0 0 0 6.271</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_46</name>
+      <pose>-15.413 15.930 0 0 0 1.388</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_47</name>
+      <pose>15.649 -1.574 0 0 0 5.576</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_48</name>
+      <pose>8.084 -18.807 0 0 0 1.056</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_49</name>
+      <pose>-14.415 -19.495 0 0 0 4.799</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_50</name>
+      <pose>18.356 14.604 0 0 0 5.439</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_51</name>
+      <pose>-13.102 18.958 0 0 0 5.902</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_52</name>
+      <pose>-16.729 3.010 0 0 0 2.740</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_53</name>
+      <pose>9.923 16.303 0 0 0 1.831</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_54</name>
+      <pose>7.351 13.837 0 0 0 0.163</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_55</name>
+      <pose>-5.954 -14.926 0 0 0 1.395</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_56</name>
+      <pose>6.984 -2.812 0 0 0 2.451</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_57</name>
+      <pose>-19.668 -15.513 0 0 0 5.734</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_58</name>
+      <pose>-16.083 -1.716 0 0 0 3.467</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_59</name>
+      <pose>-9.083 -12.325 0 0 0 0.664</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_60</name>
+      <pose>3.991 -7.531 0 0 0 4.202</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_61</name>
+      <pose>15.108 -21.271 0 0 0 0.542</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_62</name>
+      <pose>-1.823 18.789 0 0 0 0.375</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_63</name>
+      <pose>-17.618 7.239 0 0 0 6.007</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_64</name>
+      <pose>13.747 13.627 0 0 0 2.710</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_65</name>
+      <pose>-21.090 -7.423 0 0 0 4.944</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_66</name>
+      <pose>-18.722 18.265 0 0 0 0.786</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_67</name>
+      <pose>15.463 15.185 0 0 0 2.644</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_68</name>
+      <pose>20.831 -5.687 0 0 0 5.319</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_69</name>
+      <pose>16.203 4.414 0 0 0 4.337</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_70</name>
+      <pose>-18.065 9.444 0 0 0 2.794</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_72</name>
+      <pose>16.784 20.773 0 0 0 0.168</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_73</name>
+      <pose>9.835 11.368 0 0 0 4.225</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_74</name>
+      <pose>12.044 -5.783 0 0 0 6.283</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_75</name>
+      <pose>4.502 -9.871 0 0 0 0.462</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_76</name>
+      <pose>-19.058 -10.541 0 0 0 2.581</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_77</name>
+      <pose>5.933 11.269 0 0 0 2.762</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_78</name>
+      <pose>-11.396 -17.477 0 0 0 0.634</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_79</name>
+      <pose>13.772 -15.811 0 0 0 1.317</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_80</name>
+      <pose>-13.990 -10.033 0 0 0 5.554</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_81</name>
+      <pose>14.107 -18.709 0 0 0 4.971</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_82</name>
+      <pose>-4.571 2.942 0 0 0 3.416</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_83</name>
+      <pose>-13.416 -8.156 0 0 0 4.928</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_84</name>
+      <pose>-18.803 3.366 0 0 0 3.577</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_85</name>
+      <pose>13.639 -2.837 0 0 0 2.294</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_86</name>
+      <pose>-17.643 -19.663 0 0 0 1.957</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_87</name>
+      <pose>-20.157 7.534 0 0 0 4.045</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_88</name>
+      <pose>6.788 20.393 0 0 0 0.653</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_89</name>
+      <pose>21.127 18.277 0 0 0 3.794</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_90</name>
+      <pose>-15.307 11.132 0 0 0 3.774</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_91</name>
+      <pose>5.458 14.090 0 0 0 2.335</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_92</name>
+      <pose>-2 -5.31 0 0 0 3.535</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_93</name>
+      <pose>3.720 12.302 0 0 0 1.063</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_94</name>
+      <pose>-11.383 9.838 0 0 0 4.341</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_95</name>
+      <pose>18.632 -15.467 0 0 0 1.051</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_96</name>
+      <pose>7.993 10.507 0 0 0 3.507</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_97</name>
+      <pose>-10.792 19.471 0 0 0 6.176</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_98</name>
+      <pose>0.006 -21.275 0 0 0 2.200</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_99</name>
+      <pose>-7.801 5.928 0 0 0 4.381</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_100</name>
+      <pose>-20.878 -19.866 0 0 0 2.294</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_101</name>
+      <pose>13.854 8.393 0 0 0 0.205</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_102</name>
+      <pose>-16.124 19.543 0 0 0 1.953</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_103</name>
+      <pose>-18.426 -12.649 0 0 0 3.509</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_104</name>
+      <pose>20.501 -21.068 0 0 0 2.642</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_105</name>
+      <pose>-6.060 18.844 0 0 0 1.616</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_106</name>
+      <pose>18.123 18.451 0 0 0 2.811</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_107</name>
+      <pose>-12.556 -11.149 0 0 0 1.393</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_108</name>
+      <pose>5.705 -15.701 0 0 0 4.396</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_109</name>
+      <pose>-8.742 3.787 0 0 0 5.449</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_110</name>
+      <pose>4.778 -20.393 0 0 0 2.093</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_111</name>
+      <pose>0 16 0 0 0 1.529</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_112</name>
+      <pose>-6.561 -17.906 0 0 0 2.734</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_113</name>
+      <pose>19.655 4.966 0 0 0 2.714</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_114</name>
+      <pose>4.344 17.820 0 0 0 1.438</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_115</name>
+      <pose>0.248 21.042 0 0 0 5.929</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_116</name>
+      <pose>21.291 -18.146 0 0 0 3.529</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_117</name>
+      <pose>-21.119 9.106 0 0 0 3.223</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_118</name>
+      <pose>-15.419 -7.132 0 0 0 4.703</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_119</name>
+      <pose>18.306 -10.557 0 0 0 0.580</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_120</name>
+      <pose>-12.600 -2.016 0 0 0 4.889</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_121</name>
+      <pose>14.444 20.307 0 0 0 4.414</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_122</name>
+      <pose>8.053 -21.257 0 0 0 6.181</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_123</name>
+      <pose>-14.845 4.260 0 0 0 4.482</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_124</name>
+      <pose>-7.726 9.085 0 0 0 2.116</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_125</name>
+      <pose>-9.853 -0.364 0 0 0 4.105</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_126</name>
+      <pose>-14.655 1.320 0 0 0 1.737</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_127</name>
+      <pose>20.368 8.342 0 0 0 0.849</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_128</name>
+      <pose>21.485 -8.506 0 0 0 2.302</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_129</name>
+      <pose>19.972 -9.556 0 0 0 3.415</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_130</name>
+      <pose>12.265 20.502 0 0 0 1.213</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_131</name>
+      <pose>-20.645 19.756 0 0 0 3.379</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_132</name>
+      <pose>-8.984 18.597 0 0 0 2.465</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_133</name>
+      <pose>-9.162 1.671 0 0 0 0.794</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_134</name>
+      <pose>18.169 3.591 0 0 0 1.599</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_135</name>
+      <pose>5.423 -5.628 0 0 0 0.994</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_136</name>
+      <pose>-0.126 -18.708 0 0 0 4.020</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_137</name>
+      <pose>-10.856 -15.618 0 0 0 2.403</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_138</name>
+      <pose>10.693 18.115 0 0 0 6.098</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_139</name>
+      <pose>15.603 -6.824 0 0 0 2.461</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_140</name>
+      <pose>-7.060 -13.313 0 0 0 1.192</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_141</name>
+      <pose>-10.072 5.334 0 0 0 1.476</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_142</name>
+      <pose>10.252 -9.476 0 0 0 4.346</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_143</name>
+      <pose>-19.835 12.142 0 0 0 0.678</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_144</name>
+      <pose>17.210 -4.698 0 0 0 4.394</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_145</name>
+      <pose>-10.241 7.126 0 0 0 2.910</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_146</name>
+      <pose>16.140 -10.833 0 0 0 4.394</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_147</name>
+      <pose>17.771 8.818 0 0 0 5.515</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_148</name>
+      <pose>-12.131 7.702 0 0 0 4.301</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_149</name>
+      <pose>-18.020 -6.171 0 0 0 5.976</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_150</name>
+      <pose>14.527 0.507 0 0 0 2.649</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_151</name>
+      <pose>-5.001 5.650 0 0 0 3.621</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_152</name>
+      <pose>-15.400 -16.679 0 0 0 3.674</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_153</name>
+      <pose>-17.069 -8.084 0 0 0 4.183</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_154</name>
+      <pose>-19.188 15.132 0 0 0 2.555</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_155</name>
+      <pose>1.766 -19.634 0 0 0 6.255</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_156</name>
+      <pose>-20.145 -0.822 0 0 0 2.297</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_157</name>
+      <pose>17.393 -13.836 0 0 0 1.598</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_158</name>
+      <pose>17.922 -0.273 0 0 0 0.740</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_159</name>
+      <pose>12.658 15.231 0 0 0 2.748</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_160</name>
+      <pose>21.019 11.973 0 0 0 0.227</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_161</name>
+      <pose>-17.689 -14.864 0 0 0 4.454</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_162</name>
+      <pose>-8.772 -19.154 0 0 0 3.388</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_163</name>
+      <pose>4.253 -3.268 0 0 0 2.390</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_164</name>
+      <pose>14.007 -5.084 0 0 0 3.261</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_165</name>
+      <pose>10.254 -5.343 0 0 0 1.775</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_166</name>
+      <pose>15.991 9.637 0 0 0 1.159</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_167</name>
+      <pose>-17.023 16.985 0 0 0 0.446</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_168</name>
+      <pose>11.658 -15.971 0 0 0 4.080</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_169</name>
+      <pose>-3.293 -19.360 0 0 0 1.591</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_170</name>
+      <pose>9.414 -11.109 0 0 0 6.044</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_171</name>
+      <pose>6.154 -18.601 0 0 0 1.404</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_172</name>
+      <pose>1.7 -5.37 0 0 0 5.779</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_173</name>
+      <pose>21.410 20.656 0 0 0 4.860</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_174</name>
+      <pose>-17.065 5.030 0 0 0 4.797</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_175</name>
+      <pose>-15.274 -3.912 0 0 0 0.247</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_176</name>
+      <pose>-21.392 5.208 0 0 0 0.696</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_177</name>
+      <pose>20.332 -11.652 0 0 0 0.638</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_178</name>
+      <pose>-15.759 8.550 0 0 0 0.908</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_179</name>
+      <pose>-12.800 11.212 0 0 0 3.649</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_180</name>
+      <pose>13.141 2.897 0 0 0 0.443</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_181</name>
+      <pose>12.015 10.866 0 0 0 3.976</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_182</name>
+      <pose>4.843 21.073 0 0 0 0.516</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_183</name>
+      <pose>8.756 -3.763 0 0 0 2.356</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_184</name>
+      <pose>19.462 20.275 0 0 0 1.368</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_185</name>
+      <pose>10.174 -17.443 0 0 0 1.288</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_186</name>
+      <pose>9.557 -14.706 0 0 0 4.084</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_187</name>
+      <pose>3.380 -16.840 0 0 0 1.587</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_188</name>
+      <pose>19.095 12.657 0 0 0 4.891</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_189</name>
+      <pose>-11.896 21.328 0 0 0 3.203</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_190</name>
+      <pose>-12.718 -14.988 0 0 0 2.812</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_191</name>
+      <pose>8.294 -8.078 0 0 0 1.962</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_192</name>
+      <pose>21.020 14.786 0 0 0 1.747</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_193</name>
+      <pose>-3.858 -5.847 0 0 0 3.294</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_194</name>
+      <pose>-8.106 -20.905 0 0 0 5.126</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_195</name>
+      <pose>-19.518 5.442 0 0 0 5.992</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_196</name>
+      <pose>-18.304 -21.370 0 0 0 3.252</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_197</name>
+      <pose>7.281 -12.104 0 0 0 3.408</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_198</name>
+      <pose>10.521 -20.596 0 0 0 0.097</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_199</name>
+      <pose>-17.470 21.463 0 0 0 2.606</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_200</name>
+      <pose>21.329 2.806 0 0 0 3.074</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_201</name>
+      <pose>-7.798 -16.071 0 0 0 5.539</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_202</name>
+      <pose>-17.691 12.015 0 0 0 5.209</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_203</name>
+      <pose>-4.030 18.578 0 0 0 3.641</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_204</name>
+      <pose>-7.918 20.588 0 0 0 0.701</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_205</name>
+      <pose>-13.929 14.109 0 0 0 5.568</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_206</name>
+      <pose>-20.861 -3.065 0 0 0 1.548</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_207</name>
+      <pose>-17.111 14.275 0 0 0 5.042</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_208</name>
+      <pose>-17.975 1.656 0 0 0 4.589</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_209</name>
+      <pose>-15.167 21.085 0 0 0 0.739</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_210</name>
+      <pose>20.572 -15.372 0 0 0 3.292</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_211</name>
+      <pose>15.236 2.291 0 0 0 4.966</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_212</name>
+      <pose>-9.331 -14.510 0 0 0 5.186</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_213</name>
+      <pose>-10.826 -12.933 0 0 0 0.066</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_214</name>
+      <pose>-13.921 -21.354 0 0 0 4.825</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_215</name>
+      <pose>-21.071 -5.583 0 0 0 1.309</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_216</name>
+      <pose>-18.906 -8.285 0 0 0 4.985</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_217</name>
+      <pose>14.437 -11.700 0 0 0 5.660</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_218</name>
+      <pose>-21.348 -10.384 0 0 0 0.812</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_219</name>
+      <pose>-17.141 -17.559 0 0 0 1.637</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_220</name>
+      <pose>4.896 15.858 0 0 0 0.985</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_221</name>
+      <pose>-20.594 -12.239 0 0 0 0.779</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_222</name>
+      <pose>14.922 -9.109 0 0 0 1.199</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_223</name>
+      <pose>3.559 -5.317 0 0 0 3.720</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_224</name>
+      <pose>12.550 -13.189 0 0 0 5.134</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_225</name>
+      <pose>18.646 -5.931 0 0 0 3.591</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_226</name>
+      <pose>14.156 5.718 0 0 0 3.980</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_227</name>
+      <pose>9.034 18.985 0 0 0 4.969</pose>
+    </include>
+    <include>
+      <uri>model://Medium Rock Fall</uri>
+      <name>rock_med_228</name>
+      <pose>10.917 -3.345 0 0 0 3.821</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_229</name>
+      <pose>-16.430 0.229 0 0 0 5.040</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_230</name>
+      <pose>-13.560 16.400 0 0 0 2.710</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_231</name>
+      <pose>-9.977 -10.727 0 0 0 4.761</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_232</name>
+      <pose>18.745 -3.616 0 0 0 5.906</pose>
+    </include>
+    <include>
+      <uri>model://Large Rock Fall</uri>
+      <name>rock_large_233</name>
+      <pose>12.513 -8.494 0 0 0 5.749</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_234</name>
+      <pose>5.119 -13.569 0 0 0 4.626</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 2</uri>
+      <name>rock_big_235</name>
+      <pose>-9.655 9.314 0 0 0 2.582</pose>
+    </include>
+    <include>
+      <uri>model://tree</uri>
+      <name>tree_236</name>
+      <pose>-10.567 3.378 0 0 0 4.358</pose>
+    </include>
+    <include>
+      <uri>model://Falling Rock 6</uri>
+      <name>rock_6_237</name>
+      <pose>6.375 -0.748 0 0 0 2.035</pose>
+    </include>
+    <include>
+      <uri>model://Small Rock Fall</uri>
+      <name>rock_small_238</name>
+      <pose>10.619 9.406 0 0 0 0.473</pose>
+    </include>
+    <include>
+      <uri>model://Pine Tree</uri>
+      <name>pine_239</name>
+      <pose>17.011 -8.102 0 0 0 0.644</pose>
+    </include>
+  </world>
+</sdf>

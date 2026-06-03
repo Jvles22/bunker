@@ -1,0 +1,13 @@
+<launch>
+  <!-- ============================================================
+       tuning_movebase.launch
+       MoveBase avec TEB forcé — à lancer / redémarrer entre chaque batch.
+       Usage :
+         roslaunch bunker_slam tuning_movebase.launch
+       ============================================================ -->
+
+  <!-- Planner fixé à TEB pour tout le tuning -->
+  <include file="$(find bunker_slam)/launch/move_base.launch">
+    <arg name="planner" value="teb"/>
+  </include>
+</launch>
