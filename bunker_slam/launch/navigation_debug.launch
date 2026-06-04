@@ -1,0 +1,37 @@
+<launch>
+  <!-- ================================================================== -->
+  <!--  Mode DEBUG navigation — sans LIO-SAM                               -->
+  <!--  Remplace : slam.launch + move_base.launch                          -->
+  <!--  Utilise : Gazebo /odom (ground truth) + robot_localization EKF     -->
+  <!--                                                                      -->
+  <!--  Usage : roslaunch bunker_slam navigation_debug.launch               -->
+  <!--          roslaunch bunker_slam navigation_debug.launch planner:=dwa  -->
+  <!-- ================================================================== -->
+
+  <arg name="planner" default="teb" doc="Local planner: dwa, teb, eband"/>
+
+  <!-- 1. TF map→odom : identité statique (pas de drift en simulation) -->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+        name="map_to_odom"
+        args="0 0 0 0 0 0 map odom"/>
+
+  <!-- 2. TF odom→base_footprint via EKF (broadcastTF=false dans le URDF Bunker) -->
+  <!--    Consomme /odom (Gazebo skid_steer_drive) et publie le TF dynamique     -->
+  <node pkg="robot_localization" type="ekf_localization_node"
+        name="ekf_localization" output="screen" clear_params="true">
+    <rosparam file="$(find bunker_slam)/config/ekf_debug.yaml" command="load"/>
+  </node>
+
+  <!-- 3. Pont odométrie : /odom → /lio_sam/mapping/odometry              -->
+  <!--    Les scripts Python (square_ramp_traverse, autonomous_navigation, -->
+  <!--    param_tuner, speed_benchmark) souscrivent à ce topic.            -->
+  <node pkg="topic_tools" type="relay"
+        name="odom_relay"
+        args="/odom /lio_sam/mapping/odometry"/>
+
+  <!-- 4. Navigation : move_base + traversability.launch (inclus dedans) -->
+  <include file="$(find bunker_slam)/launch/move_base.launch">
+    <arg name="planner" value="$(arg planner)"/>
+  </include>
+
+</launch>

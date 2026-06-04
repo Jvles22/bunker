@@ -1,0 +1,22 @@
+# robot_localization EKF — mode debug navigation (sans LIO-SAM)
+#
+# Rôle : publier le TF odom→base_footprint à partir de /odom (Gazebo skid_steer_drive).
+# Le URDF Bunker a broadcastTF: false dans son plugin Gazebo — ce nœud comble ce manque.
+# En simulation le repère odom == map (pas de drift), donc world_frame: odom est correct.
+
+frequency: 30
+sensor_timeout: 0.1
+two_d_mode: true
+publish_tf: true
+
+map_frame:       map
+odom_frame:      odom
+base_link_frame: base_footprint
+world_frame:     odom   # pas de correction map (pas de SLAM)
+
+odom0: /odom
+odom0_config: [true,  true,  false,   # x, y, z
+               false, false, true,    # roll, pitch, yaw
+               false, false, false,   # vx, vy, vz
+               false, false, false,   # vroll, vpitch, vyaw
+               false, false, false]   # ax, ay, az
