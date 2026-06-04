@@ -54,7 +54,7 @@ WAYPOINTS = [
 # --- Paramètres de navigation ---
 GOAL_TOLERANCE  = 0.5    # tolérance d'arrivée (m)
 YAW_TOLERANCE   = 0.3
-WP_TIMEOUT_S    = 220.0  # timeout par waypoint (s)
+WP_TIMEOUT_S    = 2200.0  # timeout par waypoint (s)
 WP_SKIP_MAX     = 2      # tentatives max avant abandon
 STALL_TIME_S    = 15.0    # délai avant détection blocage (s)
 STALL_VEL       = 0.03   # vitesse sous laquelle = bloqué (m/s)
