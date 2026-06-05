@@ -15,10 +15,16 @@ import os
 import math
 import time
 import threading
+import subprocess
+import signal
+
+import numpy as np
+import sensor_msgs.point_cloud2 as pc2
+import tf
 
 from move_base_msgs.msg  import MoveBaseAction, MoveBaseGoal
 from nav_msgs.msg        import Odometry
-from sensor_msgs.msg     import Imu
+from sensor_msgs.msg     import Imu, PointCloud2
 from tf.transformations  import euler_from_quaternion, quaternion_from_euler
 from std_srvs.srv        import Empty as EmptySrv
 from datetime            import datetime
@@ -34,7 +40,7 @@ except ImportError:
 #                           CONFIGURATION                                  #
 # ====================================================================== #
 
-OUTPUT_DIR = os.path.expanduser("~/bunker_square_ramp")
+OUTPUT_DIR = "/media/user/Jules/data_simu"
 SPEED      = 0.5   # m/s
 
 # Waypoints dans l'ordre de traversée : (x, y, label)
@@ -75,6 +81,20 @@ SLOPE_SPEED_TABLE = [
     (35.0, 0.1),
 ]
 SLOPE_SPEED_DEBOUNCE = 3
+
+# --- Enregistrement ---
+LIDAR_SUBSAMPLE = 10   # 1 point Velodyne sur N → PCD final plus léger
+
+ROSBAG_TOPICS = [
+    "/move_base/global_costmap/costmap",
+    "/move_base/local_costmap/costmap",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/imu/data",
+    "/cmd_vel",
+    "/move_base/status",
+]
 
 
 # ====================================================================== #
@@ -198,9 +218,21 @@ class SquareTraverse:
             except rospy.ROSException:
                 rospy.logwarn("clear_costmaps indisponible")
 
+        # TF listener (PCD accumulation)
+        self.tf_listener = tf.TransformListener()
+
         # Subscribers
         rospy.Subscriber("/lio_sam/mapping/odometry", Odometry, self._odom_cb, queue_size=10)
         rospy.Subscriber(IMU_TOPIC, Imu, self._imu_cb, queue_size=10)
+        rospy.Subscriber("/velodyne_points", PointCloud2, self._lidar_cb, queue_size=1)
+
+        # PCD accumulation
+        self._pcd_points = []
+        self._pcd_lock   = threading.Lock()
+        self._pcd_active = False
+
+        # ROSbag subprocess
+        self._bag_proc = None
 
         # CSV
         self._csv_writer    = None
@@ -426,7 +458,84 @@ class SquareTraverse:
         return False, time.time() - start
 
     # ------------------------------------------------------------------ #
-    #  SAUVEGARDE PCD                                                      #
+    #  LIDAR / PCD / ROSBAG                                               #
+    # ------------------------------------------------------------------ #
+
+    def _lidar_cb(self, msg):
+        if not self._pcd_active:
+            return
+        try:
+            self.tf_listener.waitForTransform(
+                "map", msg.header.frame_id,
+                msg.header.stamp, rospy.Duration(0.05)
+            )
+        except Exception:
+            return
+        try:
+            gen     = pc2.read_points(msg, field_names=("x", "y", "z"),
+                                      skip_nans=True)
+            raw_pts = np.array(list(gen), dtype=np.float32)[::LIDAR_SUBSAMPLE]
+        except Exception:
+            return
+        if raw_pts.shape[0] == 0:
+            return
+        try:
+            trans, rot = self.tf_listener.lookupTransform(
+                "map", msg.header.frame_id, msg.header.stamp
+            )
+        except Exception:
+            return
+        T           = tf.transformations.quaternion_matrix(rot)
+        T[0:3, 3]   = trans
+        n           = raw_pts.shape[0]
+        xyz_hom     = np.ones((n, 4), dtype=np.float32)
+        xyz_hom[:, 0:3] = raw_pts[:, 0:3]
+        xyz_map     = (T @ xyz_hom.T).T[:, 0:3].astype(np.float32)
+        with self._pcd_lock:
+            self._pcd_points.append(xyz_map)
+
+    def _save_pcd_accumulated(self, pcd_path):
+        with self._pcd_lock:
+            if not self._pcd_points:
+                rospy.logwarn("  PCD accumulé : aucun point")
+                return
+            all_pts = np.vstack(self._pcd_points)
+        N = all_pts.shape[0]
+        header = (
+            "# .PCD v0.7 — nuage accumulé (mode debug, repère map)\n"
+            "VERSION 0.7\nFIELDS x y z\nSIZE 4 4 4\nTYPE F F F\n"
+            "COUNT 1 1 1\n"
+            f"WIDTH {N}\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\n"
+            f"POINTS {N}\nDATA ascii\n"
+        )
+        try:
+            with open(pcd_path, "w") as f:
+                f.write(header)
+                for pt in all_pts:
+                    f.write(f"{pt[0]:.4f} {pt[1]:.4f} {pt[2]:.4f}\n")
+            rospy.loginfo(f"  PCD accumulé ({N} pts) : {pcd_path}")
+        except Exception as e:
+            rospy.logwarn(f"  PCD accumulé : échec ({e})")
+
+    def _start_rosbag(self, bag_path):
+        cmd = ["rosbag", "record", "--lz4", "-O", bag_path] + ROSBAG_TOPICS
+        self._bag_proc = subprocess.Popen(
+            cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        rospy.loginfo(f"  ROSbag démarré : {bag_path}")
+
+    def _stop_rosbag(self):
+        if self._bag_proc and self._bag_proc.poll() is None:
+            self._bag_proc.send_signal(signal.SIGINT)
+            try:
+                self._bag_proc.wait(timeout=10.0)
+            except subprocess.TimeoutExpired:
+                self._bag_proc.kill()
+        self._bag_proc = None
+        rospy.loginfo("  ROSbag : fermé")
+
+    # ------------------------------------------------------------------ #
+    #  SAUVEGARDE PCD (LIO-SAM)                                           #
     # ------------------------------------------------------------------ #
 
     def _save_pcd_map(self, destination):
@@ -483,7 +592,13 @@ class SquareTraverse:
         ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
         run_tag  = f"traverse_{self.planner_name}_{ts}"
         filename = os.path.join(OUTPUT_DIR, f"{run_tag}.csv")
-        pcd_dir  = os.path.join(OUTPUT_DIR, f"{run_tag}_pcd")
+        pcd_path = os.path.join(OUTPUT_DIR, f"{run_tag}.pcd")
+        bag_path = os.path.join(OUTPUT_DIR, f"{run_tag}.bag")
+        pcd_dir  = os.path.join(OUTPUT_DIR, f"{run_tag}_lio_sam_pcd")
+
+        # Démarrage enregistrements
+        self._pcd_active = True
+        self._start_rosbag(bag_path)
 
         results = []
 
@@ -507,7 +622,11 @@ class SquareTraverse:
 
             self._stop_recording()
 
-        self._save_pcd_map(pcd_dir)
+        # Arrêt enregistrements + sauvegarde PCD
+        self._pcd_active = False
+        self._stop_rosbag()
+        self._save_pcd_accumulated(pcd_path)  # toujours disponible (debug + LIO-SAM)
+        self._save_pcd_map(pcd_dir)           # LIO-SAM uniquement (silencieux si absent)
 
         # Résumé
         rospy.loginfo("=" * 50)
@@ -522,6 +641,8 @@ class SquareTraverse:
         ok = sum(1 for r in results if r["success"])
         rospy.loginfo(f"  {ok}/{len(results)} waypoints atteints | {total:.1f}s total")
         rospy.loginfo(f"  CSV : {filename}")
+        rospy.loginfo(f"  PCD : {pcd_path}")
+        rospy.loginfo(f"  BAG : {bag_path}")
         rospy.loginfo("=" * 50)
 
 
