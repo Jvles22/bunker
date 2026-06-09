@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(awk -F',' 'NR==1 || /^[0-9]+:/')"
+      "Bash(awk -F',' 'NR==1 || /^[0-9]+:/')",
+      "Bash(ls ~/projet_bunker/src/)",
+      "Read(//c/Users/Julius/projet_bunker/src/**)"
     ]
   }
 }
