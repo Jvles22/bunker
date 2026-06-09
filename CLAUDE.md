@@ -30,7 +30,7 @@ ce qui faisait diverger LIO-SAM.
 
 **14 nouveaux objets ajoutés** (arbres + barrel), tous à ≥ 3 m des chemins du robot :
 
-| Objet | Position | Zone |
+| Objet | Position | Zone |   
 |---|---|---|
 | Pine Tree_11 | (3, 3) | Cluster spawn |
 | Oak tree_6 | (6, 6) | Cluster spawn |

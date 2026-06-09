@@ -40,22 +40,19 @@ except ImportError:
 #                           CONFIGURATION                                  #
 # ====================================================================== #
 
-OUTPUT_DIR = "/media/user/Jules/data_simu"
+OUTPUT_DIR = "/home/projet_bunker/data_simu"
 SPEED      = 0.5   # m/s
 
 # Waypoints dans l'ordre de traversée : (x, y, label)
 WAYPOINTS = [
-    ( 22.0,   0.0, "wp 1"),
-    ( 22.0,  12.0, "wp 2"),
-    (  0.0,  12.0, "wp 3"),
-    (  0.0,  22.0, "wp 4"),
-    ( 22.0,  22.0, "wp 5"),
-    (  0.0,  22.0, "wp 4"),
-    (  0.0,  12.0, "wp 3"),
-    ( 22.0,  12.0, "wp 2"),
-    ( 22.0,   0.0, "wp 1"),
-    ( 0.0,   0.0, "Spawn"),
+    # (  0.0, -12.0, "wp 1"),    # Sud centre — plein Est depuis spawn
+    ( 11.0, -12.0, "wp 2"),    # Coin SE
+    ( 11.0,   0.0, "wp 3"),    # Milieu Est — passe près obstacle1_0
+    (  -10.0,  0.0, "wp 5"),    # Nord centre — passe près obstacle2/4
+    (-10.0,   12.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
+    (-10.0, -12.0, "Spawn"),   # Retour spawn
 ]
+
 
 # --- Paramètres de navigation ---
 GOAL_TOLERANCE  = 0.5    # tolérance d'arrivée (m)
@@ -87,6 +84,8 @@ LIDAR_SUBSAMPLE = 10   # 1 point Velodyne sur N → PCD final plus léger
 
 ROSBAG_TOPICS = [
     "/move_base/global_costmap/costmap",
+    "/move_base/global_costmap/costmap_updates",   # ← ajouter cette ligne
+    "/bunker/elevation_map",
     "/move_base/local_costmap/costmap",
     "/odom",
     "/tf",
