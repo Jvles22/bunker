@@ -48,9 +48,11 @@ WAYPOINTS = [
     # (  0.0, -12.0, "wp 1"),    # Sud centre — plein Est depuis spawn
     ( 11.0, -12.0, "wp 2"),    # Coin SE
     ( 11.0,   0.0, "wp 3"),    # Milieu Est — passe près obstacle1_0
-    (  -10.0,  0.0, "wp 5"),    # Nord centre — passe près obstacle2/4
-    (-10.0,   12.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
-    (-10.0, -12.0, "Spawn"),   # Retour spawn
+    ( -10.0,  0.0, "wp 5"),    # Nord centre — passe près obstacle2/4
+    (-10.0,   12.0, "wp 6"),
+    (11.0,   12.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
+    #(-10.0,   12.0, "wp 6"),
+    #(-10.0, -12.0, "Spawn"),   # Retour spawn
 ]
 
 

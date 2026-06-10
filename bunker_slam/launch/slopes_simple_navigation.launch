@@ -1,6 +1,6 @@
 <launch>
   <arg name="model" default="$(find bunker_description)/urdf/bunker.urdf.xacro"/>
-  <arg name="world" default="$(find bunker_gazebo)/worlds/slopes_simple4.world"/>
+  <arg name="world" default="$(find bunker_gazebo)/worlds/slopes_simple5.world"/>
   <arg name="x" default="-10"/>
   <arg name="y" default="-12"/>
   <arg name="z" default="0.5"/>
