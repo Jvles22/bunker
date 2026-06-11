@@ -33,5 +33,5 @@ traversability_layer:
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.20        # était 0.50 — zone d'influence plus large → évitement proactif
+  inflation_radius: 0.3        # était 0.50 — zone d'influence plus large → évitement proactif
   cost_scaling_factor: 1.0      # était 1.5 — gradient plus doux → coût reste élevé plus loin
