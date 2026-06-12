@@ -25,10 +25,16 @@ traversability_layer:
   update_radius: 8.0
   # Chaque entrée : [seuil_max_deg, coût].  Évalué dans l'ordre — premier match gagne.
   # Les pentes < min_slope_deg (5°) restent transparentes (NO_INFORMATION).
+  # Progression quasi-quadratique : la difficulté physique croît plus vite que l'angle.
   slope_cost_table:
-    - [10.0,  10]   #  5°–10° : légère pente, coût symbolique
-    - [20.0,  50]   # 10°–20° : pente modérée, détour préférable
-    - [25.0,  90]   # 20°–25° : pente forte, juste sous le seuil létal
+    - [ 8.0,   8]   #  5°– 8° : très légère pente, quasi-plat
+    - [11.0,  18]   #  8°–11° : légère pente, coût symbolique
+    - [14.0,  30]   # 11°–14° : pente faible, détour envisageable
+    - [17.0,  48]   # 14°–17° : pente modérée-faible
+    - [20.0,  68]   # 17°–20° : pente modérée, détour préférable
+    - [22.0,  90]   # 20°–22° : pente significative
+    - [24.0, 120]   # 22°–24° : pente forte
+    - [25.0, 160]   # 24°–25° : pente très forte, juste sous le seuil létal
     # ≥ lethal_slope_deg (25°) → LETHAL_OBSTACLE automatique
 
 inflation_layer:
