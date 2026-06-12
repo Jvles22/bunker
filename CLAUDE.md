@@ -405,7 +405,65 @@ la TraversabilityLayer et écrasent les marquages d'obstacles plats.
 
 ---
 
-## 10. Commits git
+## 10. Séquences de lancement — Slopes Navigation
+
+### Mode normal (avec LIO-SAM)
+
+```bash
+# Terminal 1 — Gazebo + robot
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam slopes_navigation.launch
+
+# Terminal 2 — SLAM (LIO-SAM)
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam slam.launch
+
+# Terminal 3 — Navigation (filtre adaptatif + carte d'élévation inclus)
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam move_base.launch
+
+# Terminal 4 — RViz
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam rviz.launch
+
+# Terminal 5 — Script de traversée (optionnel)
+source ~/projet_bunker/devel/setup.bash
+rosrun bunker_slam square_ramp_traverse.py
+```
+
+### Mode debug (sans LIO-SAM — simulation uniquement)
+
+En mode debug, LIO-SAM est remplacé par :
+- un TF `map→odom` identité statique (pas de drift en simulation, Gazebo est ground truth)
+- un EKF (`robot_localization`) qui publie le TF `odom→base_footprint` depuis `/odom`
+- un relais `/odom → /lio_sam/mapping/odometry` pour les scripts qui souscrivent à ce topic
+
+`slam:=false` sur `slopes_navigation.launch` désactive le TF de secours `odom→base_footprint`
+qu'il publie normalement au démarrage (l'EKF de `navigation_debug.launch` prend ce rôle).
+`navigation_debug.launch` remplace à lui seul `slam.launch` + `move_base.launch`.
+
+```bash
+# Terminal 1 — Gazebo + robot (sans TF de secours LIO-SAM)
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam slopes_navigation.launch slam:=false
+
+# Terminal 2 — Navigation debug (TF map→odom + EKF + move_base, sans LIO-SAM)
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam navigation_debug.launch
+# Optionnel : roslaunch bunker_slam navigation_debug.launch planner:=dwa  (défaut : teb)
+
+# Terminal 3 — RViz
+source ~/projet_bunker/devel/setup.bash
+roslaunch bunker_slam rviz.launch
+
+# Terminal 4 — Script de traversée (optionnel)
+source ~/projet_bunker/devel/setup.bash
+rosrun bunker_slam square_ramp_traverse.py
+```
+
+---
+
+## 11. Commits git
 
 | Hash | Description |
 |---|---|
