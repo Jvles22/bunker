@@ -42,6 +42,7 @@ except ImportError:
 
 OUTPUT_DIR = "/home/projet_bunker/data_simu"
 SPEED      = 0.5   # m/s
+LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
 
 # Waypoints dans l'ordre de traversée : (x, y, label)
 WAYPOINTS = [
@@ -609,17 +610,42 @@ class SquareTraverse:
             self._start_recording(writer)
 
             prev_x, prev_y = self.x, self.y
-            for (wx, wy, label) in WAYPOINTS:
-                if rospy.is_shutdown() or self._emergency_stop:
+            for loop_idx in range(LOOPS):
+                # --- Aller ---
+                rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — aller ===")
+                for (wx, wy, label) in WAYPOINTS:
+                    if rospy.is_shutdown() or self._emergency_stop:
+                        break
+                    lbl = f"L{loop_idx + 1}_fwd_{label}"
+                    yaw = math.atan2(wy - prev_y, wx - prev_x)
+                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})")
+                    success, dur = self._navigate_to(wx, wy, lbl, yaw)
+                    results.append({"label": lbl, "success": success, "dur": dur})
+                    if not success:
+                        rospy.logwarn(f"  {lbl} : FAIL — arrêt de la traversée")
+                        break
+                    prev_x, prev_y = wx, wy
+
+                if rospy.is_shutdown() or self._emergency_stop or not results[-1]["success"]:
                     break
-                yaw = math.atan2(wy - prev_y, wx - prev_x)
-                rospy.loginfo(f"→ {label}  ({wx}, {wy})")
-                success, dur = self._navigate_to(wx, wy, label, yaw)
-                results.append({"label": label, "success": success, "dur": dur})
-                if not success:
-                    rospy.logwarn(f"  {label} : FAIL — arrêt de la traversée")
+
+                # --- Retour ---
+                rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — retour ===")
+                for (wx, wy, label) in reversed(WAYPOINTS):
+                    if rospy.is_shutdown() or self._emergency_stop:
+                        break
+                    lbl = f"L{loop_idx + 1}_rev_{label}"
+                    yaw = math.atan2(wy - prev_y, wx - prev_x)
+                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})")
+                    success, dur = self._navigate_to(wx, wy, lbl, yaw)
+                    results.append({"label": lbl, "success": success, "dur": dur})
+                    if not success:
+                        rospy.logwarn(f"  {lbl} : FAIL — arrêt de la traversée")
+                        break
+                    prev_x, prev_y = wx, wy
+
+                if rospy.is_shutdown() or self._emergency_stop or not results[-1]["success"]:
                     break
-                prev_x, prev_y = wx, wy
 
             self._stop_recording()
 
@@ -631,13 +657,13 @@ class SquareTraverse:
 
         # Résumé
         rospy.loginfo("=" * 50)
-        rospy.loginfo("  RÉSUMÉ TRAVERSÉE")
+        rospy.loginfo(f"  RÉSUMÉ TRAVERSÉE  ({LOOPS} loop(s))")
         rospy.loginfo("=" * 50)
         if self._emergency_stop:
             rospy.logerr(f"  ARRÊT D'URGENCE — pente > {MAX_SLOPE_DEG}°")
         total = 0.0
         for r in results:
-            rospy.loginfo(f"  {'OK  ' if r['success'] else 'FAIL'}  {r['label']:<14}  {r['dur']:5.1f}s")
+            rospy.loginfo(f"  {'OK  ' if r['success'] else 'FAIL'}  {r['label']:<20}  {r['dur']:5.1f}s")
             total += r["dur"]
         ok = sum(1 for r in results if r["success"])
         rospy.loginfo(f"  {ok}/{len(results)} waypoints atteints | {total:.1f}s total")
