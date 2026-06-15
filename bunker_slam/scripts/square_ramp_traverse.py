@@ -85,11 +85,20 @@ SLOPE_SPEED_DEBOUNCE = 3
 # --- Enregistrement ---
 LIDAR_SUBSAMPLE = 10   # 1 point Velodyne sur N → PCD final plus léger
 
+# Throttle des topics lourds via topic_tools/throttle (C++)
+# Format : (topic_in, msgs/s, topic_out)
+COSTMAP_THROTTLE = [
+    ("/move_base/global_costmap/costmap",        0.5, "/move_base/global_costmap/costmap_throttled"),
+    ("/move_base/global_costmap/costmap_updates", 2.0, "/move_base/global_costmap/costmap_updates_throttled"),
+    ("/move_base/local_costmap/costmap",          1.0, "/move_base/local_costmap/costmap_throttled"),
+    ("/bunker/elevation_map",                     1.0, "/bunker/elevation_map_throttled"),
+]
+
 ROSBAG_TOPICS = [
-    "/move_base/global_costmap/costmap",
-    "/move_base/global_costmap/costmap_updates",   # ← ajouter cette ligne
-    "/bunker/elevation_map",
-    "/move_base/local_costmap/costmap",
+    "/move_base/global_costmap/costmap_throttled",
+    "/move_base/global_costmap/costmap_updates_throttled",
+    "/bunker/elevation_map_throttled",
+    "/move_base/local_costmap/costmap_throttled",
     "/odom",
     "/tf",
     "/tf_static",
@@ -233,8 +242,9 @@ class SquareTraverse:
         self._pcd_lock   = threading.Lock()
         self._pcd_active = False
 
-        # ROSbag subprocess
-        self._bag_proc = None
+        # ROSbag + throttle subprocesses
+        self._bag_proc      = None
+        self._throttle_procs = []
 
         # CSV
         self._csv_writer    = None
@@ -519,7 +529,28 @@ class SquareTraverse:
         except Exception as e:
             rospy.logwarn(f"  PCD accumulé : échec ({e})")
 
+    def _start_throttles(self):
+        for in_topic, rate, out_topic in COSTMAP_THROTTLE:
+            cmd = ["rosrun", "topic_tools", "throttle", "messages",
+                   in_topic, str(rate), out_topic]
+            proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            self._throttle_procs.append(proc)
+        rospy.sleep(1.0)  # laisser les nœuds s'initialiser avant le bag
+        rospy.loginfo(f"  Throttles démarrés ({len(COSTMAP_THROTTLE)} topics)")
+
+    def _stop_throttles(self):
+        for proc in self._throttle_procs:
+            if proc.poll() is None:
+                proc.send_signal(signal.SIGINT)
+                try:
+                    proc.wait(timeout=5.0)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+        self._throttle_procs.clear()
+        rospy.loginfo("  Throttles : fermés")
+
     def _start_rosbag(self, bag_path):
+        self._start_throttles()
         cmd = ["rosbag", "record", "--lz4", "-O", bag_path] + ROSBAG_TOPICS
         self._bag_proc = subprocess.Popen(
             cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
@@ -535,6 +566,7 @@ class SquareTraverse:
                 self._bag_proc.kill()
         self._bag_proc = None
         rospy.loginfo("  ROSbag : fermé")
+        self._stop_throttles()
 
     # ------------------------------------------------------------------ #
     #  SAUVEGARDE PCD (LIO-SAM)                                           #
