@@ -11,7 +11,7 @@ center_x:     0     # centre du carré de navigation (m)
 center_y:     0
 
 # Filtrage vertical : ignore le sol et les points trop hauts (feuillage dense)
-min_height: 0.00        # m sous le plan de référence (tolérance terrain)
+min_height: -0.20       # m — inclut légères dépressions Gazebo (terrain à z=-0.01 etc.)
 max_height:  1.5       # m — captures troncs (0–1m) + sommet rampe 30° (~1.15m)
                         #     exclut la canopée (démarre à ~1.5m dans cette map)
 
