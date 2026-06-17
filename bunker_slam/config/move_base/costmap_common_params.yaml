@@ -1,7 +1,7 @@
 robot_radius: 0.35
 
 obstacle_layer:
-  enabled: true
+  enabled: false
   observation_sources: velodyne
   velodyne:
     sensor_frame: velodyne            # position réelle du capteur pour le raytrace clearing
@@ -20,7 +20,7 @@ traversability_layer:
   elevation_topic: "/bunker/elevation_map"
   lethal_slope_deg: 25.0
   min_slope_deg: 5.0
-  min_hits: 3.0
+  min_hits: 1.0
   preserve_lethal: false
   update_radius: 8.0
   # Chaque entrée : [seuil_max_deg, coût].  Évalué dans l'ordre — premier match gagne.

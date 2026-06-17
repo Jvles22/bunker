@@ -2,7 +2,7 @@
 # Publie /bunker/elevation_map (grid_map_msgs/GridMap, layer "elevation")
 
 map_frame:    "map"
-resolution:   0.15      # m/cell — aligné avec la global_costmap
+resolution:   0.25      # m/cell — aligné avec la global_costmap
 
 # Carte fixe couvrant le carré 25×25 m + les features extérieures
 map_length_x: 50.0      # m
