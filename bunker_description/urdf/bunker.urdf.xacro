@@ -140,6 +140,22 @@
     <origin xyz="0.145 0.0 0.2475" rpy="0 0 0"/>
   </xacro:realsense_d435>
 
+  <!-- Ground truth 3D pose — pour navigation_debug.launch (EKF sans LIO-SAM).
+       Le plugin p3d lit la pose exacte du modèle depuis la physique Gazebo et
+       la publie comme nav_msgs/Odometry sur /ground_truth_odom (repère odom).
+       Utilisé par l'EKF pour fournir z et roll/pitch corrects sur terrain pentu. -->
+  <gazebo>
+    <plugin name="ground_truth_3d" filename="libgazebo_ros_p3d.so">
+      <updateRate>30</updateRate>
+      <bodyName>base_footprint</bodyName>
+      <topicName>/ground_truth_odom</topicName>
+      <frameName>odom</frameName>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <gaussianNoise>0</gaussianNoise>
+    </plugin>
+  </gazebo>
+
   <!-- ======= PLUGIN SKID-STEER ======= -->
   <gazebo>
     <plugin name="skid_steer_drive" filename="libgazebo_ros_skid_steer_drive.so">
