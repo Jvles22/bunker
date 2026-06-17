@@ -149,7 +149,7 @@
       <updateRate>30</updateRate>
       <bodyName>base_footprint</bodyName>
       <topicName>/ground_truth_odom</topicName>
-      <frameName>odom</frameName>
+      <frameName>world</frameName>
       <xyzOffset>0 0 0</xyzOffset>
       <rpyOffset>0 0 0</rpyOffset>
       <gaussianNoise>0</gaussianNoise>
