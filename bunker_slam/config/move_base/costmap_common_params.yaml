@@ -37,9 +37,8 @@ traversability_layer:
     - [20.0,  68]   # 17°–20° : pente modérée, détour préférable
     - [22.0,  90]   # 20°–22° : pente significative
     - [24.0, 120]   # 22°–24° : pente forte
-    - [27.0, 160]   # 24°–27° : pente très forte
-    - [30.0, 200]   # 27°–30° : limite haute des rampes prévues
-    - [35.0, 240]   # 30°–35° : extrême, spike de transition — passable mais coûteux
+    - [25.0, 160]   # 24°–25°+ : coût max avant létal (identique à l'ancien code)
+    # 25°–35° → fallback = dernier élément = 160 (spike de transition passable)
     # ≥ lethal_slope_deg (35°) → LETHAL_OBSTACLE automatique
 
 inflation_layer:
