@@ -137,9 +137,11 @@ private:
         for (const auto& pt : pcl_in.points) {
             if (!std::isfinite(pt.z)) continue;
 
-            // z_ground(x,y) = robot_z - (nx*(x-robot_x) + ny*(y-robot_y)) / nz
+            // z_ground(x,y) = robot_z + (nx*(x-robot_x) + ny*(y-robot_y)) / nz
+            // Signe + : la normale IMU pointe vers l'avant-haut quand le robot monte,
+            // donc la projection donne bien z_ground = z_robot + d·tan(θ) (sol qui monte).
             const double z_ground = robot_z
-                - (nx * (pt.x - robot_x) + ny * (pt.y - robot_y)) / nz;
+                + (nx * (pt.x - robot_x) + ny * (pt.y - robot_y)) / nz;
 
             const double z_min = z_ground + min_rel_height_;
             const double z_max = z_ground + max_rel_height_;
