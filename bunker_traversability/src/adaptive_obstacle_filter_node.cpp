@@ -8,9 +8,10 @@
  *   - Transforme /velodyne_points dans le repère map (TF au temps "latest")
  *   - Récupère robot_z = hauteur de base_footprint dans map
  *   - Récupère l'orientation IMU (quaternion, base_link == imu_link, offset nul)
- *   - Calcule la normale du plan "sol local" = (0,0,1) tournée par le quaternion IMU
- *   - Pour chaque point (x,y,z), calcule z_ground(x,y) = altitude du plan incliné
- *     passant par (robot_x, robot_y, robot_z) avec cette normale
+ *   - Pour chaque point (x,y,z) :
+ *       · Si /bunker/elevation_map a une valeur en (x,y) → z_ground = valeur de la carte
+ *         (référence terrain réelle, filtre la surface de rampe même lors de l'approche)
+ *       · Sinon → z_ground = plan incliné IMU passant par robot_z (fallback)
  *   - Ne conserve que les points dans [z_ground + min_rel, z_ground + max_rel]
  *   - Publie le nuage filtré sur /velodyne_points_filtered (repère map)
  */
@@ -28,7 +29,10 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <cmath>
+#include <limits>
 #include <mutex>
+#include <grid_map_ros/grid_map_ros.hpp>
+#include <grid_map_msgs/GridMap.h>
 
 class AdaptiveObstacleFilter {
 public:
@@ -53,6 +57,8 @@ public:
                              &AdaptiveObstacleFilter::cloudCb, this);
         sub_imu_ = nh.subscribe(imu_topic_, 50,
                              &AdaptiveObstacleFilter::imuCb, this);
+        sub_elev_ = nh.subscribe("/bunker/elevation_map", 1,
+                             &AdaptiveObstacleFilter::elevMapCb, this);
 
         ROS_INFO("[AdaptiveFilter] Demarre (C++) : fenetre [%.2f, %.2f] m "
                  "/ plan incline (IMU: %s)",
@@ -68,6 +74,14 @@ private:
         std::lock_guard<std::mutex> lock(imu_mutex_);
         last_imu_orientation_ = msg->orientation;
         have_imu_ = true;
+    }
+
+    // ── Callback carte d'élévation ───────────────────────────────────────────
+    void elevMapCb(const grid_map_msgs::GridMap::ConstPtr& msg) {
+        auto new_map = std::make_shared<grid_map::GridMap>();
+        grid_map::GridMapRosConverter::fromMessage(*msg, *new_map);
+        std::lock_guard<std::mutex> lock(elev_mutex_);
+        elev_ptr_ = std::move(new_map);
     }
 
     // ── Callback principal ──────────────────────────────────────────────────
@@ -134,14 +148,32 @@ private:
         pcl::fromROSMsg(cloud_map, pcl_in);
         pcl_out.reserve(pcl_in.size());
 
+        // Snapshot de la carte d'élévation — lecture atomique, sans lock dans la boucle.
+        std::shared_ptr<const grid_map::GridMap> elev_snapshot;
+        {
+            std::lock_guard<std::mutex> lock(elev_mutex_);
+            elev_snapshot = elev_ptr_;
+        }
+
         for (const auto& pt : pcl_in.points) {
             if (!std::isfinite(pt.z)) continue;
 
-            // z_ground(x,y) = robot_z + (nx*(x-robot_x) + ny*(y-robot_y)) / nz
-            // Signe + : la normale IMU pointe vers l'avant-haut quand le robot monte,
-            // donc la projection donne bien z_ground = z_robot + d·tan(θ) (sol qui monte).
-            const double z_ground = robot_z
-                + (nx * (pt.x - robot_x) + ny * (pt.y - robot_y)) / nz;
+            // z_ground : carte d'élévation si disponible (référence terrain réelle),
+            // sinon plan incliné IMU (fallback — correct en terrain uniforme).
+            double z_ground;
+            {
+                float elev_val = std::numeric_limits<float>::quiet_NaN();
+                if (elev_snapshot) {
+                    const grid_map::Position pos(pt.x, pt.y);
+                    if (elev_snapshot->isInside(pos))
+                        elev_val = elev_snapshot->atPosition("elevation", pos);
+                }
+                if (std::isfinite(elev_val))
+                    z_ground = static_cast<double>(elev_val);
+                else
+                    z_ground = robot_z
+                        + (nx * (pt.x - robot_x) + ny * (pt.y - robot_y)) / nz;
+            }
 
             const double z_min = z_ground + min_rel_height_;
             const double z_max = z_ground + max_rel_height_;
@@ -174,6 +206,10 @@ private:
     std::mutex                       imu_mutex_;
     bool                              have_imu_;
     sensor_msgs::Imu::_orientation_type last_imu_orientation_;
+
+    std::mutex                               elev_mutex_;
+    std::shared_ptr<const grid_map::GridMap> elev_ptr_;
+    ros::Subscriber                          sub_elev_;
 };
 
 // ── main ──────────────────────────────────────────────────────────────────────
