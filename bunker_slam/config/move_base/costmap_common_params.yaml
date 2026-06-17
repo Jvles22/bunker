@@ -22,6 +22,7 @@ traversability_layer:
   min_slope_deg: 5.0
   min_hits: 1.0
   preserve_lethal: false
+  delta_obstacle_threshold: 0.15  # m — delta > seuil → objet détecté → létal
   update_radius: 8.0
   # Chaque entrée : [seuil_max_deg, coût].  Évalué dans l'ordre — premier match gagne.
   # Les pentes < min_slope_deg (5°) restent transparentes (NO_INFORMATION).

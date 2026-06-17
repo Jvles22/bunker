@@ -38,9 +38,14 @@ public:
         pnh.param("map_length_y", map_length_y_, 70.0);
         pnh.param("center_x",     center_x_,     12.5);  // centre du carré 25×25
         pnh.param("center_y",     center_y_,     12.5);
-        pnh.param("min_height",   min_height_,   -1.0);
-        pnh.param("max_height",   max_height_,    3.0);
-        pnh.param("publish_rate", publish_rate_,  2.0);
+        pnh.param("min_height",        min_height_,        -1.0);
+        pnh.param("max_height",        max_height_,         3.0);
+        pnh.param("publish_rate",      publish_rate_,       2.0);
+        // Décroissance temporelle :
+        //   decay_time_ground : terrain — réinitialise après N s sans scan
+        //   decay_time_max    : objets   — réinitialise plus vite (obstacles mobiles)
+        pnh.param("decay_time_ground", decay_time_ground_, 90.0);
+        pnh.param("decay_time_max",    decay_time_max_,    20.0);
 
         // ── Init grid_map (fixed, non-rolling) ──────────────────────────
         map_.setGeometry(
@@ -49,8 +54,13 @@ public:
             grid_map::Position(center_x_, center_y_)
         );
         map_.setFrameId(map_frame_);
-        map_.add("elevation", NAN);
-        map_.add("hits",      0.0f);
+        map_.add("elevation",          NAN);   // min vu  → sol (terrain)
+        map_.add("elevation_max",      NAN);   // max vu  → surface (objets inclus)
+        map_.add("hits",               0.0f);
+        map_.add("last_update_ground", 0.0f);  // temps relatif dernière mise à jour sol
+        map_.add("last_update_max",    0.0f);  // temps relatif dernière mise à jour max
+
+        start_time_ = ros::Time::now();
 
         // ── ROS interfaces ───────────────────────────────────────────────
         pc_sub_  = nh.subscribe("/velodyne_points", 1,
@@ -99,26 +109,33 @@ private:
             grid_map::Index idx;
             if (!map_.getIndex(pos, idx)) continue;
 
-            float& elev = map_.at("elevation", idx);
-            float& hits = map_.at("hits",      idx);
+            float& elev     = map_.at("elevation",          idx);
+            float& elev_max = map_.at("elevation_max",      idx);
+            float& hits     = map_.at("hits",               idx);
+            float& last_g   = map_.at("last_update_ground", idx);
+            float& last_m   = map_.at("last_update_max",    idx);
 
-            // Ground-model: keep the MINIMUM observed height per cell.
-            // Rationale: a tree generates returns at multiple heights in the
-            // same (x,y) column (ground bounce ≈0 m, trunk 0.3–1 m, …).
-            // Running-mean elevation for such a cell would be ~0.5 m, creating
-            // a fake ≈70° slope relative to the adjacent flat ground.
-            // With minimum, the tree cell converges to its ground-level return
-            // (≈0 m), matching the surrounding ground → slope ≈ 0° → the
-            // TraversabilityLayer stays transparent there and lets the
-            // ObstacleLayer keep its lethal marking intact.
-            // For genuine ramp cells, all returns are on the physical surface,
-            // so minimum converges to the true surface height. ✓
-            hits += 1.0f;
-            if (std::isnan(elev)) {
+            // Temps écoulé depuis le démarrage du nœud (float suffisant pour <3600 s).
+            const float t = static_cast<float>((ros::Time::now() - start_time_).toSec());
+            last_g = t;  // rafraîchit la cellule — réinitialisation decay clock
+            last_m = t;
+            hits  += 1.0f;
+
+            // Sol (minimum) : converge vers la surface réelle du terrain.
+            // Un arbre génère des retours à plusieurs hauteurs ; le minimum
+            // donnera finalement le retour sol (≈0 m) → pente ≈ 0° → la
+            // TraversabilityLayer calcule correctement la traversabilité.
+            if (std::isnan(elev))
                 elev = pt.z;
-            } else {
+            else
                 elev = std::min(elev, static_cast<float>(pt.z));
-            }
+
+            // Surface max : maximum vu dans la fenêtre temporelle.
+            // delta = elevation_max - elevation → détecte les objets au-dessus du sol.
+            if (std::isnan(elev_max))
+                elev_max = pt.z;
+            else
+                elev_max = std::max(elev_max, static_cast<float>(pt.z));
         }
 
         initialized_ = true;
@@ -129,8 +146,29 @@ private:
         if (!initialized_) return;
 
         std::lock_guard<std::mutex> lock(map_mutex_);
-        map_.setTimestamp(ros::Time::now().toNSec());
 
+        // Décroissance temporelle : réinitialise les cellules non observées récemment.
+        // Les cellules terrain (elevation) expirent après decay_time_ground_ secondes.
+        // Les cellules objets (elevation_max) expirent après decay_time_max_ secondes.
+        const float t_now   = static_cast<float>((ros::Time::now() - start_time_).toSec());
+        const float decay_g = static_cast<float>(decay_time_ground_);
+        const float decay_m = static_cast<float>(decay_time_max_);
+
+        for (grid_map::GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+            const float lg = map_.at("last_update_ground", *it);
+            if (lg > 0.0f && (t_now - lg) > decay_g) {
+                map_.at("elevation",          *it) = NAN;
+                map_.at("hits",               *it) = 0.0f;
+                map_.at("last_update_ground", *it) = 0.0f;
+            }
+            const float lm = map_.at("last_update_max", *it);
+            if (lm > 0.0f && (t_now - lm) > decay_m) {
+                map_.at("elevation_max",    *it) = NAN;
+                map_.at("last_update_max",  *it) = 0.0f;
+            }
+        }
+
+        map_.setTimestamp(ros::Time::now().toNSec());
         grid_map_msgs::GridMap msg;
         grid_map::GridMapRosConverter::toMessage(map_, msg);
         map_pub_.publish(msg);
@@ -148,10 +186,13 @@ private:
     std::mutex        map_mutex_;
     bool              initialized_;
 
+    ros::Time   start_time_;
+
     std::string map_frame_;
     double resolution_, map_length_x_, map_length_y_;
     double center_x_, center_y_;
     double min_height_, max_height_, publish_rate_;
+    double decay_time_ground_, decay_time_max_;
 };
 
 // ── main ─────────────────────────────────────────────────────────────────

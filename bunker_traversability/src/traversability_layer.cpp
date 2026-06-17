@@ -20,7 +20,8 @@ TraversabilityLayer::TraversabilityLayer()
       min_slope_deg_(5.0),
       update_radius_(8.0),
       min_hits_(3.0f),
-      preserve_lethal_(true),
+      preserve_lethal_(false),
+      delta_obstacle_threshold_(0.15),
       slope_cost_table_({{10.0, 10}, {20.0, 30}, {30.0, 50}, {35.0, 120}}) {}
 
 // ── onInitialize ──────────────────────────────────────────────────────────
@@ -36,8 +37,9 @@ void TraversabilityLayer::onInitialize() {
     nh.param("min_hits",        min_hits_d,         3.0);
     min_hits_ = static_cast<float>(min_hits_d);
 
-    nh.param("preserve_lethal", preserve_lethal_,   true);
-    nh.param("update_radius",   update_radius_,     8.0);
+    nh.param("preserve_lethal",          preserve_lethal_,          false);
+    nh.param("update_radius",            update_radius_,            8.0);
+    nh.param("delta_obstacle_threshold", delta_obstacle_threshold_, 0.15);
 
     // Load slope_cost_table from param server (set in costmap_common_params.yaml).
     // Format: list of [max_slope_deg, cost] pairs.
@@ -70,10 +72,10 @@ void TraversabilityLayer::onInitialize() {
                                   &TraversabilityLayer::mapCallback, this);
 
     ROS_INFO("[TraversabilityLayer] Subscribing to '%s'  "
-             "lethal=%.0f°  min_override=%.0f°  min_hits=%.0f  "
-             "preserve_lethal=%s  update_radius=%.1fm",
+             "lethal=%.0f°  min_slope=%.0f°  min_hits=%.0f  "
+             "delta_obstacle=%.2fm  update_radius=%.1fm",
              elevation_topic_.c_str(), lethal_slope_deg_, min_slope_deg_,
-             static_cast<double>(min_hits_), preserve_lethal_ ? "true" : "false",
+             static_cast<double>(min_hits_), delta_obstacle_threshold_,
              update_radius_);
 
     enabled_ = true;
@@ -218,13 +220,14 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
     std::lock_guard<std::mutex> lock(map_mutex_);
     if (!elevation_map_.exists("slope")) return;
 
-    // Réinitialise UNIQUEMENT la région active [min_i..max_i, min_j..max_j]
-    // à NO_INFORMATION, pas la totalité de la couche.
-    // Avant : resetMaps() = memset de 1 M de cellules (global costmap 150×150 m)
-    // Après : memset de (max_i-min_i) × (max_j-min_j) cellules seulement.
+    // Présence du layer de surface max (disponible après mise à jour elevation_map_node).
+    const bool has_elev_max = elevation_map_.exists("elevation_max");
+    const float delta_thr   = static_cast<float>(delta_obstacle_threshold_);
+
+    // Réinitialise uniquement la région active à NO_INFORMATION.
     {
-        const unsigned int col_start  = static_cast<unsigned int>(min_i);
-        const unsigned int col_count  = static_cast<unsigned int>(max_i - min_i);
+        const unsigned int col_start = static_cast<unsigned int>(min_i);
+        const unsigned int col_count = static_cast<unsigned int>(max_i - min_i);
         for (int j = min_j; j < max_j; ++j) {
             std::memset(costmap_ + static_cast<unsigned int>(j) * size_x_ + col_start,
                         costmap_2d::NO_INFORMATION,
@@ -240,37 +243,36 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
             const grid_map::Position pos(wx, wy);
             if (!elevation_map_.isInside(pos)) continue;
 
-            // Avoid try/catch in this hot loop — use index-based access instead.
             grid_map::Index gm_idx;
             if (!elevation_map_.getIndex(pos, gm_idx)) continue;
+
+            // ── 1. Détection d'obstacles via delta (elevation_max - elevation) ──
+            // Un delta significatif indique un objet solide au-dessus du sol
+            // (arbre, mur, boîte). Priorité sur le calcul de pente.
+            if (has_elev_max && elevation_map_.isValid(gm_idx, "elevation_max")) {
+                float elev_g = NAN, elev_m = NAN;
+                if (elevation_map_.isValid(gm_idx, "elevation"))
+                    elev_g = elevation_map_["elevation"](gm_idx(0), gm_idx(1));
+                elev_m = elevation_map_["elevation_max"](gm_idx(0), gm_idx(1));
+                if (std::isfinite(elev_g) && std::isfinite(elev_m) &&
+                    (elev_m - elev_g) >= delta_thr) {
+                    setCost(i, j, costmap_2d::LETHAL_OBSTACLE);
+                    continue;
+                }
+            }
+
+            // ── 2. Coût de traversabilité basé sur la pente du sol ──────────
             if (!elevation_map_.isValid(gm_idx, "slope")) continue;
             const float slope_f = elevation_map_["slope"](gm_idx(0), gm_idx(1));
 
             const double slope = static_cast<double>(slope_f);
-            if (slope < min_slope_deg_) continue;  // flat — leave as NO_INFORMATION
+            if (slope < min_slope_deg_) continue;  // terrain plat — transparent
 
-            const uint8_t cost = slopeToCost(slope);
-
-            // ── preserve_lethal guard (Problem 2) ──────────────────────
-            // If ObstacleLayer already marked this cell as lethal (real
-            // obstacle: tree trunk, wall…) and our traversability cost is
-            // lower, do NOT overwrite — the obstacle marking takes priority.
-            // We only override when our cost is >= LETHAL (genuine cliff /
-            // slope > lethal_slope_deg) or when the cell was not lethal
-            // (typical ramp false-positive that the adaptive filter missed).
-            if (preserve_lethal_ &&
-                cost < costmap_2d::LETHAL_OBSTACLE &&
-                master_grid.getCost(static_cast<unsigned int>(i),
-                                    static_cast<unsigned int>(j))
-                    == costmap_2d::LETHAL_OBSTACLE)
-                continue;
-
-            setCost(i, j, cost);
+            setCost(i, j, slopeToCost(slope));
         }
     }
 
-    // Copy non-NO_INFORMATION values into the master grid
-    // (updateWithOverwrite skips cells still at NO_INFORMATION — transparent behaviour)
+    // Copie les cellules non-NO_INFORMATION dans le master costmap.
     updateWithOverwrite(master_grid, min_i, min_j, max_i, max_j);
 }
 

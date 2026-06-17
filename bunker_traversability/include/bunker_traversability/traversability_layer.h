@@ -14,25 +14,22 @@ namespace bunker_traversability {
 /**
  * TraversabilityLayer — costmap_2d plugin for slope-aware navigation.
  *
- * Subscribes to /bunker/elevation_map (grid_map_msgs/GridMap), reads the
- * "elevation" layer, computes the local slope angle at each cell using a
- * 4-neighbour finite-difference gradient, and writes a cost proportional to
- * slope into the master costmap.
+ * Subscribes to /bunker/elevation_map (grid_map_msgs/GridMap) et utilise
+ * deux mécanismes pour remplir le master costmap :
  *
- * Design intent:
- *   - Runs AFTER ObstacleLayer in the plugin list.
- *   - Uses updateWithOverwrite(): cells left at NO_INFORMATION are transparent
- *     (obstacle_layer markings for trees / walls are preserved).
- *   - Overwrites only cells where slope >= min_slope_deg (default 5°),
- *     correcting false-positive obstacle markings on traversable ramps.
+ *   1. Détection d'obstacles via delta = elevation_max - elevation.
+ *      Si delta > delta_obstacle_threshold (défaut 0.15 m), la cellule
+ *      contient un objet au-dessus du terrain → LETHAL_OBSTACLE.
+ *      Remplace obstacle_layer pour la détection d'arbres/boîtes.
  *
- * Cost table (slope_cost_table in costmap_common_params.yaml):
- *   slope <  min_slope_deg  →  NO_INFORMATION  (transparent)
- *   slope  5°–10° →  10
- *   slope 10°–20° →  30
- *   slope 20°–30° →  50
- *   slope 30°–35° →  120
- *   slope >= lethal_slope_deg  →  LETHAL_OBSTACLE (254)
+ *   2. Coût de traversabilité basé sur la pente du layer "elevation" (sol).
+ *      Pente calculée par différences finies centrées sur 4 voisins.
+ *
+ * Ordre de priorité par cellule :
+ *   delta > threshold               → LETHAL (objet)
+ *   slope NaN ou < min_slope_deg    → NO_INFORMATION (transparent)
+ *   slope en table                  → coût gradué
+ *   slope >= lethal_slope_deg       → LETHAL (pente trop forte)
  */
 class TraversabilityLayer : public costmap_2d::CostmapLayer {
 public:
@@ -64,8 +61,9 @@ private:
     double lethal_slope_deg_;
     double min_slope_deg_;
     double update_radius_;   // max distance from robot for costmap updates (m)
-    float  min_hits_;        // minimum hit count before a cell's elevation is trusted
-    bool   preserve_lethal_; // if true, never downgrade a LETHAL cell from ObstacleLayer
+    float  min_hits_;                // minimum hit count before a cell's elevation is trusted
+    bool   preserve_lethal_;         // legacy — inopérant si obstacle_layer désactivée
+    double delta_obstacle_threshold_; // m — delta > seuil → objet détecté → LETHAL
     // Each entry: (max_slope_deg, cost). Loaded from slope_cost_table param.
     std::vector<std::pair<double, uint8_t>> slope_cost_table_;
 };

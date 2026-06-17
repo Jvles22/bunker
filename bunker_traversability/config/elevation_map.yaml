@@ -16,3 +16,8 @@ max_height:  1.5       # m — captures troncs (0–1m) + sommet rampe 30° (~1.
                         #     exclut la canopée (démarre à ~1.5m dans cette map)
 
 publish_rate: 1.0       # Hz — suffit pour le costmap (update_freq = 1–2 Hz)
+
+# Décroissance temporelle — cellules non observées depuis N secondes → réinitialisées à NaN.
+# Le costmap se dégèle naturellement quand le robot quitte une zone.
+decay_time_ground: 90.0  # s — terrain (lent : le sol ne bouge pas)
+decay_time_max:    20.0  # s — objets (rapide : obstacles mobiles/disparaissent)
