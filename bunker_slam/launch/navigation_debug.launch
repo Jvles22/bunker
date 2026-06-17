@@ -14,11 +14,12 @@
   <node pkg="tf2_ros" type="static_transform_publisher"
         name="map_to_odom"
         args="0 0 0 0 0 0 map odom"/>
-  <!-- world == map == odom en simulation. Requis pour que l'EKF accepte
-       /ground_truth_odom (frame_id="world") publié par le plugin p3d.  -->
+  <!-- world == map en simulation. world est la racine Gazebo du plugin p3d ;
+       on le connecte à map (parent de odom) pour garder un arbre TF unique
+       sans double-parent sur odom. Chaîne : world→map→odom→base_footprint→velodyne -->
   <node pkg="tf2_ros" type="static_transform_publisher"
-        name="world_to_odom"
-        args="0 0 0 0 0 0 world odom"/>
+        name="world_to_map"
+        args="0 0 0 0 0 0 world map"/>
 
   <!-- 2. TF odom→base_footprint via EKF (broadcastTF=false dans le URDF Bunker) -->
   <!--    Consomme /odom (Gazebo skid_steer_drive) et publie le TF dynamique     -->
