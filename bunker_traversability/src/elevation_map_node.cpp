@@ -44,8 +44,11 @@ public:
         // Décroissance temporelle :
         //   decay_time_ground : terrain — réinitialise après N s sans scan
         //   decay_time_max    : objets   — réinitialise plus vite (obstacles mobiles)
-        pnh.param("decay_time_ground", decay_time_ground_, 90.0);
-        pnh.param("decay_time_max",    decay_time_max_,    20.0);
+        pnh.param("decay_time_ground",  decay_time_ground_,  90.0);
+        pnh.param("decay_time_max",     decay_time_max_,     20.0);
+        // Exclure les retours trop proches du capteur de elevation_max :
+        // le body/châssis du robot génère des retours à <1m → faux delta → LÉTAL autour du robot.
+        pnh.param("min_range_for_max",  min_range_for_max_,   1.0);
 
         // ── Init grid_map (fixed, non-rolling) ──────────────────────────
         map_.setGeometry(
@@ -95,6 +98,22 @@ private:
         pcl::PointCloud<pcl::PointXYZ> pcl_cloud;
         pcl::fromROSMsg(cloud_map, pcl_cloud);
 
+        // Position du capteur Velodyne dans le repère map (pour min_range_for_max).
+        double sensor_x = 0.0, sensor_y = 0.0;
+        bool sensor_pos_valid = false;
+        if (min_range_for_max_ > 0.0) {
+            try {
+                auto tf = tf_buffer_.lookupTransform(map_frame_, "velodyne",
+                                                     ros::Time(0), ros::Duration(0.05));
+                sensor_x = tf.transform.translation.x;
+                sensor_y = tf.transform.translation.y;
+                sensor_pos_valid = true;
+            } catch (tf2::TransformException&) {
+                // Position inconnue — on met à jour elevation_max sans filtre de distance.
+            }
+        }
+        const double min_range_sq = min_range_for_max_ * min_range_for_max_;
+
         std::lock_guard<std::mutex> lock(map_mutex_);
 
         for (const auto& pt : pcl_cloud.points) {
@@ -117,25 +136,28 @@ private:
 
             // Temps écoulé depuis le démarrage du nœud (float suffisant pour <3600 s).
             const float t = static_cast<float>((ros::Time::now() - start_time_).toSec());
-            last_g = t;  // rafraîchit la cellule — réinitialisation decay clock
+            last_g = t;
             last_m = t;
             hits  += 1.0f;
 
             // Sol (minimum) : converge vers la surface réelle du terrain.
-            // Un arbre génère des retours à plusieurs hauteurs ; le minimum
-            // donnera finalement le retour sol (≈0 m) → pente ≈ 0° → la
-            // TraversabilityLayer calcule correctement la traversabilité.
             if (std::isnan(elev))
                 elev = pt.z;
             else
                 elev = std::min(elev, static_cast<float>(pt.z));
 
             // Surface max : maximum vu dans la fenêtre temporelle.
-            // delta = elevation_max - elevation → détecte les objets au-dessus du sol.
-            if (std::isnan(elev_max))
-                elev_max = pt.z;
-            else
-                elev_max = std::max(elev_max, static_cast<float>(pt.z));
+            // On exclut les retours trop proches du capteur (body du robot, self-shadow)
+            // pour éviter un faux delta sous le robot lui-même.
+            const double dx = pt.x - sensor_x;
+            const double dy = pt.y - sensor_y;
+            const bool far_enough = !sensor_pos_valid || (dx*dx + dy*dy >= min_range_sq);
+            if (far_enough) {
+                if (std::isnan(elev_max))
+                    elev_max = pt.z;
+                else
+                    elev_max = std::max(elev_max, static_cast<float>(pt.z));
+            }
         }
 
         initialized_ = true;
@@ -193,6 +215,7 @@ private:
     double center_x_, center_y_;
     double min_height_, max_height_, publish_rate_;
     double decay_time_ground_, decay_time_max_;
+    double min_range_for_max_;  // m — distance horizontale min pour mise à jour elevation_max
 };
 
 // ── main ─────────────────────────────────────────────────────────────────

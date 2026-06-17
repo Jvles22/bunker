@@ -17,19 +17,21 @@ namespace bunker_traversability {
  * Subscribes to /bunker/elevation_map (grid_map_msgs/GridMap) et utilise
  * deux mécanismes pour remplir le master costmap :
  *
- *   1. Détection d'obstacles via delta = elevation_max - elevation.
- *      Si delta > delta_obstacle_threshold (défaut 0.15 m), la cellule
- *      contient un objet au-dessus du terrain → LETHAL_OBSTACLE.
- *      Remplace obstacle_layer pour la détection d'arbres/boîtes.
- *
- *   2. Coût de traversabilité basé sur la pente du layer "elevation" (sol).
+ *   1. Coût de traversabilité basé sur la pente du layer "elevation" (sol).
  *      Pente calculée par différences finies centrées sur 4 voisins.
+ *      Sur terrain incliné connu, le check delta est ignoré : sur une pente,
+ *      elevation_max - elevation reflète la variation intra-cellule du terrain,
+ *      pas la présence d'un objet.
+ *
+ *   2. Détection d'obstacles via delta = elevation_max - elevation.
+ *      Appliqué UNIQUEMENT sur terrain plat ou inconnu (slope < min_slope_deg
+ *      ou slope=NaN). Si delta > delta_obstacle_threshold (défaut 0.30 m),
+ *      la cellule contient un objet → LETHAL_OBSTACLE.
  *
  * Ordre de priorité par cellule :
- *   delta > threshold               → LETHAL (objet)
- *   slope NaN ou < min_slope_deg    → NO_INFORMATION (transparent)
- *   slope en table                  → coût gradué
- *   slope >= lethal_slope_deg       → LETHAL (pente trop forte)
+ *   slope valide AND slope >= min_slope_deg → coût de pente (delta ignoré)
+ *   slope NaN ou < min_slope_deg ET delta > threshold → LETHAL (objet sur terrain plat)
+ *   slope NaN ou < min_slope_deg sinon      → NO_INFORMATION (transparent)
  */
 class TraversabilityLayer : public costmap_2d::CostmapLayer {
 public:

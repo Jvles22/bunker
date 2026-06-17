@@ -246,14 +246,32 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
             grid_map::Index gm_idx;
             if (!elevation_map_.getIndex(pos, gm_idx)) continue;
 
-            // ── 1. Détection d'obstacles via delta (elevation_max - elevation) ──
-            // Un delta significatif indique un objet solide au-dessus du sol
-            // (arbre, mur, boîte). Priorité sur le calcul de pente.
+            // ── 1. Pente du sol (priorité) ────────────────────────────────────
+            // La pente est calculée depuis elevation (min) → terrain réel.
+            // Si la pente est connue ET supérieure à min_slope_deg, on est sur
+            // du terrain incliné : on utilise le coût de pente et ON IGNORE le
+            // check delta. Sur une pente, elevation_max - elevation reflète la
+            // variation intra-cellule de la surface inclinée (≠ obstacle).
+            const float slope_f = elevation_map_.isValid(gm_idx, "slope")
+                                 ? elevation_map_["slope"](gm_idx(0), gm_idx(1))
+                                 : std::numeric_limits<float>::quiet_NaN();
+            const bool slope_valid = std::isfinite(slope_f);
+
+            if (slope_valid && slope_f >= static_cast<float>(min_slope_deg_)) {
+                // Terrain incliné connu → coût de pente, delta ignoré.
+                setCost(i, j, slopeToCost(static_cast<double>(slope_f)));
+                continue;
+            }
+
+            // ── 2. Détection d'obstacles via delta (terrain plat ou inconnu) ──
+            // On cherche un delta significatif uniquement sur terrain plat/inconnu
+            // (slope < min_slope_deg ou NaN) — là où un objet peut se distinguer
+            // du sol par sa hauteur.
             if (has_elev_max && elevation_map_.isValid(gm_idx, "elevation_max")) {
-                float elev_g = NAN, elev_m = NAN;
+                float elev_g = NAN;
                 if (elevation_map_.isValid(gm_idx, "elevation"))
                     elev_g = elevation_map_["elevation"](gm_idx(0), gm_idx(1));
-                elev_m = elevation_map_["elevation_max"](gm_idx(0), gm_idx(1));
+                const float elev_m = elevation_map_["elevation_max"](gm_idx(0), gm_idx(1));
                 if (std::isfinite(elev_g) && std::isfinite(elev_m) &&
                     (elev_m - elev_g) >= delta_thr) {
                     setCost(i, j, costmap_2d::LETHAL_OBSTACLE);
@@ -261,14 +279,9 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
                 }
             }
 
-            // ── 2. Coût de traversabilité basé sur la pente du sol ──────────
-            if (!elevation_map_.isValid(gm_idx, "slope")) continue;
-            const float slope_f = elevation_map_["slope"](gm_idx(0), gm_idx(1));
-
-            const double slope = static_cast<double>(slope_f);
-            if (slope < min_slope_deg_) continue;  // terrain plat — transparent
-
-            setCost(i, j, slopeToCost(slope));
+            // ── 3. Terrain plat sans obstacle ────────────────────────────────
+            // slope valide mais < min_slope_deg → transparent (laisser NO_INFORMATION)
+            // slope NaN → pas de données → transparent
         }
     }
 

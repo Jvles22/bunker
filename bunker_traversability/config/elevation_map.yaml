@@ -21,3 +21,8 @@ publish_rate: 1.0       # Hz — suffit pour le costmap (update_freq = 1–2 Hz)
 # Le costmap se dégèle naturellement quand le robot quitte une zone.
 decay_time_ground: 90.0  # s — terrain (lent : le sol ne bouge pas)
 decay_time_max:    20.0  # s — objets (rapide : obstacles mobiles/disparaissent)
+
+# Filtre self-shadow : les retours Velodyne à moins de cette distance horizontale du capteur
+# sont exclus de elevation_max. Élimine les retours du châssis/body du robot (≈0.3–0.8m)
+# qui créeraient un faux delta élevé directement sous le robot.
+min_range_for_max: 1.0   # m
