@@ -18,7 +18,7 @@ obstacle_layer:
 traversability_layer:
   enabled: true
   elevation_topic: "/bunker/elevation_map"
-  lethal_slope_deg: 35.0   # relevé de 25°→35° pour absorber les spikes de transition rampe→plat
+  lethal_slope_deg: 40.0   # relevé de 35°→40° pour absorber les spikes de transition rampe→plat
   min_slope_deg: 5.0
   min_hits: 1.0
   preserve_lethal: false
@@ -38,10 +38,10 @@ traversability_layer:
     - [22.0,  90]   # 20°–22° : pente significative
     - [24.0, 120]   # 22°–24° : pente forte
     - [25.0, 160]   # 24°–25°+ : coût max avant létal (identique à l'ancien code)
-    # 25°–35° → fallback = dernier élément = 160 (spike de transition passable)
-    # ≥ lethal_slope_deg (35°) → LETHAL_OBSTACLE automatique
+    # 25°–40° → fallback = dernier élément = 160 (spike de transition passable)
+    # ≥ lethal_slope_deg (40°) → LETHAL_OBSTACLE automatique
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.3        # était 0.50 — zone d'influence plus large → évitement proactif
-  cost_scaling_factor: 1.0      # était 1.5 — gradient plus doux → coût reste élevé plus loin
+  inflation_radius: 0.10       # réduit de 0.30→0.10 pour préserver les corridors étroits
+  cost_scaling_factor: 1.0
