@@ -21,9 +21,9 @@ TebLocalPlannerROS:
     type: "circular"
     radius: 0.35                  # était 0.5 — aligné avec robot_radius
 
-  enable_homotopy_class_planning: true   # était false
+  enable_homotopy_class_planning: false  # désactivé : 4× plus rapide, évite les boucles "not feasible"
   enable_multithreading: true
-  max_number_classes: 4
+  max_number_classes: 1
 
   global_plan_overwrite_orientation: true
   global_plan_viapoint_sep: 0.5
