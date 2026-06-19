@@ -262,7 +262,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: /lio_sam/mapping/path
+      Topic: /move_base/TebLocalPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Class: rviz/TF
@@ -428,10 +428,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: -15.879040718078613
+      Scale: -35.10350036621094
       Target Frame: base_link
-      X: 7.919516086578369
-      Y: -6.408163070678711
+      X: 9.115978240966797
+      Y: -1.4229052066802979
     Saved: ~
 Window Geometry:
   D435 - Depth:
