@@ -99,6 +99,42 @@ void TraversabilityLayer::reset() {
     current_ = true;
 }
 
+// ── Gaussian 3×3 smoothing ────────────────────────────────────────────────
+// Lisse la couche d'élévation dans `out` AVANT le calcul de pente.
+// Utilisation : réduire les spikes de transition rampe→plat qui créent des
+// faux gradients élevés selon l'angle d'approche.
+// `out` est initialisé depuis `in` — les cellules NaN ou de bord sont
+// conservées telles quelles ; seules les cellules avec wsum > 0.5 sont lissées.
+void TraversabilityLayer::smoothElevation3x3(const Eigen::MatrixXf& in,
+                                              Eigen::MatrixXf& out) {
+    // Noyau Gaussien 3×3 (σ≈1) : centre=0.25, arêtes=0.125, coins=0.0625
+    static const float K[3][3] = {
+        {0.0625f, 0.125f, 0.0625f},
+        {0.125f,  0.25f,  0.125f},
+        {0.0625f, 0.125f, 0.0625f}
+    };
+    out = in;  // copie (bords + NaN conservés)
+    const int R = static_cast<int>(in.rows());
+    const int C = static_cast<int>(in.cols());
+    for (int r = 1; r < R - 1; ++r) {
+        for (int c = 1; c < C - 1; ++c) {
+            float sum = 0.f, wsum = 0.f;
+            for (int dr = -1; dr <= 1; ++dr) {
+                for (int dc = -1; dc <= 1; ++dc) {
+                    const float v = in(r + dr, c + dc);
+                    if (std::isfinite(v)) {
+                        const float w = K[dr + 1][dc + 1];
+                        sum  += w * v;
+                        wsum += w;
+                    }
+                }
+            }
+            if (wsum > 0.5f)
+                out(r, c) = sum / wsum;
+        }
+    }
+}
+
 // ── Elevation map callback ─────────────────────────────────────────────────
 void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& msg) {
     grid_map::GridMap raw;
@@ -120,6 +156,13 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
     const auto&  sz        = raw.getSize();
     const bool   has_hits  = raw.exists("hits");
 
+    // Lissage Gaussien 3×3 sur une copie de la couche d'élévation.
+    // Réduit les spikes de transition rampe→plat qui produisent de faux
+    // gradients élevés selon l'angle d'approche.
+    // NB : raw["elevation"] (données brutes) reste intact pour le check delta.
+    Eigen::MatrixXf smooth_elev;
+    smoothElevation3x3(raw["elevation"], smooth_elev);
+
     for (int row = 1; row < sz(0) - 1; ++row) {
         for (int col = 1; col < sz(1) - 1; ++col) {
 
@@ -134,10 +177,10 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
                     continue;  // not enough data — leave slope as NaN (transparent)
             }
 
-            const float z_rp = raw["elevation"](row + 1, col);
-            const float z_rm = raw["elevation"](row - 1, col);
-            const float z_cp = raw["elevation"](row, col + 1);
-            const float z_cm = raw["elevation"](row, col - 1);
+            const float z_rp = smooth_elev(row + 1, col);
+            const float z_rm = smooth_elev(row - 1, col);
+            const float z_cp = smooth_elev(row, col + 1);
+            const float z_cm = smooth_elev(row, col - 1);
 
             if (std::isnan(z_rp) || std::isnan(z_rm) ||
                 std::isnan(z_cp) || std::isnan(z_cm))

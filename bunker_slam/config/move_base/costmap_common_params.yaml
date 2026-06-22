@@ -20,7 +20,7 @@ traversability_layer:
   elevation_topic: "/bunker/elevation_map"
   lethal_slope_deg: 40.0   # relevé de 35°→40° pour absorber les spikes de transition rampe→plat
   min_slope_deg: 5.0
-  min_hits: 1.0
+  min_hits: 2.0             # 1→2 : exige 2 retours LiDAR avant de marquer une pente (réduit bruit)
   preserve_lethal: false
   delta_obstacle_threshold: 10.0  # m — désactivé (10m inatteignable) : slope-only pour l'instant
   update_radius: 8.0

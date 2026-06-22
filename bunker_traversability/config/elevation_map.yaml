@@ -19,7 +19,7 @@ publish_rate: 1.0       # Hz — suffit pour le costmap (update_freq = 1–2 Hz)
 
 # Décroissance temporelle — cellules non observées depuis N secondes → réinitialisées à NaN.
 # Le costmap se dégèle naturellement quand le robot quitte une zone.
-decay_time_ground: 90.0  # s — terrain (lent : le sol ne bouge pas)
+decay_time_ground: 30.0  # s — réduit de 90→30 : évite la pollution de données stales au retour
 decay_time_max:    20.0  # s — objets (rapide : obstacles mobiles/disparaissent)
 
 # Filtre self-shadow : les retours Velodyne à moins de cette distance horizontale du capteur

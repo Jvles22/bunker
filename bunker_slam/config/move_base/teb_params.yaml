@@ -10,9 +10,9 @@ TebLocalPlannerROS:
   yaw_goal_tolerance: 1.5
   free_goal_vel: false
 
-  min_obstacle_dist: 0.25         # était 0.2
-  inflation_dist: 0.25
-  weight_obstacle: 50.0
+  min_obstacle_dist: 0.12         # réduit de 0.25 → 0.12 pour corridors étroits (~1m)
+  inflation_dist: 0.12
+  weight_obstacle: 20.0           # réduit de 50 → 20 : moins pénalisant près des parois
   include_costmap_obstacles: true
   costmap_obstacles_behind_robot_dist: 1.5
   obstacle_poses_affected: 30

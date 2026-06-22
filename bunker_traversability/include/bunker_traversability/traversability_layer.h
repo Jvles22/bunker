@@ -52,6 +52,7 @@ public:
 private:
     void mapCallback(const grid_map_msgs::GridMap::ConstPtr& msg);
     uint8_t slopeToCost(double slope_deg) const;
+    static void smoothElevation3x3(const Eigen::MatrixXf& in, Eigen::MatrixXf& out);
 
     ros::Subscriber map_sub_;
     grid_map::GridMap elevation_map_;
