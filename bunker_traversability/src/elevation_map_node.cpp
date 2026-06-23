@@ -57,7 +57,7 @@ public:
             grid_map::Position(center_x_, center_y_)
         );
         map_.setFrameId(map_frame_);
-        map_.add("elevation",          NAN);   // min vu  → sol (terrain)
+        map_.add("elevation",          NAN);   // moyenne courante → surface terrain
         map_.add("elevation_max",      NAN);   // max vu  → surface (objets inclus)
         map_.add("hits",               0.0f);
         map_.add("last_update_ground", 0.0f);  // temps relatif dernière mise à jour sol
@@ -140,11 +140,13 @@ private:
             last_m = t;
             hits  += 1.0f;
 
-            // Sol (minimum) : converge vers la surface réelle du terrain.
+            // Moyenne courante (Welford) : plus robuste que le MIN aux retours
+            // parasites (rayons rasants projetés sur des cellules voisines).
+            // hits vient d'être incrémenté → hits = n courant.
             if (std::isnan(elev))
-                elev = pt.z;
+                elev = static_cast<float>(pt.z);
             else
-                elev = std::min(elev, static_cast<float>(pt.z));
+                elev += (static_cast<float>(pt.z) - elev) / hits;
 
             // Surface max : maximum vu dans la fenêtre temporelle.
             // On exclut les retours trop proches du capteur (body du robot, self-shadow)
