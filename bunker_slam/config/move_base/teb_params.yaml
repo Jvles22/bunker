@@ -10,16 +10,16 @@ TebLocalPlannerROS:
   yaw_goal_tolerance: 1.5
   free_goal_vel: false
 
-  min_obstacle_dist: 0.12         # réduit de 0.25 → 0.12 pour corridors étroits (~1m)
-  inflation_dist: 0.12
-  weight_obstacle: 20.0           # réduit de 50 → 20 : moins pénalisant près des parois
+  min_obstacle_dist: 0.05         # réduit de 0.12 → 0.05 pour corridors étroits
+  inflation_dist: 0.05
+  weight_obstacle: 10.0           # réduit de 20 → 10
   include_costmap_obstacles: true
   costmap_obstacles_behind_robot_dist: 1.5
   obstacle_poses_affected: 30
 
   footprint_model:
-    type: "circular"
-    radius: 0.35                  # était 0.5 — aligné avec robot_radius
+    type: "polygon"
+    vertices: [[-0.345, -0.335], [-0.345, 0.335], [0.345, 0.335], [0.345, -0.335]]
 
   enable_homotopy_class_planning: false  # désactivé : 4× plus rapide, évite les boucles "not feasible"
   enable_multithreading: true

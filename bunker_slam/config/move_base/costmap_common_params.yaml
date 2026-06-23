@@ -1,4 +1,4 @@
-robot_radius: 0.35
+footprint: [[-0.345, -0.335], [-0.345, 0.335], [0.345, 0.335], [0.345, -0.335]]
 
 obstacle_layer:
   enabled: false
@@ -43,5 +43,5 @@ traversability_layer:
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.10       # réduit de 0.30→0.10 pour préserver les corridors étroits
+  inflation_radius: 0.05       # réduit de 0.10→0.05 : footprint polygon rend le padding moins nécessaire
   cost_scaling_factor: 1.0
