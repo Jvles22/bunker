@@ -322,9 +322,11 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
                 }
             }
 
-            // ── 3. Terrain plat sans obstacle ────────────────────────────────
-            // slope valide mais < min_slope_deg → transparent (laisser NO_INFORMATION)
-            // slope NaN → pas de données → transparent
+            // ── 3. Terrain plat ou inconnu ───────────────────────────────────
+            // Élévation connue → sol plat confirmé → FREE_SPACE (navigable)
+            // Élévation NaN   → jamais scanné     → NO_INFORMATION (déjà par memset)
+            if (elevation_map_.isValid(gm_idx, "elevation"))
+                setCost(i, j, costmap_2d::FREE_SPACE);
         }
     }
 
