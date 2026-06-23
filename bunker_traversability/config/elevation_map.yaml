@@ -19,10 +19,17 @@ publish_rate: 1.0       # Hz — suffit pour le costmap (update_freq = 1–2 Hz)
 
 # Décroissance temporelle — cellules non observées depuis N secondes → réinitialisées à NaN.
 # Le costmap se dégèle naturellement quand le robot quitte une zone.
-decay_time_ground: 30.0  # s — réduit de 90→30 : évite la pollution de données stales au retour
+decay_time_ground: 1000.0 # s — terrain statique : la carte persiste d'une boucle à l'autre
 decay_time_max:    20.0  # s — objets (rapide : obstacles mobiles/disparaissent)
 
 # Filtre self-shadow : les retours Velodyne à moins de cette distance horizontale du capteur
 # sont exclus de elevation_max. Élimine les retours du châssis/body du robot (≈0.3–0.8m)
 # qui créeraient un faux delta élevé directement sous le robot.
 min_range_for_max: 1.0   # m
+
+# Gaussian Process — interpolation des cellules jamais scannées (élévation NaN)
+# Les cellules non visitées reçoivent une estimation pondérée par un noyau Gaussien
+# centré sur leurs voisins valides. Publie une couche "elevation_gp" dans le GridMap.
+gp_sigma:          0.40  # m — rayon de corrélation (demi-largeur du noyau)
+gp_search_radius:  0.80  # m — rayon de recherche des voisins (2× sigma recommandé)
+gp_min_neighbors:  3     # nombre minimum de voisins valides avant d'interpoler

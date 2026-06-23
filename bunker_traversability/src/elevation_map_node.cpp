@@ -49,6 +49,9 @@ public:
         // Exclure les retours trop proches du capteur de elevation_max :
         // le body/châssis du robot génère des retours à <1m → faux delta → LÉTAL autour du robot.
         pnh.param("min_range_for_max",  min_range_for_max_,   1.0);
+        pnh.param("gp_sigma",          gp_sigma_,            0.40);
+        pnh.param("gp_search_radius",  gp_search_radius_,    0.80);
+        pnh.param("gp_min_neighbors",  gp_min_neighbors_,    3);
 
         // ── Init grid_map (fixed, non-rolling) ──────────────────────────
         map_.setGeometry(
@@ -58,6 +61,7 @@ public:
         );
         map_.setFrameId(map_frame_);
         map_.add("elevation",          NAN);   // moyenne courante → surface terrain
+        map_.add("elevation_gp",       NAN);   // GP interpolé → inclut cellules non visitées
         map_.add("elevation_max",      NAN);   // max vu  → surface (objets inclus)
         map_.add("hits",               0.0f);
         map_.add("last_update_ground", 0.0f);  // temps relatif dernière mise à jour sol
@@ -165,6 +169,53 @@ private:
         initialized_ = true;
     }
 
+    // ── Gaussian Process interpolation ───────────────────────────────────
+    // Pour chaque cellule NaN dans "elevation", calcule une estimation par
+    // moyenne pondérée (noyau Gaussien) des voisins valides dans gp_search_radius_.
+    // Résultat stocké dans "elevation_gp" (reconstruction complète à chaque appel).
+    void computeGaussianProcess() {
+        // Copie elevation → elevation_gp (cellules valides conservées telles quelles)
+        map_["elevation_gp"] = map_["elevation"];
+
+        const float sigma_sq_2 = 2.0f * static_cast<float>(gp_sigma_ * gp_sigma_);
+        const float sr2        = static_cast<float>(gp_search_radius_ * gp_search_radius_);
+        const float res        = static_cast<float>(resolution_);
+        const int   R          = static_cast<int>(std::ceil(gp_search_radius_ / resolution_));
+        const auto& sz         = map_.getSize();
+
+        for (int row = 0; row < sz(0); ++row) {
+            for (int col = 0; col < sz(1); ++col) {
+                const grid_map::Index idx(row, col);
+                // Cellule déjà valide → pas besoin d'interpoler
+                if (std::isfinite(map_.at("elevation", idx))) continue;
+
+                float sum = 0.f, wsum = 0.f;
+                int   n_valid = 0;
+
+                for (int dr = -R; dr <= R; ++dr) {
+                    for (int dc = -R; dc <= R; ++dc) {
+                        const float d2 = static_cast<float>(dr*dr + dc*dc) * res * res;
+                        if (d2 > sr2) continue;  // hors du cercle
+
+                        const int nr = row + dr, nc = col + dc;
+                        if (nr < 0 || nr >= sz(0) || nc < 0 || nc >= sz(1)) continue;
+
+                        const float val = map_.at("elevation", grid_map::Index(nr, nc));
+                        if (!std::isfinite(val)) continue;
+
+                        const float w = std::exp(-d2 / sigma_sq_2);
+                        sum   += w * val;
+                        wsum  += w;
+                        n_valid++;
+                    }
+                }
+
+                if (n_valid >= gp_min_neighbors_ && wsum > 1e-6f)
+                    map_.at("elevation_gp", idx) = sum / wsum;
+            }
+        }
+    }
+
     // ── Publish callback ─────────────────────────────────────────────────
     void publishCallback(const ros::TimerEvent&) {
         if (!initialized_) return;
@@ -192,6 +243,9 @@ private:
             }
         }
 
+        // Interpolation GP : remplit elevation_gp pour les cellules NaN de elevation.
+        computeGaussianProcess();
+
         map_.setTimestamp(ros::Time::now().toNSec());
         grid_map_msgs::GridMap msg;
         grid_map::GridMapRosConverter::toMessage(map_, msg);
@@ -218,6 +272,9 @@ private:
     double min_height_, max_height_, publish_rate_;
     double decay_time_ground_, decay_time_max_;
     double min_range_for_max_;  // m — distance horizontale min pour mise à jour elevation_max
+    double gp_sigma_;           // m — rayon de corrélation du noyau Gaussien
+    double gp_search_radius_;   // m — rayon de recherche des voisins
+    int    gp_min_neighbors_;   // nombre minimum de voisins valides pour interpoler
 };
 
 // ── main ─────────────────────────────────────────────────────────────────

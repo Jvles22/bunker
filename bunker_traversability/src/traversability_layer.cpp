@@ -156,12 +156,13 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
     const auto&  sz        = raw.getSize();
     const bool   has_hits  = raw.exists("hits");
 
-    // Lissage Gaussien 3×3 sur une copie de la couche d'élévation.
-    // Réduit les spikes de transition rampe→plat qui produisent de faux
-    // gradients élevés selon l'angle d'approche.
+    // Utilise elevation_gp si disponible : contient les valeurs réelles ET les
+    // cellules interpolées par GP (jamais scannées). Fallback sur elevation si absent.
     // NB : raw["elevation"] (données brutes) reste intact pour le check delta.
+    const std::string elev_layer = raw.exists("elevation_gp") ? "elevation_gp" : "elevation";
+
     Eigen::MatrixXf smooth_elev;
-    smoothElevation3x3(raw["elevation"], smooth_elev);
+    smoothElevation3x3(raw[elev_layer], smooth_elev);
 
     for (int row = 1; row < sz(0) - 1; ++row) {
         for (int col = 1; col < sz(1) - 1; ++col) {
@@ -265,6 +266,7 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
 
     // Présence du layer de surface max (disponible après mise à jour elevation_map_node).
     const bool has_elev_max = elevation_map_.exists("elevation_max");
+    const bool has_elev_gp  = elevation_map_.exists("elevation_gp");
     const float delta_thr   = static_cast<float>(delta_obstacle_threshold_);
 
     // Réinitialise uniquement la région active à NO_INFORMATION.
@@ -323,9 +325,11 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
             }
 
             // ── 3. Terrain plat ou inconnu ───────────────────────────────────
-            // Élévation connue → sol plat confirmé → FREE_SPACE (navigable)
-            // Élévation NaN   → jamais scanné     → NO_INFORMATION (déjà par memset)
-            if (elevation_map_.isValid(gm_idx, "elevation"))
+            // Élévation réelle connue   → FREE_SPACE (confirmé plat)
+            // Élévation GP interpolée   → FREE_SPACE (estimé plat depuis voisins)
+            // Élévation NaN (aucune des deux) → NO_INFORMATION (déjà par memset)
+            if (elevation_map_.isValid(gm_idx, "elevation") ||
+                (has_elev_gp && elevation_map_.isValid(gm_idx, "elevation_gp")))
                 setCost(i, j, costmap_2d::FREE_SPACE);
         }
     }

@@ -43,5 +43,5 @@ traversability_layer:
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.05       # réduit de 0.10→0.05 : footprint polygon rend le padding moins nécessaire
+  inflation_radius: 0.10       # restauré : 0.05 → 0.10
   cost_scaling_factor: 1.0
