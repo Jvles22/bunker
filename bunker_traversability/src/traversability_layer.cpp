@@ -328,8 +328,10 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
         }
     }
 
-    // Copie les cellules non-NO_INFORMATION dans le master costmap.
-    updateWithOverwrite(master_grid, min_i, min_j, max_i, max_j);
+    // Copie TOUTES les cellules dans le master costmap (y compris NO_INFORMATION).
+    // updateWithTrueOverwrite efface les anciennes marques LETHAL stales quand
+    // la traversability layer n'a plus de données pour une cellule.
+    updateWithTrueOverwrite(master_grid, min_i, min_j, max_i, max_j);
 }
 
 }  // namespace bunker_traversability
