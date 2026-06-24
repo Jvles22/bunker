@@ -152,14 +152,21 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
     // least min_hits_ times — single-return cells on noisy terrain would
     // otherwise produce wildly exaggerated gradients.
     raw.add("slope", std::numeric_limits<float>::quiet_NaN());
-    const double res       = raw.getResolution();
-    const auto&  sz        = raw.getSize();
-    const bool   has_hits  = raw.exists("hits");
+    const double res = raw.getResolution();
+    const auto&  sz  = raw.getSize();
 
-    // Utilise elevation_gp si disponible : contient les valeurs réelles ET les
-    // cellules interpolées par GP (jamais scannées). Fallback sur elevation si absent.
-    // NB : raw["elevation"] (données brutes) reste intact pour le check delta.
-    const std::string elev_layer = raw.exists("elevation_gp") ? "elevation_gp" : "elevation";
+    // Priorité des couches pour le calcul de pente :
+    //   1. elevation_gnd — MEAN filtré sol (exclut canopée/branches) → élimine les faux
+    //      anneaux LETHAL autour des arbres causés par la contamination du MEAN brut.
+    //      Hits check sur hits_gnd (même seuil min_hits_).
+    //   2. elevation_gp  — MEAN + interpolation GP des cellules non visitées.
+    //   3. elevation     — MEAN brut (fallback : ramp tops où elevation_gnd est NaN).
+    const std::string elev_layer =
+        raw.exists("elevation_gnd") ? "elevation_gnd" :
+        raw.exists("elevation_gp")  ? "elevation_gp"  : "elevation";
+    const std::string hits_layer =
+        (elev_layer == "elevation_gnd") ? "hits_gnd" : "hits";
+    const bool has_hits = raw.exists(hits_layer);
 
     Eigen::MatrixXf smooth_elev;
     smoothElevation3x3(raw[elev_layer], smooth_elev);
@@ -167,12 +174,12 @@ void TraversabilityLayer::mapCallback(const grid_map_msgs::GridMap::ConstPtr& ms
     for (int row = 1; row < sz(0) - 1; ++row) {
         for (int col = 1; col < sz(1) - 1; ++col) {
 
-            // ── Reliability guard (Problem 3) ──────────────────────────
+            // ── Reliability guard ──────────────────────────────────────
             if (has_hits) {
-                const float h_rp = raw["hits"](row + 1, col);
-                const float h_rm = raw["hits"](row - 1, col);
-                const float h_cp = raw["hits"](row, col + 1);
-                const float h_cm = raw["hits"](row, col - 1);
+                const float h_rp = raw[hits_layer](row + 1, col);
+                const float h_rm = raw[hits_layer](row - 1, col);
+                const float h_cp = raw[hits_layer](row, col + 1);
+                const float h_cm = raw[hits_layer](row, col - 1);
                 if (h_rp < min_hits_ || h_rm < min_hits_ ||
                     h_cp < min_hits_ || h_cm < min_hits_)
                     continue;  // not enough data — leave slope as NaN (transparent)
@@ -267,6 +274,7 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
     // Présence du layer de surface max (disponible après mise à jour elevation_map_node).
     const bool has_elev_max = elevation_map_.exists("elevation_max");
     const bool has_elev_gp  = elevation_map_.exists("elevation_gp");
+    const bool has_elev_gnd = elevation_map_.exists("elevation_gnd");
     const float delta_thr   = static_cast<float>(delta_obstacle_threshold_);
 
     // Réinitialise uniquement la région active à NO_INFORMATION.
@@ -325,11 +333,11 @@ void TraversabilityLayer::updateCosts(costmap_2d::Costmap2D& master_grid,
             }
 
             // ── 3. Terrain plat ou inconnu ───────────────────────────────────
-            // Élévation réelle connue   → FREE_SPACE (confirmé plat)
-            // Élévation GP interpolée   → FREE_SPACE (estimé plat depuis voisins)
-            // Élévation NaN (aucune des deux) → NO_INFORMATION (déjà par memset)
+            // Toute estimation d'élévation disponible → FREE_SPACE (sol confirmé ou estimé)
+            // Aucune estimation → NO_INFORMATION (jamais scanné, laissé transparent)
             if (elevation_map_.isValid(gm_idx, "elevation") ||
-                (has_elev_gp && elevation_map_.isValid(gm_idx, "elevation_gp")))
+                (has_elev_gp  && elevation_map_.isValid(gm_idx, "elevation_gp"))  ||
+                (has_elev_gnd && elevation_map_.isValid(gm_idx, "elevation_gnd")))
                 setCost(i, j, costmap_2d::FREE_SPACE);
         }
     }

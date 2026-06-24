@@ -27,6 +27,12 @@ decay_time_max:    20.0  # s — objets (rapide : obstacles mobiles/disparaissen
 # qui créeraient un faux delta élevé directement sous le robot.
 min_range_for_max: 1.0   # m
 
+# Filtre sol (double couche) — exclut obstacles suspendus (canopée, branches)
+# Seuls les retours LiDAR dans [z_min_local, z_min_local + ground_filter_height] sont
+# accumulés dans elevation_gnd. La canopée et les branches au-dessus du sol de plus de
+# ground_filter_height sont exclues → supprime les faux anneaux LETHAL autour des arbres.
+ground_filter_height: 0.40  # m — hauteur max au-dessus du minimum local (< robot 0.80m)
+
 # Gaussian Process — interpolation des cellules jamais scannées (élévation NaN)
 # Les cellules non visitées reçoivent une estimation pondérée par un noyau Gaussien
 # centré sur leurs voisins valides. Publie une couche "elevation_gp" dans le GridMap.

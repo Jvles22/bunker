@@ -49,9 +49,12 @@ public:
         // Exclure les retours trop proches du capteur de elevation_max :
         // le body/châssis du robot génère des retours à <1m → faux delta → LÉTAL autour du robot.
         pnh.param("min_range_for_max",  min_range_for_max_,   1.0);
-        pnh.param("gp_sigma",          gp_sigma_,            0.40);
-        pnh.param("gp_search_radius",  gp_search_radius_,    0.80);
-        pnh.param("gp_min_neighbors",  gp_min_neighbors_,    3);
+        pnh.param("gp_sigma",            gp_sigma_,              0.40);
+        pnh.param("gp_search_radius",    gp_search_radius_,      0.80);
+        pnh.param("gp_min_neighbors",    gp_min_neighbors_,      3);
+        // Filtre sol : retours à plus de ground_filter_height_ au-dessus du minimum
+        // local de la cellule sont exclus de elevation_gnd (canopée, branches).
+        pnh.param("ground_filter_height", ground_filter_height_, 0.40);
 
         // ── Init grid_map (fixed, non-rolling) ──────────────────────────
         map_.setGeometry(
@@ -62,8 +65,11 @@ public:
         map_.setFrameId(map_frame_);
         map_.add("elevation",          NAN);   // moyenne courante → surface terrain
         map_.add("elevation_gp",       NAN);   // GP interpolé → inclut cellules non visitées
+        map_.add("elevation_gnd",      NAN);   // MEAN filtré sol → exclut retours canopée/branches
         map_.add("elevation_max",      NAN);   // max vu  → surface (objets inclus)
         map_.add("hits",               0.0f);
+        map_.add("hits_gnd",           0.0f);  // compteur Welford pour elevation_gnd
+        map_.add("z_min_gnd",          NAN);   // minimum z vu par cellule (seuil filtre sol)
         map_.add("last_update_ground", 0.0f);  // temps relatif dernière mise à jour sol
         map_.add("last_update_max",    0.0f);  // temps relatif dernière mise à jour max
 
@@ -135,6 +141,9 @@ private:
             float& elev     = map_.at("elevation",          idx);
             float& elev_max = map_.at("elevation_max",      idx);
             float& hits     = map_.at("hits",               idx);
+            float& elev_gnd = map_.at("elevation_gnd",      idx);
+            float& hits_gnd = map_.at("hits_gnd",           idx);
+            float& z_min    = map_.at("z_min_gnd",          idx);
             float& last_g   = map_.at("last_update_ground", idx);
             float& last_m   = map_.at("last_update_max",    idx);
 
@@ -151,6 +160,20 @@ private:
                 elev = static_cast<float>(pt.z);
             else
                 elev += (static_cast<float>(pt.z) - elev) / hits;
+
+            // Filtre sol (elevation_gnd) : n'accumule que les retours dont z est
+            // dans la fenêtre [z_min_local, z_min_local + ground_filter_height].
+            // Effet : les branches/canopée au-dessus du sol sont exclues.
+            // z_min_gnd se met à jour dès qu'un retour plus bas arrive.
+            if (std::isnan(z_min) || pt.z < z_min)
+                z_min = static_cast<float>(pt.z);
+            if (pt.z <= z_min + static_cast<float>(ground_filter_height_)) {
+                hits_gnd += 1.0f;
+                if (std::isnan(elev_gnd))
+                    elev_gnd = static_cast<float>(pt.z);
+                else
+                    elev_gnd += (static_cast<float>(pt.z) - elev_gnd) / hits_gnd;
+            }
 
             // Surface max : maximum vu dans la fenêtre temporelle.
             // On exclut les retours trop proches du capteur (body du robot, self-shadow)
@@ -233,7 +256,10 @@ private:
             const float lg = map_.at("last_update_ground", *it);
             if (lg > 0.0f && (t_now - lg) > decay_g) {
                 map_.at("elevation",          *it) = NAN;
+                map_.at("elevation_gnd",      *it) = NAN;
                 map_.at("hits",               *it) = 0.0f;
+                map_.at("hits_gnd",           *it) = 0.0f;
+                map_.at("z_min_gnd",          *it) = NAN;
                 map_.at("last_update_ground", *it) = 0.0f;
             }
             const float lm = map_.at("last_update_max", *it);
@@ -275,6 +301,7 @@ private:
     double gp_sigma_;           // m — rayon de corrélation du noyau Gaussien
     double gp_search_radius_;   // m — rayon de recherche des voisins
     int    gp_min_neighbors_;   // nombre minimum de voisins valides pour interpoler
+    double ground_filter_height_;  // m — retours > z_min_local + hauteur exclus de elevation_gnd
 };
 
 // ── main ─────────────────────────────────────────────────────────────────
