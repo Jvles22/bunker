@@ -48,10 +48,10 @@ LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
 WAYPOINTS = [
     (  -10.0, -12.0, "wp 1"),    # Sud centre — plein Est depuis spawn
     ( 11.0, -12.0, "wp 2"),    # Coin SE
-    ( 11.0,   0.0, "wp 3"),    # Milieu Est — passe près obstacle1_0
-    ( -10.0,  0.0, "wp 5"),    # Nord centre — passe près obstacle2/4
-    (-10.0,   12.0, "wp 6"),
-    (11.0,   12.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
+    ( 11.0,   -3.0, "wp 3"),    # Milieu Est — passe près obstacle1_0
+    ( -10.0,  -3.0, "wp 5"),    # Nord centre — passe près obstacle2/4
+    (-10.0,   9.0, "wp 6"),
+    (11.0,   9.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
     #(-10.0,   12.0, "wp 6"),
     #(-10.0, -12.0, "Spawn"),   # Retour spawn
 ]
@@ -95,6 +95,7 @@ COSTMAP_THROTTLE = [
 ]
 
 ROSBAG_TOPICS = [
+    "/move_base/global_costmap/costmap", 
     "/move_base/global_costmap/costmap_throttled",
     "/move_base/global_costmap/costmap_updates_throttled",
     "/bunker/elevation_map_throttled",
