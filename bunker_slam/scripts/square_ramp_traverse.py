@@ -42,7 +42,7 @@ except ImportError:
 
 OUTPUT_DIR = "/home/projet_bunker/data_simu"
 SPEED      = 0.5   # m/s
-LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
+LOOPS      = 1     # nombre d'allers-retours (1 = aller + retour)
 
 # Waypoints dans l'ordre de traversée : (x, y, label)
 WAYPOINTS = [
