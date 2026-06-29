@@ -10,9 +10,9 @@ TebLocalPlannerROS:
   yaw_goal_tolerance: 1.5
   free_goal_vel: false
 
-  min_obstacle_dist: 0.15         # restauré : 0.05 → 0.15 (meilleur évitement)
-  inflation_dist: 0.15
-  weight_obstacle: 30.0           # restauré : 10 → 30
+  min_obstacle_dist: 0.25         # 0.15→0.25 : TEB garde plus de marge (évite les freinages brusques)
+  inflation_dist: 0.30            # 0.15→0.30 : zone répulsive plus douce autour des obstacles
+  weight_obstacle: 20.0           # 30→20 : moins agressif, trajectoire plus fluide
   include_costmap_obstacles: true
   costmap_obstacles_behind_robot_dist: 1.5
   obstacle_poses_affected: 30
@@ -26,20 +26,20 @@ TebLocalPlannerROS:
   max_number_classes: 1
 
   global_plan_overwrite_orientation: true
-  global_plan_viapoint_sep: 0.5
-  max_global_plan_lookahead_dist: 8.0    # était 5.0
+  global_plan_viapoint_sep: 1.5          # 0.5→1.5 : moins de viapoints → virages plus naturels
+  max_global_plan_lookahead_dist: 8.0
 
-  dt_ref: 0.4
+  dt_ref: 0.5                            # 0.4→0.5 : horizon temporel plus lisse
   dt_hysteresis: 0.15
-  min_samples: 5
+  min_samples: 12                        # 5→12 : ~6s de lookahead (anticipation 3× plus longue)
   max_samples: 500
 
   weight_max_vel_x: 2.0
   weight_max_vel_theta: 1.0
   weight_acc_lim_x: 1.0
   weight_acc_lim_theta: 1.0
-  weight_kinematics_nh: 1000.0
-  weight_kinematics_forward_drive: 10.0  # était 1000.0
+  weight_kinematics_nh: 200.0            # 1000→200 : rotations plus souples, moins d'oscillations
+  weight_kinematics_forward_drive: 10.0
 
   no_inner_iterations: 5
   no_outer_iterations: 4                 # était 3

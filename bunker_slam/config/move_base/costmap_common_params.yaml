@@ -43,5 +43,5 @@ traversability_layer:
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.10       # restauré : 0.05 → 0.10
-  cost_scaling_factor: 1.0
+  inflation_radius: 0.40       # 0.10→0.40 : marge suffisante pour que navfn route loin des obstacles
+  cost_scaling_factor: 2.5     # décroissance plus rapide → zones navigables plus larges

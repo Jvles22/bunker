@@ -42,7 +42,7 @@ except ImportError:
 
 OUTPUT_DIR = "/home/projet_bunker/data_simu"
 SPEED      = 0.5   # m/s
-LOOPS      = 1     # nombre d'allers-retours (1 = aller + retour)
+LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
 
 # Waypoints dans l'ordre de traversée : (x, y, label)
 WAYPOINTS = [
@@ -88,7 +88,7 @@ LIDAR_SUBSAMPLE = 10   # 1 point Velodyne sur N → PCD final plus léger
 # Throttle des topics lourds via topic_tools/throttle (C++)
 # Format : (topic_in, msgs/s, topic_out)
 COSTMAP_THROTTLE = [
-    ("/move_base/global_costmap/costmap",        0.5, "/move_base/global_costmap/costmap_throttled"),
+    # ("/move_base/global_costmap/costmap",        0.5, "/move_base/global_costmap/costmap_throttled"),
     ("/move_base/global_costmap/costmap_updates", 2.0, "/move_base/global_costmap/costmap_updates_throttled"),
     ("/move_base/local_costmap/costmap",          1.0, "/move_base/local_costmap/costmap_throttled"),
     ("/bunker/elevation_map",                     1.0, "/bunker/elevation_map_throttled"),
@@ -96,7 +96,7 @@ COSTMAP_THROTTLE = [
 
 ROSBAG_TOPICS = [
     "/move_base/global_costmap/costmap", 
-    "/move_base/global_costmap/costmap_throttled",
+    # "/move_base/global_costmap/costmap",
     "/move_base/global_costmap/costmap_updates_throttled",
     "/bunker/elevation_map_throttled",
     "/move_base/local_costmap/costmap_throttled",
