@@ -646,12 +646,18 @@ class SquareTraverse:
             for loop_idx in range(LOOPS):
                 # --- Aller ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — aller ===")
-                for (wx, wy, label) in WAYPOINTS:
+                for i, (wx, wy, label) in enumerate(WAYPOINTS):
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_fwd_{label}"
-                    yaw = math.atan2(wy - prev_y, wx - prev_x)
-                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})")
+                    # Orientation sortante : pointe vers le prochain waypoint, pas le courant.
+                    # Le robot arrive déjà aligné pour le segment suivant → pas de rotation sur place.
+                    if i + 1 < len(WAYPOINTS):
+                        nx, ny = WAYPOINTS[i + 1][0], WAYPOINTS[i + 1][1]
+                        yaw = math.atan2(ny - wy, nx - wx)
+                    else:
+                        yaw = math.atan2(wy - prev_y, wx - prev_x)
+                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})  yaw={math.degrees(yaw):.1f}°")
                     success, dur = self._navigate_to(wx, wy, lbl, yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
@@ -664,12 +670,17 @@ class SquareTraverse:
 
                 # --- Retour ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — retour ===")
-                for (wx, wy, label) in reversed(WAYPOINTS):
+                wps_rev = list(reversed(WAYPOINTS))
+                for i, (wx, wy, label) in enumerate(wps_rev):
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_rev_{label}"
-                    yaw = math.atan2(wy - prev_y, wx - prev_x)
-                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})")
+                    if i + 1 < len(wps_rev):
+                        nx, ny = wps_rev[i + 1][0], wps_rev[i + 1][1]
+                        yaw = math.atan2(ny - wy, nx - wx)
+                    else:
+                        yaw = math.atan2(wy - prev_y, wx - prev_x)
+                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})  yaw={math.degrees(yaw):.1f}°")
                     success, dur = self._navigate_to(wx, wy, lbl, yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
