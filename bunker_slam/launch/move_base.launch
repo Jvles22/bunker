@@ -24,8 +24,8 @@
     <rosparam file="$(find bunker_slam)/config/move_base/$(arg planner)_params.yaml"
               command="load"/>
 
-    <!-- Global planner -->
-    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    <!-- Global planner: carrot_planner suit une ligne droite vers le waypoint -->
+    <param name="base_global_planner" value="carrot_planner/CarrotPlanner"/>
 
     <!-- Local planner: switch automatique selon l'argument -->
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"
