@@ -24,6 +24,7 @@ import sensor_msgs.point_cloud2 as pc2
 import tf
 
 from move_base_msgs.msg  import MoveBaseAction, MoveBaseGoal
+from geometry_msgs.msg   import Twist
 from nav_msgs.msg        import Odometry
 from sensor_msgs.msg     import Imu, PointCloud2
 from tf.transformations  import euler_from_quaternion, quaternion_from_euler
@@ -232,6 +233,9 @@ class SquareTraverse:
             except rospy.ROSException:
                 rospy.logwarn("clear_costmaps indisponible")
 
+        # Publisher cmd_vel direct (rotation bypass TEB)
+        self._cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+
         # TF listener (PCD accumulation)
         self.tf_listener = tf.TransformListener()
 
@@ -406,53 +410,29 @@ class SquareTraverse:
                 pass
 
     def _rotate_to(self, yaw):
-        """Rotation sur place vers yaw cible avant de partir en ligne droite."""
-        # Serre temporairement la tolérance yaw pour forcer TEB à tourner jusqu'au bout.
-        if self.dyn_client:
-            try:
-                self.dyn_client.update_configuration({"yaw_goal_tolerance": ROTATION_TOL})
-            except Exception:
-                pass
-
-        goal = MoveBaseGoal()
-        goal.target_pose.header.frame_id = "map"
-        goal.target_pose.header.stamp    = rospy.Time.now()
-        goal.target_pose.pose.position.x = self.x
-        goal.target_pose.pose.position.y = self.y
-        q = quaternion_from_euler(0.0, 0.0, yaw)
-        goal.target_pose.pose.orientation.x = q[0]
-        goal.target_pose.pose.orientation.y = q[1]
-        goal.target_pose.pose.orientation.z = q[2]
-        goal.target_pose.pose.orientation.w = q[3]
-        self.client.send_goal(goal)
-
-        start = time.time()
+        """Rotation sur place via cmd_vel direct — bypass TEB (P-controller angulaire)."""
         rate  = rospy.Rate(10)
+        start = time.time()
         ok    = False
+
         while not rospy.is_shutdown():
-            diff = abs(math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw)))
-            if diff < ROTATION_TOL:
+            diff = math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw))
+            if abs(diff) < ROTATION_TOL:
                 ok = True
                 break
             if time.time() - start > ROTATION_TIMEOUT_S:
                 rospy.logwarn(f"  Rotation timeout (Δyaw={math.degrees(diff):.1f}°) — on continue")
                 break
-            state = self.client.get_state()
-            if state in (actionlib.GoalStatus.ABORTED, actionlib.GoalStatus.REJECTED):
-                rospy.logwarn("  Rotation : aborted/rejected")
-                break
-            if state == actionlib.GoalStatus.SUCCEEDED:
-                ok = diff < ROTATION_TOL
-                break
+            # P-controller : omega proportionnel à l'erreur, min 0.25 rad/s pour vaincre l'inertie
+            omega = math.copysign(max(0.25, min(1.0, abs(diff))), diff)
+            twist = Twist()
+            twist.angular.z = omega
+            self._cmd_vel_pub.publish(twist)
             rate.sleep()
 
-        self.client.cancel_goal()
-
-        if self.dyn_client:
-            try:
-                self.dyn_client.update_configuration({"yaw_goal_tolerance": YAW_TOLERANCE})
-            except Exception:
-                pass
+        # Arrêt propre avant de laisser TEB reprendre
+        self._cmd_vel_pub.publish(Twist())
+        rospy.sleep(0.3)
 
         diff_final = abs(math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw)))
         rospy.loginfo(f"  Rotation {'OK' if ok else 'partielle'}  Δyaw={math.degrees(diff_final):.1f}°")
