@@ -7,7 +7,7 @@ TebLocalPlannerROS:
   acc_lim_theta: 0.5
 
   xy_goal_tolerance: 0.5
-  yaw_goal_tolerance: 1.5
+  yaw_goal_tolerance: 0.3
   free_goal_vel: false
 
   min_obstacle_dist: 0.25         # 0.15→0.25 : TEB garde plus de marge (évite les freinages brusques)
