@@ -16,6 +16,7 @@ import math
 import time
 import threading
 import subprocess
+import re
 import signal
 
 import numpy as np
@@ -27,8 +28,6 @@ from nav_msgs.msg        import Odometry
 from sensor_msgs.msg     import Imu, PointCloud2
 from tf.transformations  import euler_from_quaternion, quaternion_from_euler
 from std_srvs.srv        import Empty as EmptySrv
-from datetime            import datetime
-
 try:
     from lio_sam.srv import save_map as LioSamSaveMap
     _HAS_LIO_SAM_SRV = True
@@ -65,6 +64,9 @@ WP_SKIP_MAX     = 2      # tentatives max avant abandon
 STALL_TIME_S    = 15.0    # délai avant détection blocage (s)
 STALL_VEL       = 0.03   # vitesse sous laquelle = bloqué (m/s)
 CLEAR_ON_ABORT  = True
+
+ROTATION_TOL       = 0.12   # rad ≈ 7° — tolérance angulaire pour la rotation sur place
+ROTATION_TIMEOUT_S = 20.0   # s — timeout max avant de continuer sans avoir atteint le yaw
 
 RECORD_HZ       = 10
 
@@ -403,6 +405,72 @@ class SquareTraverse:
             except rospy.ServiceException:
                 pass
 
+    def _rotate_to(self, yaw):
+        """Rotation sur place vers yaw cible avant de partir en ligne droite."""
+        # Serre temporairement la tolérance yaw pour forcer TEB à tourner jusqu'au bout.
+        if self.dyn_client:
+            try:
+                self.dyn_client.update_configuration({"yaw_goal_tolerance": ROTATION_TOL})
+            except Exception:
+                pass
+
+        goal = MoveBaseGoal()
+        goal.target_pose.header.frame_id = "map"
+        goal.target_pose.header.stamp    = rospy.Time.now()
+        goal.target_pose.pose.position.x = self.x
+        goal.target_pose.pose.position.y = self.y
+        q = quaternion_from_euler(0.0, 0.0, yaw)
+        goal.target_pose.pose.orientation.x = q[0]
+        goal.target_pose.pose.orientation.y = q[1]
+        goal.target_pose.pose.orientation.z = q[2]
+        goal.target_pose.pose.orientation.w = q[3]
+        self.client.send_goal(goal)
+
+        start = time.time()
+        rate  = rospy.Rate(10)
+        ok    = False
+        while not rospy.is_shutdown():
+            diff = abs(math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw)))
+            if diff < ROTATION_TOL:
+                ok = True
+                break
+            if time.time() - start > ROTATION_TIMEOUT_S:
+                rospy.logwarn(f"  Rotation timeout (Δyaw={math.degrees(diff):.1f}°) — on continue")
+                break
+            state = self.client.get_state()
+            if state in (actionlib.GoalStatus.ABORTED, actionlib.GoalStatus.REJECTED):
+                rospy.logwarn("  Rotation : aborted/rejected")
+                break
+            if state == actionlib.GoalStatus.SUCCEEDED:
+                ok = diff < ROTATION_TOL
+                break
+            rate.sleep()
+
+        self.client.cancel_goal()
+
+        if self.dyn_client:
+            try:
+                self.dyn_client.update_configuration({"yaw_goal_tolerance": YAW_TOLERANCE})
+            except Exception:
+                pass
+
+        diff_final = abs(math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw)))
+        rospy.loginfo(f"  Rotation {'OK' if ok else 'partielle'}  Δyaw={math.degrees(diff_final):.1f}°")
+        return ok
+
+    @staticmethod
+    def _next_run_tag(output_dir):
+        """Retourne 'RunN' avec N = max des runs existantes + 1."""
+        max_n = 0
+        try:
+            for name in os.listdir(output_dir):
+                m = re.match(r'Run(\d+)', name, re.IGNORECASE)
+                if m:
+                    max_n = max(max_n, int(m.group(1)))
+        except FileNotFoundError:
+            pass
+        return f"Run{max_n + 1}"
+
     def _navigate_to(self, x, y, label, yaw):
         """
         Envoie un goal à (x, y) et attend l'arrivée.
@@ -624,8 +692,7 @@ class SquareTraverse:
         self._set_speed(SPEED)
         rospy.sleep(2.0)
 
-        ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
-        run_tag  = f"traverse_{self.planner_name}_{ts}"
+        run_tag  = self._next_run_tag(OUTPUT_DIR)
         filename = os.path.join(OUTPUT_DIR, f"{run_tag}.csv")
         pcd_path = os.path.join(OUTPUT_DIR, f"{run_tag}.pcd")
         bag_path = os.path.join(OUTPUT_DIR, f"{run_tag}.bag")
@@ -642,51 +709,39 @@ class SquareTraverse:
             writer.writerow(self.CSV_HEADER)
             self._start_recording(writer)
 
-            prev_x, prev_y = self.x, self.y
             for loop_idx in range(LOOPS):
                 # --- Aller ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — aller ===")
-                for i, (wx, wy, label) in enumerate(WAYPOINTS):
+                for (wx, wy, label) in WAYPOINTS:
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_fwd_{label}"
-                    # Orientation sortante : pointe vers le prochain waypoint, pas le courant.
-                    # Le robot arrive déjà aligné pour le segment suivant → pas de rotation sur place.
-                    if i + 1 < len(WAYPOINTS):
-                        nx, ny = WAYPOINTS[i + 1][0], WAYPOINTS[i + 1][1]
-                        yaw = math.atan2(ny - wy, nx - wx)
-                    else:
-                        yaw = math.atan2(wy - prev_y, wx - prev_x)
-                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})  yaw={math.degrees(yaw):.1f}°")
-                    success, dur = self._navigate_to(wx, wy, lbl, yaw)
+                    travel_yaw = math.atan2(wy - self.y, wx - self.x)
+                    rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={math.degrees(travel_yaw):.1f}°")
+                    self._rotate_to(travel_yaw)
+                    success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
                         rospy.logwarn(f"  {lbl} : FAIL — arrêt de la traversée")
                         break
-                    prev_x, prev_y = wx, wy
 
                 if rospy.is_shutdown() or self._emergency_stop or not results[-1]["success"]:
                     break
 
                 # --- Retour ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — retour ===")
-                wps_rev = list(reversed(WAYPOINTS))
-                for i, (wx, wy, label) in enumerate(wps_rev):
+                for (wx, wy, label) in reversed(WAYPOINTS):
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_rev_{label}"
-                    if i + 1 < len(wps_rev):
-                        nx, ny = wps_rev[i + 1][0], wps_rev[i + 1][1]
-                        yaw = math.atan2(ny - wy, nx - wx)
-                    else:
-                        yaw = math.atan2(wy - prev_y, wx - prev_x)
-                    rospy.loginfo(f"→ {lbl}  ({wx}, {wy})  yaw={math.degrees(yaw):.1f}°")
-                    success, dur = self._navigate_to(wx, wy, lbl, yaw)
+                    travel_yaw = math.atan2(wy - self.y, wx - self.x)
+                    rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={math.degrees(travel_yaw):.1f}°")
+                    self._rotate_to(travel_yaw)
+                    success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
                         rospy.logwarn(f"  {lbl} : FAIL — arrêt de la traversée")
                         break
-                    prev_x, prev_y = wx, wy
 
                 if rospy.is_shutdown() or self._emergency_stop or not results[-1]["success"]:
                     break

@@ -1,7 +1,7 @@
 footprint: [[-0.345, -0.335], [-0.345, 0.335], [0.345, 0.335], [0.345, -0.335]]
 
 obstacle_layer:
-  enabled: false
+  enabled: true
   observation_sources: velodyne
   velodyne:
     sensor_frame: velodyne            # position réelle du capteur pour le raytrace clearing
@@ -43,5 +43,5 @@ traversability_layer:
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.40       # 0.10→0.40 : marge suffisante pour que navfn route loin des obstacles
-  cost_scaling_factor: 2.5     # décroissance plus rapide → zones navigables plus larges
+  inflation_radius: 1.00       # 0.40→1.00 : déviation latérale d'au moins 1m autour des obstacles
+  cost_scaling_factor: 2.5
