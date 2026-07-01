@@ -24,7 +24,6 @@ import sensor_msgs.point_cloud2 as pc2
 import tf
 
 from move_base_msgs.msg  import MoveBaseAction, MoveBaseGoal
-from geometry_msgs.msg   import Twist
 from nav_msgs.msg        import Odometry
 from sensor_msgs.msg     import Imu, PointCloud2
 from tf.transformations  import euler_from_quaternion, quaternion_from_euler
@@ -68,8 +67,6 @@ STALL_TIME_S    = 15.0    # délai avant détection blocage (s)
 STALL_VEL       = 0.03   # vitesse sous laquelle = bloqué (m/s)
 CLEAR_ON_ABORT  = True
 
-ROTATION_TOL       = 0.12   # rad ≈ 7° — tolérance angulaire pour la rotation sur place
-ROTATION_TIMEOUT_S = 60.0   # s — 20→60 : rotation lente possible (conflit cmd_vel/move_base)
 
 RECORD_HZ       = 10
 
@@ -234,9 +231,6 @@ class SquareTraverse:
                 self._clear_costmaps = rospy.ServiceProxy("/move_base/clear_costmaps", EmptySrv)
             except rospy.ROSException:
                 rospy.logwarn("clear_costmaps indisponible")
-
-        # Publisher cmd_vel direct (rotation bypass TEB)
-        self._cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
         # TF listener (PCD accumulation)
         self.tf_listener = tf.TransformListener()
@@ -410,39 +404,6 @@ class SquareTraverse:
                 rospy.sleep(0.5)
             except rospy.ServiceException:
                 pass
-
-    def _rotate_to(self, yaw):
-        """Rotation sur place via cmd_vel direct — bypass TEB (P-controller angulaire)."""
-        # Laisser move_base finir sa phase stop (cancel_goal publie encore des zéros brièvement).
-        # Sans ce délai, les deux nodes se battent sur /cmd_vel → rotation quasi nulle.
-        rospy.sleep(1.0)
-
-        rate  = rospy.Rate(10)
-        start = time.time()
-        ok    = False
-
-        while not rospy.is_shutdown():
-            diff = math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw))
-            if abs(diff) < ROTATION_TOL:
-                ok = True
-                break
-            if time.time() - start > ROTATION_TIMEOUT_S:
-                rospy.logwarn(f"  Rotation timeout (Δyaw={math.degrees(diff):.1f}°) — on continue")
-                break
-            # P-controller : omega proportionnel à l'erreur, min 0.25 rad/s pour vaincre l'inertie
-            omega = math.copysign(max(0.25, min(1.0, abs(diff))), diff)
-            twist = Twist()
-            twist.angular.z = omega
-            self._cmd_vel_pub.publish(twist)
-            rate.sleep()
-
-        # Arrêt propre avant de laisser TEB reprendre
-        self._cmd_vel_pub.publish(Twist())
-        rospy.sleep(0.3)
-
-        diff_final = abs(math.atan2(math.sin(yaw - self.yaw), math.cos(yaw - self.yaw)))
-        rospy.loginfo(f"  Rotation {'OK' if ok else 'partielle'}  Δyaw={math.degrees(diff_final):.1f}°")
-        return ok
 
     @staticmethod
     def _next_run_tag(output_dir):
@@ -704,7 +665,6 @@ class SquareTraverse:
                     lbl = f"L{loop_idx + 1}_fwd_{label}"
                     travel_yaw = math.radians(yaw_deg)
                     rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={yaw_deg:.1f}°")
-                    self._rotate_to(travel_yaw)
                     success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
@@ -724,7 +684,6 @@ class SquareTraverse:
                     fwd = math.radians(yaw_deg)
                     travel_yaw = math.atan2(math.sin(fwd + math.pi), math.cos(fwd + math.pi))
                     rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={math.degrees(travel_yaw):.1f}°")
-                    self._rotate_to(travel_yaw)
                     success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
                     if not success:
