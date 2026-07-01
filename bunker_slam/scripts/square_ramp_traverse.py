@@ -44,16 +44,18 @@ OUTPUT_DIR = "/home/projet_bunker/data_simu"
 SPEED      = 0.5   # m/s
 LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
 
-# Waypoints dans l'ordre de traversée : (x, y, label)
+# Waypoints : (x, y, label, yaw_deg)
+# yaw_deg = orientation de SORTIE = direction vers le waypoint suivant.
+# Utilisé pour la rotation sur place ET comme orientation de goal dans move_base.
+# Aller  : wp1→wp2→wp3→wp5→wp6→wp7  (E / N / W / N / E / E)
+# Retour : yaw inversé automatiquement (+180°) dans la boucle reverse.
 WAYPOINTS = [
-    (  -10.0, -12.0, "wp 1"),    # Sud centre — plein Est depuis spawn
-    ( 11.0, -12.0, "wp 2"),    # Coin SE
-    ( 11.0,   -3.0, "wp 3"),    # Milieu Est — passe près obstacle1_0
-    ( -10.0,  -3.0, "wp 5"),    # Nord centre — passe près obstacle2/4
-    (-10.0,   9.0, "wp 6"),
-    (11.0,   9.0, "wp 7"),    # Milieu Ouest — passe près obstacle5
-    #(-10.0,   12.0, "wp 6"),
-    #(-10.0, -12.0, "Spawn"),   # Retour spawn
+    ( -10.0, -12.0, "wp 1",   0.0),   # → Est  (vers wp2)
+    (  11.0, -12.0, "wp 2",  90.0),   # → Nord (vers wp3)
+    (  11.0,  -3.0, "wp 3", 180.0),   # → Ouest (vers wp5)
+    ( -10.0,  -3.0, "wp 5",  90.0),   # → Nord (vers wp6)
+    ( -10.0,   9.0, "wp 6",   0.0),   # → Est  (vers wp7)
+    (  11.0,   9.0, "wp 7",   0.0),   # → Est  (dernier aller)
 ]
 
 
@@ -67,7 +69,7 @@ STALL_VEL       = 0.03   # vitesse sous laquelle = bloqué (m/s)
 CLEAR_ON_ABORT  = True
 
 ROTATION_TOL       = 0.12   # rad ≈ 7° — tolérance angulaire pour la rotation sur place
-ROTATION_TIMEOUT_S = 20.0   # s — timeout max avant de continuer sans avoir atteint le yaw
+ROTATION_TIMEOUT_S = 60.0   # s — 20→60 : rotation lente possible (conflit cmd_vel/move_base)
 
 RECORD_HZ       = 10
 
@@ -411,6 +413,10 @@ class SquareTraverse:
 
     def _rotate_to(self, yaw):
         """Rotation sur place via cmd_vel direct — bypass TEB (P-controller angulaire)."""
+        # Laisser move_base finir sa phase stop (cancel_goal publie encore des zéros brièvement).
+        # Sans ce délai, les deux nodes se battent sur /cmd_vel → rotation quasi nulle.
+        rospy.sleep(1.0)
+
         rate  = rospy.Rate(10)
         start = time.time()
         ok    = False
@@ -692,12 +698,12 @@ class SquareTraverse:
             for loop_idx in range(LOOPS):
                 # --- Aller ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — aller ===")
-                for (wx, wy, label) in WAYPOINTS:
+                for (wx, wy, label, yaw_deg) in WAYPOINTS:
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_fwd_{label}"
-                    travel_yaw = math.atan2(wy - self.y, wx - self.x)
-                    rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={math.degrees(travel_yaw):.1f}°")
+                    travel_yaw = math.radians(yaw_deg)
+                    rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={yaw_deg:.1f}°")
                     self._rotate_to(travel_yaw)
                     success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
                     results.append({"label": lbl, "success": success, "dur": dur})
@@ -710,11 +716,13 @@ class SquareTraverse:
 
                 # --- Retour ---
                 rospy.loginfo(f"=== Loop {loop_idx + 1}/{LOOPS} — retour ===")
-                for (wx, wy, label) in reversed(WAYPOINTS):
+                for (wx, wy, label, yaw_deg) in reversed(WAYPOINTS):
                     if rospy.is_shutdown() or self._emergency_stop:
                         break
                     lbl = f"L{loop_idx + 1}_rev_{label}"
-                    travel_yaw = math.atan2(wy - self.y, wx - self.x)
+                    # Sens inverse : yaw opposé (+180°, normalisé dans [-π, π])
+                    fwd = math.radians(yaw_deg)
+                    travel_yaw = math.atan2(math.sin(fwd + math.pi), math.cos(fwd + math.pi))
                     rospy.loginfo(f"→ {lbl}  ({wx:.1f}, {wy:.1f})  yaw={math.degrees(travel_yaw):.1f}°")
                     self._rotate_to(travel_yaw)
                     success, dur = self._navigate_to(wx, wy, lbl, travel_yaw)
