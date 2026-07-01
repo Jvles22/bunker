@@ -10,9 +10,9 @@ TebLocalPlannerROS:
   yaw_goal_tolerance: 0.2
   free_goal_vel: false
 
-  min_obstacle_dist: 0.25         # 0.15→0.25 : TEB garde plus de marge (évite les freinages brusques)
-  inflation_dist: 0.30            # 0.15→0.30 : zone répulsive plus douce autour des obstacles
-  weight_obstacle: 20.0           # 30→20 : moins agressif, trajectoire plus fluide
+  min_obstacle_dist: 0.25
+  inflation_dist: 0.50            # 0.30→0.50 : zone répulsive plus large
+  weight_obstacle: 45.0           # 20→45 : plus sensible aux obstacles costmap
   include_costmap_obstacles: true
   costmap_obstacles_behind_robot_dist: 1.5
   obstacle_poses_affected: 30
@@ -39,7 +39,7 @@ TebLocalPlannerROS:
   weight_acc_lim_x: 1.0
   weight_acc_lim_theta: 1.0
   weight_kinematics_nh: 200.0            # 1000→200 : rotations plus souples, moins d'oscillations
-  weight_kinematics_forward_drive: 10.0
+  weight_kinematics_forward_drive: 25.0  # 10→25 : suit mieux la droite sur terrain dégagé
 
   no_inner_iterations: 5
   no_outer_iterations: 4                 # était 3

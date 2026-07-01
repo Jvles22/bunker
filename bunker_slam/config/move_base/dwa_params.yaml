@@ -29,7 +29,7 @@ DWAPlannerROS:
   # --- Scores ---
   path_distance_bias: 55.0      # 32→55 : suit mieux la droite sur terrain dégagé
   goal_distance_bias: 24.0
-  occdist_scale: 0.15
+  occdist_scale: 0.25            # 0.15→0.25 : plus sensible aux zones de coût élevé
   forward_point_distance: 0.55 # 0.325→0.55 : scoring plus loin devant, préfère aller droit
   stop_time_buffer: 0.2
   scaling_speed: 0.25
