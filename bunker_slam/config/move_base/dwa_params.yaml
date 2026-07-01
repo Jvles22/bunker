@@ -27,10 +27,10 @@ DWAPlannerROS:
   vth_samples: 24
 
   # --- Scores ---
-  path_distance_bias: 32.0
+  path_distance_bias: 55.0      # 32→55 : suit mieux la droite sur terrain dégagé
   goal_distance_bias: 24.0
-  occdist_scale: 0.15      # 0.05→0.15 : plus de répulsion obstacles (cohérent avec inflation 1m)
-  forward_point_distance: 0.325
+  occdist_scale: 0.15
+  forward_point_distance: 0.55 # 0.325→0.55 : scoring plus loin devant, préfère aller droit
   stop_time_buffer: 0.2
   scaling_speed: 0.25
   max_scaling_factor: 0.2
