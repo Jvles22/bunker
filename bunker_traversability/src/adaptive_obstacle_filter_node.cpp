@@ -166,7 +166,7 @@ private:
                 if (elev_snapshot) {
                     const grid_map::Position pos(pt.x, pt.y);
                     if (elev_snapshot->isInside(pos))
-                        elev_val = elev_snapshot->atPosition("elevation", pos);
+                        elev_val = elev_snapshot->atPosition("elevation_gnd", pos);
                 }
                 if (std::isfinite(elev_val))
                     z_ground = static_cast<double>(elev_val);
