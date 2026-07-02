@@ -38,7 +38,7 @@ TebLocalPlannerROS:
   weight_max_vel_theta: 1.0
   weight_acc_lim_x: 1.0
   weight_acc_lim_theta: 1.0
-  weight_kinematics_nh: 200.0            # 1000→200 : rotations plus souples, moins d'oscillations
+  weight_kinematics_nh: 1000.0            # 1000→200 : rotations plus souples, moins d'oscillations
   weight_kinematics_forward_drive: 50.0  # 10→25 : suit mieux la droite sur terrain dégagé
 
   no_inner_iterations: 5
