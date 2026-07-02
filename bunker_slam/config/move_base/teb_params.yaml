@@ -26,7 +26,7 @@ TebLocalPlannerROS:
   max_number_classes: 1
 
   global_plan_overwrite_orientation: true
-  global_plan_viapoint_sep: -1.0         # désactivé : TEB libre de dévier du plan Carrot
+  global_plan_viapoint_sep: 2.0         # désactivé : TEB libre de dévier du plan Carrot
   max_global_plan_lookahead_dist: 8.0
 
   dt_ref: 0.5                            # 0.4→0.5 : horizon temporel plus lisse
