@@ -4,7 +4,7 @@
 # la surface des rampes soit détectée comme obstacle.
 
 min_rel_height: 0.03   # m au-dessus du sol du robot (élimine les rebonds sol)
-max_rel_height: 0.90   # m au-dessus du sol du robot (troncs jusqu'à 0.9m, exclut canopée)
+max_rel_height: 1.55   # m au-dessus du sol du robot
 
 map_frame:   "map"
 robot_frame: "base_footprint"
