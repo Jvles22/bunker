@@ -16,7 +16,7 @@ DWAPlannerROS:
 
   # Tolérance d'arrivée
   xy_goal_tolerance: 1
-  yaw_goal_tolerance: 0.5
+  yaw_goal_tolerance: 3.14
   latch_xy_goal_tolerance: false
 
   # Simulation trajectoire
