@@ -23,7 +23,7 @@ Usage :
     Ctrl+C pour arrêter proprement — ferme le bag et sauvegarde le nuage.
 
 Structure de sortie :
-    ~/data_simu/data_reglage/run_XXX/
+    /media/user/Jules/data_simu/data_reglage/run_XXX/
     ├── recording.bag
     └── GlobalMap.pcd
 """
@@ -50,7 +50,7 @@ except ImportError:
 # du nettoyage (bag + service), et on ne signale l'arrêt qu'à la toute fin.
 
 # ── Paramètres ────────────────────────────────────────────────────────────────
-DATA_DIR = os.path.expanduser("/home/projet_bunker/data_simu/data_reglage")
+DATA_DIR = os.path.expanduser("/media/user/Jules/data_simu/data_reglage")
 # ──────────────────────────────────────────────────────────────────────────────
 
 

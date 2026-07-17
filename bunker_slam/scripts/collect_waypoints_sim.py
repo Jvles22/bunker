@@ -25,7 +25,7 @@ Topics :
           debug (slam:=false), cf. navigation_debug.launch.
 
 Fichier de sortie :
-    ~/data_simu/waypoints/run_XXX/waypoints.txt
+    /media/user/Jules/data_simu/waypoints/run_XXX/waypoints.txt
     Format : x y z yaw_deg
 """
 
@@ -39,7 +39,7 @@ import tf
 from nav_msgs.msg import Odometry
 
 # ── Paramètres ────────────────────────────────────────────────────────────────
-DATA_DIR   = os.path.expanduser("/home/projet_bunker/data_simu/waypoints")
+DATA_DIR   = os.path.expanduser("/media/user/Jules/data_simu/waypoints")
 ODOM_TOPIC = "/lio_sam/mapping/odometry"
 # ──────────────────────────────────────────────────────────────────────────────
 

@@ -39,7 +39,7 @@ except ImportError:
 #                           CONFIGURATION                                  #
 # ====================================================================== #
 
-OUTPUT_DIR = "/home/projet_bunker/data_simu"
+OUTPUT_DIR = "/media/user/Jules/data_simu"
 SPEED      = 0.5   # m/s
 LOOPS      = 5     # nombre d'allers-retours (1 = aller + retour)
 
