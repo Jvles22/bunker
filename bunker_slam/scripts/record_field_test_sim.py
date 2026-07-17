@@ -87,7 +87,7 @@ class FieldTestRecorder:
         self.bag_proc = None
 
         self.bag_proc = subprocess.Popen(
-            f"rosbag record -a -O {self.bag_path}",
+            f"rosbag record -a -x '(.*)/compressedDepth(.*)' -O {self.bag_path}",
             shell=True, preexec_fn=os.setsid
         )
 
