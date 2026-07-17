@@ -1406,42 +1406,6 @@
       </link>
       <pose>5.91255 -6.50347 0 0 -0 0</pose>
     </model>
-    <model name='vine_1'>
-      <static>1</static>
-      <link name='link'>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://vine_1/meshes/vine_1.stl</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <collision name='collision'>
-          <geometry>
-            <mesh>
-              <uri>model://vine_1/meshes/vine_1.stl</uri>
-            </mesh>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <pose>15.7819 -12.7508 0 0 -0 0</pose>
-    </model>
     <model name='vine_2'>
       <static>1</static>
       <link name='link'>
@@ -1554,7 +1518,7 @@
     </model>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>23.1819 2.07584 45.0966 0 1.1418 3.04019</pose>
+        <pose>23.2198 2.07198 45.0792 0 1.1418 3.04019</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -1562,10 +1526,10 @@
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <wind/>
     <state world_name='slopes_simple'>
-      <sim_time>3225 950000000</sim_time>
-      <real_time>284 480385032</real_time>
-      <wall_time>1782143696 58975644</wall_time>
-      <iterations>71061</iterations>
+      <sim_time>3316 898000000</sim_time>
+      <real_time>91 827433390</real_time>
+      <wall_time>1783005678 97173892</wall_time>
+      <iterations>22737</iterations>
       <model name='Lamp Post'>
         <pose>19.8393 -12.0047 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -1581,6 +1545,26 @@
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-16.7511 -7.6186 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree'>
+        <pose>16.7574 -10.2122 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>16.7574 -10.2122 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='Oak tree_0'>
+        <pose>17.3731 -2.44551 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>17.3731 -2.44551 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1977,7 +1961,7 @@
         </link>
       </model>
       <model name='fence_1'>
-        <pose>-11.4308 -6.91027 0.070971 -0.000402 0.016763 1.54682</pose>
+        <pose>-11.4308 -6.91027 0.070972 -0.000402 0.016763 1.54682</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-11.4308 -6.89493 0.985843 -0.000402 0.016763 1.54682</pose>
@@ -2027,7 +2011,7 @@
         </link>
       </model>
       <model name='goulot_clone'>
-        <pose>-0.927554 -1.6965 0 0 -0 -1.58598</pose>
+        <pose>-0.927554 -1.6965 0 0 0 -1.58598</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-0.927554 -1.6965 0 0 -0 -1.58598</pose>
@@ -2136,16 +2120,6 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='tree_2'>
-        <pose>16.8387 -0.314998 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>16.8387 -0.314998 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
       <model name='tree_3'>
         <pose>17.5294 4.579 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -2161,16 +2135,6 @@
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-14.1838 3.78084 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='vine_1'>
-        <pose>15.7819 -12.7508 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>15.7819 -12.7508 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -2314,44 +2278,6 @@
         <kinematic>0</kinematic>
       </link>
       <pose>-14.9871 -2.61777 0 0 -0 0</pose>
-    </model>
-    <model name='tree_2'>
-      <static>1</static>
-      <link name='link'>
-        <visual name='visual'>
-          <geometry>
-            <mesh>
-              <uri>model://tree/meshes/tree.stl</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-        </visual>
-        <collision name='collision'>
-          <geometry>
-            <mesh>
-              <uri>model://tree/meshes/tree.stl</uri>
-              <scale>1 1 1</scale>
-            </mesh>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <pose>16.8387 -0.314998 0 0 -0 0</pose>
     </model>
     <model name='tree_3'>
       <static>1</static>
@@ -4326,6 +4252,158 @@
         <kinematic>0</kinematic>
       </link>
       <pose>-0.927554 -1.6965 0 0 -0 1.58121</pose>
+    </model>
+    <model name='Oak tree'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>16.7574 -10.2122 0 0 -0 0</pose>
+    </model>
+    <model name='Oak tree_0'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='branch'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Branch</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <double_sided>1</double_sided>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Branch</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/branch_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name='bark'>
+          <geometry>
+            <mesh>
+              <uri>model://Oak tree/meshes/oak_tree.dae</uri>
+              <submesh>
+                <name>Bark</name>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1 1 1 1</diffuse>
+            <script>
+              <uri>model://Oak tree/materials/scripts/</uri>
+              <uri>model://Oak tree/materials/textures/</uri>
+              <name>OakTree/Bark</name>
+            </script>
+            <pbr>
+              <metal>
+                <albedo_map>model://Oak tree/materials/textures/bark_diffuse.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>17.3731 -2.44551 0 0 -0 0</pose>
     </model>
   </world>
 </sdf>

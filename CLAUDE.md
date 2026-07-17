@@ -445,7 +445,7 @@ qu'il publie normalement au démarrage (l'EKF de `navigation_debug.launch` prend
 ```bash
 # Terminal 1 — Gazebo + robot (sans TF de secours LIO-SAM)
 source ~/projet_bunker/devel/setup.bash
-roslaunch bunker_slam slopes_navigation.launch slam:=false
+roslaunch bunker_slam slopes_simple_navigation.launch slam:=false
 
 # Terminal 2 — Navigation debug (TF map→odom + EKF + move_base, sans LIO-SAM)
 source ~/projet_bunker/devel/setup.bash
